@@ -13,11 +13,17 @@ services:
     dockerContext: ./ppsu1
     healthCheckPath: /
     envVars:
-      # The Vercel frontend's production origin, e.g. https://ppsu-ppt.vercel.app
-      # (no trailing slash). Optional: when unset the backend allows all origins.
+      # The Vercel frontend's production origin (no trailing slash). Locks
+      # CORS down to just this origin instead of allowing any.
       - key: FRONTEND_URL
-        sync: false
-      # Uncomment to switch the bundled default to the small 0.46 MB template
-      # if the 50 MB library ever OOMs the 512 MB free instance:
-      # - key: DEFAULT_TEMPLATE_PATH
-      #   value: /app/template/PPSU TEMPLATE.pptx
+        value: https://ppsu-ppt-template.vercel.app
+      # The bundled 50 MB / 302-slide template OOM-crashes the 512 MB free
+      # instance: parsing that much XML plus spawning LibreOffice to render
+      # previews exceeds the ceiling (confirmed 2026-09-01 — the build died
+      # ~19s in, right as LibreOffice launched, then the service 503'd for a
+      # few seconds while Render restarted the container). The small template
+      # (22 designs vs 285) fits comfortably and is the default until either
+      # the app is optimized to avoid re-parsing the big template on every
+      # build, or the instance is upgraded off the free plan.
+      - key: DEFAULT_TEMPLATE_PATH
+        value: "/app/template/PPSU TEMPLATE.pptx"
