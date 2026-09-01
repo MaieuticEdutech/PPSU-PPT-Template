@@ -30,7 +30,14 @@ COPY . .
 ENV PYTHONUNBUFFERED=1
 WORKDIR /app/backend
 
-# One worker: build progress (PROGRESS dict) and design-rotation state live in
-# process memory. Threads keep /progress polls answered while a /build runs.
-# Long timeout: a full build takes minutes at 0.1 vCPU.
-CMD gunicorn --bind 0.0.0.0:${PORT:-5001} --workers 1 --threads 8 --timeout 900 app:app
+# One worker, but worker-class MUST be gthread: with the default "sync" class
+# --threads is silently ignored and the ONE worker fully blocks on a /build,
+# so nothing else (not even /) answers until it finishes or Render's ~100s
+# edge-proxy timeout kills the connection with a 502 — which is not just a
+# slow response, it looks like the whole service is down. gthread lets the
+# 8 threads interleave, so /progress and /result stay reachable mid-build.
+# workers=1 because build progress and design-rotation state live in process
+# memory, not a shared store. Long --timeout: a full build takes minutes at
+# 0.1 vCPU, longer than the proxy will wait for any single response, but the
+# frontend already recovers from that via /progress + /result (see app.py).
+CMD gunicorn --bind 0.0.0.0:${PORT:-5001} --workers 1 --worker-class gthread --threads 8 --timeout 900 app:app

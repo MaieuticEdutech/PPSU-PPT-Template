@@ -1578,15 +1578,26 @@
           const response = await fetch(`${API_BASE}/build/${preflightToken}`,
                                        { method: 'POST' });
           if (!response.ok) {
+            // 502/503/504 is the hosting PROXY giving up on a slow backend
+            // (Render's edge times out around 100s, long before a build on a
+            // free instance finishes) — the app itself never got to answer,
+            // so this is not a real rejection. Everything else (400/404/500)
+            // is the app's own JSON error and IS final.
+            if ([502, 503, 504].includes(response.status)) {
+              const gatewayError = new Error(`gateway ${response.status}`);
+              gatewayError.isGateway = true;
+              throw gatewayError;
+            }
             const errData = await response.json().catch(() => ({}));
             throw new Error(errData.error || `HTTP ${response.status}`);
           }
           showPreview(await response.json());
         } catch (error) {
           // A TypeError means the request itself died (proxy timeout /
-          // connection drop), NOT that the server rejected the build — the
-          // build is very likely still running, so wait for its result.
-          if (error instanceof TypeError) {
+          // connection drop); isGateway means the proxy answered FOR the
+          // backend with 502/503/504. Neither means the server rejected the
+          // build — it is very likely still running, so wait for its result.
+          if (error instanceof TypeError || error.isGateway) {
             try {
               showPreview(await waitForResult(preflightToken));
               return;
