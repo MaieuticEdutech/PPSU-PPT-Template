@@ -1,0 +1,30 @@
+# Python
+__pycache__/
+*.pyc
+venv/
+
+# PowerPoint lock files
+~$*
+
+# NOTE: the caches under backend/catalog_cache (incl. design_thumbs) and
+# backend/icon_cache are COMMITTED on purpose. Render's free tier has no
+# persistent disk, too little RAM to rebuild the 50 MB template's catalog
+# (~840 MB peak), and too little CPU to re-render 302 design thumbnails —
+# shipping them pre-computed in the repo is what makes the free tier viable.
+
+# Original REVA git history, parked here (its remote: github.com/govindkulkarni196/ppt-designer)
+reva1/.git_history_backup/
+
+# Session uploads never live in the tree, but just in case
+ppsu_ppt_engine_uploads/
+
+# Heavy content assets not needed to build or deploy the app (~520 MB).
+# /TEMPLATE/ is the root-level duplicate of ppsu1/template's bundled file —
+# anchored with a leading slash so it can NOT match ppsu1/template/ (git
+# ignore rules are case-insensitive on Windows).
+/TEMPLATE/
+reva1/raw ppts/
+**/FINAL PPTS/
+
+# Claude Code local settings (machine-specific permission allowlists)
+.claude/

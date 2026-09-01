@@ -1,0 +1,813 @@
+{
+  "source_deck": "template.pptx",
+  "patterns": {
+    "1": [
+      {
+        "slide_file": "slide1.xml",
+        "title_id": 10,
+        "subtitle_id": null,
+        "item_count": 1,
+        "item_fields": 1,
+        "items": [
+          32
+        ],
+        "design_key": "dd8d0c4be715"
+      },
+      {
+        "slide_file": "slide32.xml",
+        "title_id": 10,
+        "subtitle_id": null,
+        "item_count": 1,
+        "item_fields": 1,
+        "items": [
+          3
+        ],
+        "design_key": "dd8d0c4be715"
+      }
+    ],
+    "3": [
+      {
+        "slide_file": "slide55.xml",
+        "title_id": 10,
+        "subtitle_id": null,
+        "item_count": 3,
+        "item_fields": 1,
+        "items": [
+          12,
+          14,
+          16
+        ],
+        "design_key": "d2aa1a688297"
+      }
+    ],
+    "4": [
+      {
+        "slide_file": "slide2.xml",
+        "title_id": 10,
+        "subtitle_id": 11,
+        "item_count": 4,
+        "item_fields": 1,
+        "items": [
+          5,
+          14,
+          28,
+          21
+        ],
+        "design_key": "5d20ce2ecea7"
+      },
+      {
+        "slide_file": "slide3.xml",
+        "title_id": 2,
+        "subtitle_id": 3,
+        "item_count": 4,
+        "item_fields": 1,
+        "items": [
+          21,
+          25,
+          43,
+          50
+        ],
+        "design_key": "4be9f4aa338b"
+      },
+      {
+        "slide_file": "slide4.xml",
+        "title_id": 10,
+        "subtitle_id": 11,
+        "item_count": 4,
+        "item_fields": 1,
+        "items": [
+          4,
+          7,
+          12,
+          15
+        ],
+        "design_key": "c34a153d7522"
+      },
+      {
+        "slide_file": "slide5.xml",
+        "title_id": 10,
+        "subtitle_id": 11,
+        "item_count": 4,
+        "item_fields": 1,
+        "items": [
+          6,
+          13,
+          18,
+          23
+        ],
+        "design_key": "e7eb13d8cd0b"
+      },
+      {
+        "slide_file": "slide6.xml",
+        "title_id": 10,
+        "subtitle_id": 11,
+        "item_count": 4,
+        "item_fields": 1,
+        "items": [
+          5,
+          9,
+          15,
+          19
+        ],
+        "design_key": "2a51c31ce28e"
+      },
+      {
+        "slide_file": "slide7.xml",
+        "title_id": 10,
+        "subtitle_id": 11,
+        "item_count": 4,
+        "item_fields": 1,
+        "items": [
+          24,
+          14,
+          19,
+          7
+        ],
+        "design_key": "9c1c6340a8fd"
+      },
+      {
+        "slide_file": "slide8.xml",
+        "title_id": 10,
+        "subtitle_id": 11,
+        "item_count": 4,
+        "item_fields": 1,
+        "items": [
+          22,
+          8,
+          18,
+          14
+        ],
+        "design_key": "22d6ccbb6479"
+      },
+      {
+        "slide_file": "slide9.xml",
+        "title_id": 10,
+        "subtitle_id": 11,
+        "item_count": 4,
+        "item_fields": 1,
+        "items": [
+          4,
+          9,
+          16,
+          21
+        ],
+        "design_key": "26d635f342e4"
+      },
+      {
+        "slide_file": "slide10.xml",
+        "title_id": 10,
+        "subtitle_id": 11,
+        "item_count": 4,
+        "item_fields": 1,
+        "items": [
+          4,
+          9,
+          16,
+          21
+        ],
+        "design_key": "0edecb2da5fd"
+      },
+      {
+        "slide_file": "slide11.xml",
+        "title_id": 10,
+        "subtitle_id": 11,
+        "item_count": 4,
+        "item_fields": 1,
+        "items": [
+          4,
+          9,
+          16,
+          22
+        ],
+        "design_key": "22faa14a5aee"
+      },
+      {
+        "slide_file": "slide12.xml",
+        "title_id": 10,
+        "subtitle_id": 11,
+        "item_count": 4,
+        "item_fields": 1,
+        "items": [
+          12,
+          4,
+          15,
+          7
+        ],
+        "design_key": "0f4230516b23"
+      },
+      {
+        "slide_file": "slide13.xml",
+        "title_id": 10,
+        "subtitle_id": 11,
+        "item_count": 4,
+        "item_fields": 1,
+        "items": [
+          5,
+          16,
+          25,
+          34
+        ],
+        "design_key": "70cc309f36d6"
+      },
+      {
+        "slide_file": "slide14.xml",
+        "title_id": 10,
+        "subtitle_id": 11,
+        "item_count": 4,
+        "item_fields": 1,
+        "items": [
+          3,
+          9,
+          17,
+          25
+        ],
+        "design_key": "4d28b4b926b5"
+      },
+      {
+        "slide_file": "slide15.xml",
+        "title_id": 10,
+        "subtitle_id": 11,
+        "item_count": 4,
+        "item_fields": 1,
+        "items": [
+          4,
+          12,
+          18,
+          24
+        ],
+        "design_key": "9782428d463a"
+      },
+      {
+        "slide_file": "slide16.xml",
+        "title_id": 10,
+        "subtitle_id": 11,
+        "item_count": 4,
+        "item_fields": 2,
+        "items": [
+          [
+            5,
+            7
+          ],
+          [
+            14,
+            16
+          ],
+          [
+            21,
+            23
+          ],
+          [
+            28,
+            30
+          ]
+        ],
+        "design_key": "9ac8e575a12a"
+      },
+      {
+        "slide_file": "slide17.xml",
+        "title_id": 10,
+        "subtitle_id": 11,
+        "item_count": 4,
+        "item_fields": 1,
+        "items": [
+          2,
+          4,
+          3,
+          5
+        ],
+        "design_key": "a2f637a1b1d0"
+      },
+      {
+        "slide_file": "slide18.xml",
+        "title_id": 10,
+        "subtitle_id": 11,
+        "item_count": 4,
+        "item_fields": 1,
+        "items": [
+          2,
+          3,
+          4,
+          5
+        ],
+        "design_key": "7f48f8b0ffa7"
+      },
+      {
+        "slide_file": "slide19.xml",
+        "title_id": 10,
+        "subtitle_id": 11,
+        "item_count": 4,
+        "item_fields": 1,
+        "items": [
+          8,
+          6,
+          7,
+          9
+        ],
+        "design_key": "7cb0bc2939c7"
+      },
+      {
+        "slide_file": "slide20.xml",
+        "title_id": 10,
+        "subtitle_id": 11,
+        "item_count": 4,
+        "item_fields": 1,
+        "items": [
+          2,
+          3,
+          4,
+          5
+        ],
+        "design_key": "78a000f91b56"
+      },
+      {
+        "slide_file": "slide21.xml",
+        "title_id": 10,
+        "subtitle_id": 11,
+        "item_count": 4,
+        "item_fields": 1,
+        "items": [
+          7,
+          15,
+          18,
+          12
+        ],
+        "design_key": "c0ce6efafc2a"
+      },
+      {
+        "slide_file": "slide22.xml",
+        "title_id": 10,
+        "subtitle_id": 11,
+        "item_count": 4,
+        "item_fields": 1,
+        "items": [
+          6,
+          15,
+          25,
+          32
+        ],
+        "design_key": "e8ccc903ddca"
+      },
+      {
+        "slide_file": "slide23.xml",
+        "title_id": 10,
+        "subtitle_id": 11,
+        "item_count": 4,
+        "item_fields": 1,
+        "items": [
+          6,
+          15,
+          22,
+          29
+        ],
+        "design_key": "b0407effdd24"
+      },
+      {
+        "slide_file": "slide24.xml",
+        "title_id": 10,
+        "subtitle_id": 11,
+        "item_count": 4,
+        "item_fields": 1,
+        "items": [
+          4,
+          7,
+          12,
+          15
+        ],
+        "design_key": "a815ed36d8f6"
+      },
+      {
+        "slide_file": "slide25.xml",
+        "title_id": 10,
+        "subtitle_id": 11,
+        "item_count": 4,
+        "item_fields": 1,
+        "items": [
+          9,
+          5,
+          15,
+          19
+        ],
+        "design_key": "17edf0cb84c1"
+      },
+      {
+        "slide_file": "slide26.xml",
+        "title_id": 10,
+        "subtitle_id": 11,
+        "item_count": 4,
+        "item_fields": 1,
+        "items": [
+          8,
+          17,
+          24,
+          29
+        ],
+        "design_key": "4cfaad15922e"
+      },
+      {
+        "slide_file": "slide27.xml",
+        "title_id": 10,
+        "subtitle_id": 11,
+        "item_count": 4,
+        "item_fields": 1,
+        "items": [
+          3,
+          6,
+          9,
+          14
+        ],
+        "design_key": "e299b66c99e6"
+      },
+      {
+        "slide_file": "slide28.xml",
+        "title_id": 10,
+        "subtitle_id": 11,
+        "item_count": 4,
+        "item_fields": 1,
+        "items": [
+          9,
+          4,
+          16,
+          21
+        ],
+        "design_key": "01303ebd9ac6"
+      },
+      {
+        "slide_file": "slide29.xml",
+        "title_id": 10,
+        "subtitle_id": 11,
+        "item_count": 4,
+        "item_fields": 1,
+        "items": [
+          7,
+          12,
+          15,
+          4
+        ],
+        "design_key": "dc83f7beacca"
+      },
+      {
+        "slide_file": "slide30.xml",
+        "title_id": 10,
+        "subtitle_id": 11,
+        "item_count": 4,
+        "item_fields": 1,
+        "items": [
+          3,
+          5,
+          7,
+          9
+        ],
+        "design_key": "a679b7c327aa"
+      },
+      {
+        "slide_file": "slide31.xml",
+        "title_id": 10,
+        "subtitle_id": 11,
+        "item_count": 4,
+        "item_fields": 1,
+        "items": [
+          6,
+          13,
+          18,
+          23
+        ],
+        "design_key": "d63986cc38b4"
+      }
+    ],
+    "5": [
+      {
+        "slide_file": "slide33.xml",
+        "title_id": 10,
+        "subtitle_id": 11,
+        "item_count": 5,
+        "item_fields": 1,
+        "items": [
+          9,
+          26,
+          40,
+          33,
+          47
+        ],
+        "design_key": "5d20ce2ecea7"
+      },
+      {
+        "slide_file": "slide34.xml",
+        "title_id": 10,
+        "subtitle_id": 11,
+        "item_count": 5,
+        "item_fields": 1,
+        "items": [
+          6,
+          13,
+          18,
+          23,
+          7
+        ],
+        "design_key": "d63986cc38b4"
+      },
+      {
+        "slide_file": "slide35.xml",
+        "title_id": 10,
+        "subtitle_id": 11,
+        "item_count": 5,
+        "item_fields": 1,
+        "items": [
+          16,
+          25,
+          29,
+          33,
+          37
+        ],
+        "design_key": "4be9f4aa338b"
+      },
+      {
+        "slide_file": "slide36.xml",
+        "title_id": 10,
+        "subtitle_id": 11,
+        "item_count": 5,
+        "item_fields": 1,
+        "items": [
+          4,
+          7,
+          12,
+          15,
+          18
+        ],
+        "design_key": "c34a153d7522"
+      },
+      {
+        "slide_file": "slide37.xml",
+        "title_id": 10,
+        "subtitle_id": 11,
+        "item_count": 5,
+        "item_fields": 1,
+        "items": [
+          6,
+          13,
+          18,
+          23,
+          28
+        ],
+        "design_key": "e7eb13d8cd0b"
+      },
+      {
+        "slide_file": "slide38.xml",
+        "title_id": 10,
+        "subtitle_id": 11,
+        "item_count": 5,
+        "item_fields": 1,
+        "items": [
+          5,
+          22,
+          12,
+          17,
+          27
+        ],
+        "design_key": "22d6ccbb6479"
+      },
+      {
+        "slide_file": "slide39.xml",
+        "title_id": 10,
+        "subtitle_id": 11,
+        "item_count": 5,
+        "item_fields": 1,
+        "items": [
+          26,
+          4,
+          9,
+          16,
+          21
+        ],
+        "design_key": "26d635f342e4"
+      },
+      {
+        "slide_file": "slide40.xml",
+        "title_id": 10,
+        "subtitle_id": 11,
+        "item_count": 5,
+        "item_fields": 1,
+        "items": [
+          4,
+          9,
+          16,
+          21,
+          26
+        ],
+        "design_key": "0edecb2da5fd"
+      },
+      {
+        "slide_file": "slide41.xml",
+        "title_id": 10,
+        "subtitle_id": 11,
+        "item_count": 5,
+        "item_fields": 1,
+        "items": [
+          4,
+          9,
+          16,
+          21,
+          26
+        ],
+        "design_key": "22faa14a5aee"
+      },
+      {
+        "slide_file": "slide42.xml",
+        "title_id": 10,
+        "subtitle_id": 11,
+        "item_count": 5,
+        "item_fields": 1,
+        "items": [
+          5,
+          16,
+          25,
+          34,
+          43
+        ],
+        "design_key": "70cc309f36d6"
+      },
+      {
+        "slide_file": "slide43.xml",
+        "title_id": 10,
+        "subtitle_id": 11,
+        "item_count": 5,
+        "item_fields": 1,
+        "items": [
+          6,
+          15,
+          25,
+          32,
+          42
+        ],
+        "design_key": "e8ccc903ddca"
+      },
+      {
+        "slide_file": "slide44.xml",
+        "title_id": 10,
+        "subtitle_id": 11,
+        "item_count": 5,
+        "item_fields": 1,
+        "items": [
+          3,
+          9,
+          17,
+          23,
+          29
+        ],
+        "design_key": "4d28b4b926b5"
+      },
+      {
+        "slide_file": "slide45.xml",
+        "title_id": 10,
+        "subtitle_id": 11,
+        "item_count": 5,
+        "item_fields": 1,
+        "items": [
+          4,
+          12,
+          18,
+          24,
+          30
+        ],
+        "design_key": "9782428d463a"
+      },
+      {
+        "slide_file": "slide46.xml",
+        "title_id": 10,
+        "subtitle_id": 11,
+        "item_count": 5,
+        "item_fields": 1,
+        "items": [
+          2,
+          4,
+          3,
+          5,
+          6
+        ],
+        "design_key": "a2f637a1b1d0"
+      },
+      {
+        "slide_file": "slide47.xml",
+        "title_id": 10,
+        "subtitle_id": 11,
+        "item_count": 5,
+        "item_fields": 1,
+        "items": [
+          4,
+          2,
+          3,
+          5,
+          6
+        ],
+        "design_key": "7cb0bc2939c7"
+      },
+      {
+        "slide_file": "slide48.xml",
+        "title_id": 10,
+        "subtitle_id": 11,
+        "item_count": 5,
+        "item_fields": 1,
+        "items": [
+          3,
+          14,
+          9,
+          6,
+          23
+        ],
+        "design_key": "c0ce6efafc2a"
+      },
+      {
+        "slide_file": "slide49.xml",
+        "title_id": 10,
+        "subtitle_id": 11,
+        "item_count": 5,
+        "item_fields": 1,
+        "items": [
+          6,
+          13,
+          18,
+          23,
+          28
+        ],
+        "design_key": "b0407effdd24"
+      },
+      {
+        "slide_file": "slide50.xml",
+        "title_id": 10,
+        "subtitle_id": 11,
+        "item_count": 5,
+        "item_fields": 1,
+        "items": [
+          3,
+          6,
+          9,
+          14,
+          17
+        ],
+        "design_key": "e299b66c99e6"
+      },
+      {
+        "slide_file": "slide51.xml",
+        "title_id": 10,
+        "subtitle_id": 11,
+        "item_count": 5,
+        "item_fields": 1,
+        "items": [
+          3,
+          4,
+          5,
+          6,
+          12
+        ],
+        "design_key": "a815ed36d8f6"
+      },
+      {
+        "slide_file": "slide52.xml",
+        "title_id": 10,
+        "subtitle_id": 11,
+        "item_count": 5,
+        "item_fields": 1,
+        "items": [
+          9,
+          4,
+          16,
+          21,
+          26
+        ],
+        "design_key": "01303ebd9ac6"
+      },
+      {
+        "slide_file": "slide53.xml",
+        "title_id": 10,
+        "subtitle_id": 11,
+        "item_count": 5,
+        "item_fields": 1,
+        "items": [
+          7,
+          12,
+          15,
+          4,
+          18
+        ],
+        "design_key": "dc83f7beacca"
+      },
+      {
+        "slide_file": "slide54.xml",
+        "title_id": 10,
+        "subtitle_id": 11,
+        "item_count": 5,
+        "item_fields": 1,
+        "items": [
+          3,
+          5,
+          7,
+          9,
+          14
+        ],
+        "design_key": "a679b7c327aa"
+      }
+    ]
+  },
+  "skipped_slides": [
+    56
+  ]
+}

@@ -1,0 +1,2082 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PPSU PPT Designer | P P Savani University</title>
+  
+  <!-- Premium Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <style>
+    :root {
+      --bg-dark: #f2f4f7;
+      --bg-darker: #e8ebf0;
+      --card-bg: #ffffff;
+      --card-border: #e3e7ee;
+      --card-border-hover: rgba(233, 113, 50, 0.55);
+      --text-main: #16283c;
+      --text-muted: #5b6b7d;
+      --primary: #e97132;
+      --primary-glow: rgba(233, 113, 50, 0.22);
+      --secondary: #0e2841;
+      --secondary-glow: rgba(14, 40, 65, 0.2);
+      --accent: #b31115;
+      --success: #12805c;
+      --success-glow: rgba(18, 128, 92, 0.18);
+      --warning: #c77414;
+      --error: #c62828;
+      --font-outfit: 'Outfit', 'Inter', sans-serif;
+      --font-inter: 'Inter', sans-serif;
+      --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg-dark);
+      background-image: linear-gradient(180deg, #e9edf2 0%, var(--bg-dark) 320px);
+      border-top: 6px solid var(--secondary);
+      color: var(--text-main);
+      font-family: var(--font-inter);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      line-height: 1.5;
+      overflow-x: hidden;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2.5rem 1.5rem;
+      flex: 1;
+    }
+
+    /* ===== Masthead: navy band with orange rule, echoing the PPSU slides ===== */
+    header {
+      text-align: center;
+      margin-bottom: 3rem;
+      background: linear-gradient(120deg, #0a1e30 0%, #0e2841 60%, #143352 100%);
+      border-radius: 18px;
+      border-bottom: 6px solid var(--primary);
+      padding: 2.75rem 2rem 2.5rem;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 14px 34px rgba(14, 40, 65, 0.28);
+    }
+
+    /* diagonal slashes, same motif as the slide banner */
+    header::before,
+    header::after {
+      content: '';
+      position: absolute;
+      top: -25%;
+      width: 46px;
+      height: 150%;
+      transform: rotate(22deg);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* keep the title and tagline above the decorative slashes */
+    header > * {
+      position: relative;
+      z-index: 1;
+    }
+
+    header::before {
+      right: 7%;
+      background: var(--primary);
+      opacity: 0.95;
+    }
+
+    header::after {
+      right: 12%;
+      background: #156082;
+    }
+
+    .logo-container {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.75rem;
+      margin-bottom: 1rem;
+    }
+
+    .logo-icon {
+      width: 48px;
+      height: 48px;
+      background: var(--primary);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.3);
+    }
+
+    .logo-icon svg {
+      width: 24px;
+      height: 24px;
+      fill: #fff;
+    }
+
+    h1 {
+      font-family: var(--font-outfit);
+      font-size: 2.4rem;
+      font-weight: 800;
+      color: #ffffff;
+      margin-bottom: 0.5rem;
+      letter-spacing: -0.02em;
+    }
+
+    header p {
+      color: #c7d3de;
+      font-size: 1.05rem;
+      max-width: 640px;
+      margin: 0 auto;
+      font-weight: 300;
+    }
+
+    .upload-form {
+      display: flex;
+      flex-direction: column;
+      gap: 2.5rem;
+    }
+
+    .dropzone-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 2rem;
+    }
+
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 14px;
+      padding: 2rem;
+      box-shadow: 0 6px 22px rgba(22, 40, 60, 0.07);
+      transition: var(--transition);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 5px;
+      background: transparent;
+      transition: var(--transition);
+    }
+
+    .card.raw-card::before {
+      background: var(--primary);
+    }
+
+    .card.template-card::before {
+      background: var(--secondary);
+    }
+
+    .card:hover {
+      border-color: var(--card-border-hover);
+      transform: translateY(-3px);
+      box-shadow: 0 14px 30px rgba(22, 40, 60, 0.12);
+    }
+
+    .card-title {
+      font-family: var(--font-outfit);
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--secondary);
+      margin-bottom: 0.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .card-subtitle {
+      color: var(--text-muted);
+      font-size: 0.875rem;
+      margin-bottom: 1.5rem;
+    }
+
+    /* Custom File Drop Zone Styling */
+    .dropzone-wrapper {
+      position: relative;
+      width: 100%;
+    }
+
+    .dropzone {
+      border: 2px dashed #ccd5e0;
+      border-radius: 12px;
+      padding: 2.5rem 1.5rem;
+      text-align: center;
+      cursor: pointer;
+      background: #fafbfd;
+      transition: var(--transition);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
+    }
+
+    .dropzone input[type="file"] {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      opacity: 0;
+      cursor: pointer;
+    }
+
+    .dropzone.dragover {
+      border-color: var(--primary);
+      background: #fdf0e7;
+      box-shadow: 0 0 0 4px rgba(233, 113, 50, 0.12);
+    }
+
+    .dropzone-icon {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      background: #eef1f6;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-muted);
+      transition: var(--transition);
+    }
+
+    .dropzone:hover .dropzone-icon {
+      background: #fdeee3;
+      color: var(--primary);
+      transform: scale(1.05);
+    }
+
+    .dropzone-text {
+      font-size: 0.95rem;
+      font-weight: 500;
+    }
+
+    .dropzone-text span {
+      color: var(--primary);
+      text-decoration: underline;
+    }
+
+    .dropzone-tip {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+    }
+
+    /* Selected File State */
+    .file-status {
+      display: none;
+      background: #f8fafc;
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      padding: 1rem;
+      align-items: center;
+      gap: 1rem;
+      margin-top: 1rem;
+      animation: fadeIn 0.3s ease;
+    }
+
+    .file-status-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 8px;
+      background: #fdeee3;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--primary);
+    }
+
+    .file-status-info {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .file-status-name {
+      font-size: 0.875rem;
+      font-weight: 600;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .file-status-size {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+    }
+
+    .file-status-remove {
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      cursor: pointer;
+      padding: 4px;
+      border-radius: 4px;
+      transition: var(--transition);
+    }
+
+    .file-status-remove:hover {
+      background: #fdecec;
+      color: var(--error);
+    }
+
+    /* Generate Button */
+    .action-container {
+      text-align: center;
+      margin-top: 1rem;
+    }
+
+    .btn {
+      font-family: var(--font-outfit);
+      font-size: 1.125rem;
+      font-weight: 600;
+      padding: 1rem 2.5rem;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      color: #fff;
+      background: var(--primary);
+      box-shadow: 0 4px 14px var(--primary-glow);
+      transition: var(--transition);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+      background: #d8641f;
+      box-shadow: 0 8px 22px rgba(233, 113, 50, 0.4);
+    }
+
+    .btn:active {
+      transform: translateY(0);
+    }
+
+    .btn:disabled {
+      background: #d4dae2;
+      color: #8a95a3;
+      box-shadow: none;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    /* Results Dashboard */
+    .results-card {
+      margin-top: 3.5rem;
+      animation: slideUp 0.6s ease;
+      background: var(--card-bg);
+    }
+
+    .results-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1.5rem;
+      margin-bottom: 2.5rem;
+      border-bottom: 1px solid var(--card-border);
+      padding-bottom: 1.5rem;
+    }
+
+    .results-title-group h2 {
+      font-family: var(--font-outfit);
+      font-size: 1.75rem;
+      font-weight: 700;
+      color: var(--secondary);
+      margin-bottom: 0.25rem;
+    }
+
+    .results-title-group p {
+      color: var(--text-muted);
+      font-size: 0.9rem;
+    }
+
+    .btn-download {
+      background: var(--success);
+      box-shadow: 0 4px 14px var(--success-glow);
+      text-decoration: none;
+    }
+
+    .btn-download:hover {
+      background: #0e6c4d;
+      box-shadow: 0 8px 22px rgba(18, 128, 92, 0.32);
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 2.5rem;
+    }
+
+    .stat-box {
+      background: #fafbfd;
+      border: 1px solid var(--card-border);
+      border-top: 4px solid var(--secondary);
+      border-radius: 12px;
+      padding: 1.5rem;
+      text-align: center;
+    }
+
+    .stat-val {
+      font-family: var(--font-outfit);
+      font-size: 2.25rem;
+      font-weight: 800;
+      line-height: 1;
+      color: var(--secondary);
+      margin-bottom: 0.5rem;
+    }
+
+    .stat-val.matched-val {
+      color: var(--success);
+    }
+
+    .stat-val.unmatched-val {
+      color: var(--warning);
+    }
+
+    .stat-label {
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    /* Report Section Detail Tables */
+    .section-title {
+      font-family: var(--font-outfit);
+      font-size: 1.25rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+      color: var(--secondary);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .table-container {
+      background: #fff;
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      overflow-x: auto;
+      margin-bottom: 2rem;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+      font-size: 0.9rem;
+    }
+
+    th {
+      background: #f3f5f9;
+      padding: 1rem;
+      font-weight: 600;
+      color: var(--secondary);
+      border-bottom: 1px solid var(--card-border);
+    }
+
+    td {
+      padding: 1rem;
+      border-bottom: 1px solid #edf0f5;
+      color: var(--text-main);
+    }
+
+    tr:last-child td {
+      border-bottom: none;
+    }
+
+    .slide-badge {
+      display: inline-flex;
+      align-items: center;
+      padding: 0.25rem 0.5rem;
+      border-radius: 6px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      background: #eef1f6;
+    }
+
+    .slide-badge.badge-indigo {
+      background: #fdeee3;
+      color: #c05a1d;
+    }
+
+    .badge-status {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.25rem;
+      padding: 0.25rem 0.6rem;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      font-weight: 600;
+    }
+
+    .badge-status.success {
+      background: #e6f6ee;
+      color: var(--success);
+      border: 1px solid #bfe5d2;
+    }
+
+    .badge-status.warning {
+      background: #fdf2e2;
+      color: #b45309;
+      border: 1px solid #f0d9ad;
+    }
+
+    /* Unmatched list styling */
+    .unmatched-container {
+      background: #fdf5f5;
+      border: 1px solid #f0c5c5;
+      border-radius: 12px;
+      padding: 1.5rem;
+      margin-bottom: 2rem;
+    }
+
+    .unmatched-title {
+      color: var(--error);
+      font-family: var(--font-outfit);
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin-bottom: 0.75rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .unmatched-list {
+      list-style-type: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .unmatched-item {
+      background: #fff;
+      padding: 0.75rem 1rem;
+      border-radius: 8px;
+      border: 1px solid #f0dcdc;
+      border-left: 3px solid var(--error);
+      font-size: 0.875rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    /* Loader Modal Screen */
+    .loading-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(10, 30, 48, 0.88);
+      backdrop-filter: blur(6px);
+      z-index: 9999;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+
+    .loading-overlay.active {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    .loader-box {
+      text-align: center;
+      max-width: 400px;
+      padding: 2rem;
+    }
+
+    .spinner {
+      position: relative;
+      width: 80px;
+      height: 80px;
+      margin: 0 auto 2rem;
+    }
+
+    .spinner-ring {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      border: 4px solid transparent;
+      border-top-color: var(--primary);
+      border-radius: 50%;
+      animation: spin 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+    }
+
+    .spinner-ring-inner {
+      position: absolute;
+      top: 8px;
+      left: 8px;
+      width: 64px;
+      height: 64px;
+      border: 4px solid transparent;
+      border-top-color: #fbb217;
+      border-radius: 50%;
+      animation: spin-reverse 1s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+    }
+
+    .loader-status {
+      font-family: var(--font-outfit);
+      font-size: 1.25rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+      color: #ffffff;
+    }
+
+    .loader-subtext {
+      color: #b8c6d4;
+      font-size: 0.875rem;
+    }
+
+    /* Animations */
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    @keyframes spin-reverse {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(-360deg); }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Footer */
+    footer {
+      text-align: center;
+      padding: 3rem 1.5rem;
+      color: var(--text-muted);
+      font-size: 0.8rem;
+      border-top: 1px solid #e0e5ec;
+      margin-top: auto;
+    }
+
+    footer a {
+      color: var(--primary);
+      text-decoration: none;
+      transition: var(--transition);
+    }
+
+    footer a:hover {
+      text-decoration: underline;
+      color: var(--secondary);
+    }
+
+    /* ===== Preview screen ===== */
+    .preview-topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+
+    .preview-topbar h2 {
+      font-family: var(--font-outfit);
+      font-size: 1.75rem;
+      font-weight: 700;
+      color: var(--secondary);
+    }
+
+    .preview-topbar p {
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      margin-top: 0.25rem;
+    }
+
+    .preview-actions {
+      display: flex;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+    }
+
+    .btn-secondary {
+      background: #fff;
+      border: 1px solid #c9d2dd;
+      box-shadow: none;
+      color: var(--secondary);
+    }
+
+    .btn-secondary:hover {
+      background: #f3f5f9;
+      border-color: var(--secondary);
+      box-shadow: none;
+    }
+
+    .btn-ghost {
+      background: transparent;
+      border: 1px solid transparent;
+      box-shadow: none;
+      color: var(--text-muted);
+      font-size: 1rem;
+      padding: 0.85rem 1.25rem;
+    }
+
+    .btn-ghost:hover {
+      color: var(--secondary);
+      background: #eceff4;
+      box-shadow: none;
+    }
+
+    .deck-tabs {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+      margin-bottom: 1.5rem;
+    }
+
+    .deck-tab {
+      padding: 0.5rem 1rem;
+      border-radius: 999px;
+      background: #fff;
+      border: 1px solid #c9d2dd;
+      color: var(--text-muted);
+      cursor: pointer;
+      font-size: 0.85rem;
+      font-weight: 500;
+      transition: var(--transition);
+    }
+
+    .deck-tab.active {
+      background: var(--secondary);
+      border-color: var(--secondary);
+      color: #fff;
+    }
+
+    .slide-gallery {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .slide-thumb {
+      background: #fff;
+      border-radius: 10px;
+      overflow: hidden;
+      border: 1px solid #dfe4ec;
+      box-shadow: 0 5px 16px rgba(22, 40, 60, 0.1);
+      transition: var(--transition);
+      cursor: zoom-in;
+      position: relative;
+    }
+
+    .slide-thumb:hover {
+      transform: translateY(-4px);
+      border-color: var(--card-border-hover);
+      box-shadow: 0 12px 26px rgba(22, 40, 60, 0.18);
+    }
+
+    .slide-thumb img {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
+
+    .slide-thumb .slide-num {
+      position: absolute;
+      top: 8px;
+      left: 8px;
+      background: rgba(14, 40, 65, 0.82);
+      color: #fff;
+      font-size: 0.7rem;
+      font-weight: 600;
+      padding: 0.15rem 0.5rem;
+      border-radius: 6px;
+    }
+
+    /* per-slide "what happened" caption under each thumbnail */
+    .slide-cell {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .slide-why {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.5rem;
+      font-size: 0.75rem;
+      line-height: 1.35;
+      color: var(--text-muted);
+    }
+
+    .why-tag {
+      flex: none;
+      padding: 0.1rem 0.45rem;
+      border-radius: 5px;
+      font-weight: 700;
+      font-size: 0.65rem;
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
+    }
+
+    .why-tag.redesigned {
+      background: #e6f6ee;
+      color: var(--success);
+      border: 1px solid #bfe5d2;
+    }
+
+    .why-tag.kept {
+      background: #fdf2e2;
+      color: #b45309;
+      border: 1px solid #f0d9ad;
+    }
+
+    /* per-slide action buttons */
+    .slide-actions {
+      display: flex;
+      gap: 0.4rem;
+    }
+
+    .slide-btn {
+      flex: 1;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.3rem;
+      padding: 0.35rem 0.5rem;
+      font-size: 0.72rem;
+      font-weight: 600;
+      border-radius: 7px;
+      cursor: pointer;
+      background: #fff;
+      border: 1px solid #c9d2dd;
+      color: var(--text-muted);
+      transition: var(--transition);
+    }
+
+    .slide-btn:hover {
+      color: var(--secondary);
+      border-color: var(--primary);
+      background: #fdf0e7;
+    }
+
+    .slide-btn svg { width: 13px; height: 13px; fill: currentColor; }
+
+    /* rows inside the slide-options modal */
+    .opt-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.75rem;
+      padding: 0.7rem 0.9rem;
+      border: 1px solid var(--card-border);
+      border-radius: 10px;
+      margin-bottom: 0.5rem;
+      transition: var(--transition);
+    }
+
+    .opt-row.current {
+      border-color: var(--primary);
+      background: #fdf0e7;
+    }
+
+    .opt-row .opt-name { font-size: 0.9rem; font-weight: 500; }
+    .opt-row .opt-sub { font-size: 0.72rem; color: var(--text-muted); }
+
+    .opt-main { display: flex; align-items: center; gap: 0.75rem; min-width: 0; }
+
+    .opt-thumb {
+      flex: none;
+      width: 132px;
+      height: 74px;               /* 16:9 preview */
+      border-radius: 6px;
+      background: #fff center/cover no-repeat;
+      border: 1px solid var(--card-border);
+    }
+
+    .opt-thumb.loading {
+      background: #eef1f6;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.65rem;
+      color: var(--text-muted);
+    }
+
+    .opt-pick {
+      flex: none;
+      padding: 0.3rem 0.8rem;
+      border-radius: 7px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      cursor: pointer;
+      border: 1px solid transparent;
+      background: var(--primary);
+      color: #fff;
+    }
+
+    .opt-pick.is-current {
+      background: transparent;
+      border-color: #c9d2dd;
+      color: var(--text-muted);
+      cursor: default;
+    }
+
+    .preview-empty {
+      background: #fdf6e7;
+      border: 1px solid #ecd9ad;
+      border-radius: 12px;
+      padding: 2rem;
+      text-align: center;
+      color: #9a6b1c;
+    }
+
+    .preview-empty p {
+      color: var(--text-muted);
+      margin-top: 0.5rem;
+      font-size: 0.9rem;
+    }
+
+    /* Lightbox for enlarging a slide */
+    .lightbox {
+      position: fixed;
+      inset: 0;
+      background: rgba(8, 20, 32, 0.92);
+      backdrop-filter: blur(6px);
+      z-index: 10000;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+      cursor: zoom-out;
+    }
+
+    .lightbox.active { display: flex; }
+
+    .lightbox img {
+      max-width: 95%;
+      max-height: 95%;
+      border-radius: 8px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+    }
+
+    /* Filename modal */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(10, 30, 48, 0.6);
+      backdrop-filter: blur(6px);
+      z-index: 10001;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem;
+    }
+
+    .modal-overlay.active { display: flex; }
+
+    .modal {
+      background: #ffffff;
+      border: 1px solid var(--card-border);
+      border-top: 5px solid var(--primary);
+      border-radius: 14px;
+      padding: 2rem;
+      width: 100%;
+      max-width: 440px;
+      box-shadow: 0 24px 60px rgba(14, 40, 65, 0.35);
+      animation: slideUp 0.3s ease;
+    }
+
+    .modal h3 {
+      font-family: var(--font-outfit);
+      font-size: 1.35rem;
+      font-weight: 700;
+      color: var(--secondary);
+      margin-bottom: 0.35rem;
+    }
+
+    .modal p {
+      color: var(--text-muted);
+      font-size: 0.875rem;
+      margin-bottom: 1.25rem;
+    }
+
+    .modal-input-row {
+      display: flex;
+      align-items: center;
+      background: #f8fafc;
+      border: 1px solid #c9d2dd;
+      border-radius: 10px;
+      padding: 0 0.9rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .modal-input-row input {
+      flex: 1;
+      background: transparent;
+      border: none;
+      outline: none;
+      color: var(--text-main);
+      font-size: 1rem;
+      font-family: var(--font-inter);
+      padding: 0.85rem 0.5rem 0.85rem 0;
+    }
+
+    .modal-input-row .ext {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      font-weight: 500;
+    }
+
+    .modal-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 0.75rem;
+    }
+
+    /* Media Queries */
+    @media (max-width: 768px) {
+      h1 {
+        font-size: 1.9rem;
+      }
+      .dropzone-grid {
+        grid-template-columns: 1fr;
+      }
+      .results-header {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .btn-download {
+        width: 100%;
+        justify-content: center;
+      }
+      .preview-actions {
+        width: 100%;
+      }
+      .preview-actions .btn {
+        flex: 1;
+        justify-content: center;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+
+    <!-- ============ UPLOAD VIEW ============ -->
+    <div id="upload-view">
+
+    <header>
+      <div class="logo-container">
+        <div class="logo-icon">
+          <svg viewBox="0 0 24 24">
+            <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-2 10h-4v4h-2v-4H7v-2h4V7h2v4h4v2z"/>
+          </svg>
+        </div>
+        <span style="font-family: var(--font-outfit); font-size: 2rem; font-weight: 800; color: #ffffff; letter-spacing: 0.04em; padding-left: 0.2rem; line-height: 1;">PPSU <span style="color: var(--primary);">PPT Designer</span></span>
+      </div>
+      <h1>P P Savani University — Presentation Template Engine</h1>
+      <p>Convert plain unstyled content slides into beautifully designed PPSU-branded layouts by automatically matching bullets to target templates.</p>
+    </header>
+
+    <!-- Upload Form -->
+    <form class="upload-form" method="post" enctype="multipart/form-data" action="#" id="generation-form">
+      <div class="dropzone-grid">
+        
+        <!-- Raw PPTX Card -->
+        <div class="card raw-card">
+          <h3 class="card-title">
+            <svg style="width:20px;height:20px;fill:var(--primary);" viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/></svg>
+            Raw PPTX Input
+          </h3>
+          <p class="card-subtitle">Contains heading, subheading, and bullet texts. Add several (e.g. unit1.1 / 1.2 / 1.3) to rebuild them together with non-repeating designs.</p>
+          
+          <div class="dropzone-wrapper">
+            <div class="dropzone" id="raw-dropzone">
+              <input type="file" name="raw" id="raw-input" accept=".pptx" multiple required>
+              <div class="dropzone-icon">
+                <svg style="width:28px;height:28px;fill:currentColor" viewBox="0 0 24 24"><path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96zM14 13v4h-4v-4H7l5-5 5 5h-3z"/></svg>
+              </div>
+              <div class="dropzone-text">Drag file here or <span>browse</span></div>
+              <div class="dropzone-tip">Supports PowerPoint (.pptx)</div>
+            </div>
+            
+            <div class="file-status" id="raw-status">
+              <div class="file-status-icon">
+                <svg style="width:20px;height:20px;fill:currentColor" viewBox="0 0 24 24"><path d="M6 2c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6H6zm7 7V3.5L18.5 9H13z"/></svg>
+              </div>
+              <div class="file-status-info">
+                <div class="file-status-name" id="raw-filename">filename.pptx</div>
+                <div class="file-status-size" id="raw-filesize">0 KB</div>
+              </div>
+              <button type="button" class="file-status-remove" id="raw-remove" title="Remove file">
+                <svg style="width:18px;height:18px;fill:currentColor" viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Template PPTX Card -->
+        <div class="card template-card">
+          <h3 class="card-title">
+            <svg style="width:20px;height:20px;fill:var(--secondary);" viewBox="0 0 24 24"><path d="M12 3c-4.97 0-9 4.03-9 9s4.03 9 9 9 9-4.03 9-9-4.03-9-9-9zm0 16.5c-4.14 0-7.5-3.36-7.5-7.5S7.86 4.5 12 4.5s7.5 3.36 7.5 7.5-3.36 7.5-7.5 7.5zm-3-8.5c-.83 0-1.5-.67-1.5-1.5S8.17 7 9 7s1.5 0.67 1.5 1.5S9.83 8 9 8zm6 0c-.83 0-1.5-.67-1.5-1.5S14.17 7 15 7s1.5 0.67 1.5 1.5S15.83 8 15 8zm-3 6.75c-2.07 0-3.9-1.06-4.98-2.67.12-.48.56-.83 1.08-.83h7.8c.52 0 .96.35 1.08.83-1.08 1.61-2.91 2.67-4.98 2.67z"/></svg>
+            Design Template PPTX <span style="font-weight:400;font-size:0.8em;opacity:0.75;">(optional)</span>
+          </h3>
+          <p class="card-subtitle">Optional — leave empty to use the built-in PPSU design template</p>
+
+          <div class="dropzone-wrapper">
+            <div class="dropzone" id="template-dropzone">
+              <input type="file" name="template" id="template-input" accept=".pptx">
+              <div class="dropzone-icon">
+                <svg style="width:28px;height:28px;fill:currentColor" viewBox="0 0 24 24"><path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96zM14 13v4h-4v-4H7l5-5 5 5h-3z"/></svg>
+              </div>
+              <div class="dropzone-text">Drag file here or <span>browse</span></div>
+              <div class="dropzone-tip">Supports PowerPoint (.pptx)</div>
+            </div>
+            
+            <div class="file-status" id="template-status">
+              <div class="file-status-icon">
+                <svg style="width:20px;height:20px;fill:currentColor" viewBox="0 0 24 24"><path d="M6 2c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6H6zm7 7V3.5L18.5 9H13z"/></svg>
+              </div>
+              <div class="file-status-info">
+                <div class="file-status-name" id="template-filename">filename.pptx</div>
+                <div class="file-status-size" id="template-filesize">0 KB</div>
+              </div>
+              <button type="button" class="file-status-remove" id="template-remove" title="Remove file">
+                <svg style="width:18px;height:18px;fill:currentColor" viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+              </button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Submit CTA -->
+      <div class="action-container">
+        <button type="submit" class="btn" id="generate-btn" disabled>
+          <svg style="width:22px;height:22px;fill:currentColor" viewBox="0 0 24 24"><path d="M7.5 5.6L10 7 8.6 4.5 10 2 7.5 3.4 5 2l1.4 2.5L5 7zm12 9.8L17 14l1.4 2.5-1.4 2.5 2.5-1.4L22 19l-1.4-2.5L22 14zM22 2l-2.5 1.4L17 2l1.4 2.5L17 7l2.5-1.4L22 7l-1.4-2.5zm-7.63 5.29c-.39-.39-1.02-.39-1.41 0L1.29 18.96c-.39.39-.39 1.02 0 1.41l2.34 2.34c.39.39 1.02.39 1.41 0L16.7 11.05c.39-.39.39-1.02 0-1.41l-2.33-2.35zm-1.03 2.65l-1.34-1.34 1.83-1.83 1.34 1.34-1.83 1.83z"/></svg>
+          Rebuild Slides & Adapt Layouts
+        </button>
+      </div>
+    </form>
+
+    </div><!-- ============ /UPLOAD VIEW ============ -->
+
+    <!-- ============ PRE-FLIGHT VIEW ============ -->
+    <div id="preflight-view" style="display: none;">
+      <div class="preview-topbar">
+        <div class="results-title-group">
+          <h2>Before we build</h2>
+          <p>A quick look at your decks against the template — no waiting for the full render.</p>
+        </div>
+        <div class="preview-actions">
+          <button type="button" class="btn btn-ghost" id="preflight-back">
+            <svg style="width:18px;height:18px;fill:currentColor" viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>
+            Back
+          </button>
+          <button type="button" class="btn" id="preflight-go">
+            <svg style="width:20px;height:20px;fill:currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+            Generate designs
+          </button>
+        </div>
+      </div>
+
+      <!-- point-count gaps -->
+      <div class="unmatched-container" id="preflight-warnings" style="display:none;">
+        <div class="unmatched-title">
+          <svg style="width:22px;height:22px;fill:currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>
+          Point-count gaps
+        </div>
+        <p style="font-size:0.875rem; color:var(--text-muted); margin-bottom:1rem;">
+          These slides have a number of points your template has no design for.
+          They will be carried over <strong>exactly as they are</strong> rather than
+          being reshaped. Add a matching design to the template to have them redesigned.
+        </p>
+        <ul class="unmatched-list" id="preflight-warning-list"></ul>
+      </div>
+
+      <div class="section-title">Your decks</div>
+      <div class="table-container">
+        <table>
+          <thead>
+            <tr><th>Deck</th><th>Slides</th><th>Will redesign</th><th>Kept as-is</th><th>Points per slide</th></tr>
+          </thead>
+          <tbody id="preflight-decks"></tbody>
+        </table>
+      </div>
+
+      <div class="section-title">Designs available in your template</div>
+      <div class="deck-tabs" id="preflight-designs"></div>
+    </div><!-- ============ /PRE-FLIGHT VIEW ============ -->
+
+    <!-- ============ PREVIEW VIEW ============ -->
+    <div id="preview-view" style="display: none;">
+
+      <div class="preview-topbar">
+        <div class="results-title-group">
+          <h2>Preview your presentation</h2>
+          <p id="preview-subtitle">Review the rebuilt slides below. Happy with them? Download. Want a different look? Redesign.</p>
+        </div>
+        <div class="preview-actions">
+          <button type="button" class="btn btn-ghost" id="startover-btn">
+            <svg style="width:18px;height:18px;fill:currentColor" viewBox="0 0 24 24"><path d="M12 5V1L7 6l5 5V7c3.31 0 6 2.69 6 6s-2.69 6-6 6-6-2.69-6-6H4c0 4.42 3.58 8 8 8s8-3.58 8-8-3.58-8-8-8z"/></svg>
+            Start over
+          </button>
+          <button type="button" class="btn btn-secondary" id="redesign-btn">
+            <svg style="width:20px;height:20px;fill:currentColor" viewBox="0 0 24 24"><path d="M17.65 6.35C16.2 4.9 14.21 4 12 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08c-.82 2.33-3.04 4-5.65 4-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z"/></svg>
+            Redesign
+          </button>
+          <button type="button" class="btn btn-download" id="download-btn">
+            <svg style="width:20px;height:20px;fill:currentColor" viewBox="0 0 24 24"><path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96zM17 13l-5 5-5-5h3V9h4v4h3z"/></svg>
+            Download
+          </button>
+        </div>
+      </div>
+
+      <!-- Files that could not be read (corrupt / incomplete uploads) -->
+      <div class="unmatched-container" id="skipped-section" style="display: none;">
+        <div class="unmatched-title">
+          <svg style="width:22px;height:22px;fill:currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>
+          Some files were skipped
+        </div>
+        <p style="font-size:0.875rem; color:var(--text-muted); margin-bottom:1rem;">
+          These files could not be read as PowerPoint decks, so they were left out.
+          They are usually incomplete downloads or files still syncing — open each
+          in PowerPoint, do <strong>Save As</strong> to a fresh copy, and upload again.
+        </p>
+        <ul class="unmatched-list" id="skipped-list"></ul>
+      </div>
+
+      <!-- Deck selector (only shown when several raw decks were uploaded) -->
+      <div class="deck-tabs" id="deck-tabs" style="display: none;"></div>
+
+      <!-- Rendered slide images -->
+      <div class="slide-gallery" id="slide-gallery"></div>
+
+      <!-- Shown when no rendering engine is available on the server -->
+      <div class="preview-empty" id="preview-empty" style="display: none;">
+        <strong>Visual preview isn't available on this server.</strong>
+        <p>The presentation was still generated successfully — click Download to get it, or Redesign for a different layout.</p>
+      </div>
+
+    </div><!-- ============ /PREVIEW VIEW ============ -->
+
+  </div>
+
+  <!-- Lightbox (click a slide to enlarge) -->
+  <div class="lightbox" id="lightbox">
+    <img id="lightbox-img" src="" alt="Enlarged slide">
+  </div>
+
+  <!-- Filename modal (asked on Download) -->
+  <div class="modal-overlay" id="filename-modal">
+    <div class="modal">
+      <h3>Save as</h3>
+      <p id="filename-modal-desc">Choose a name for your download.</p>
+      <div class="modal-input-row">
+        <input type="text" id="filename-input" placeholder="my_presentation" autocomplete="off">
+        <span class="ext" id="filename-ext">.pptx</span>
+      </div>
+      <div class="modal-actions">
+        <button type="button" class="btn btn-ghost" id="filename-cancel">Cancel</button>
+        <button type="button" class="btn btn-download" id="filename-confirm">
+          <svg style="width:18px;height:18px;fill:currentColor" viewBox="0 0 24 24"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
+          Download
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Slide options (swap design / keep / regenerate one slide) -->
+  <div class="modal-overlay" id="slideopt-modal">
+    <div class="modal" style="max-width:520px;">
+      <h3 id="slideopt-title">Slide design</h3>
+      <p id="slideopt-desc">Choose a different design for this slide, or keep it as it is.</p>
+      <div id="slideopt-body" style="max-height:340px; overflow-y:auto; margin-bottom:1.25rem;"></div>
+      <div class="modal-actions">
+        <button type="button" class="btn btn-ghost" id="slideopt-close">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Loading Animation Overlay -->
+  <div class="loading-overlay" id="loading-modal">
+    <div class="loader-box">
+      <div class="spinner">
+        <div class="spinner-ring"></div>
+        <div class="spinner-ring-inner"></div>
+      </div>
+      <div class="loader-status" id="loader-status-text">Uploading files...</div>
+      <div class="loader-subtext" id="loader-subtext">Executing intelligent slide engine pipeline. Please hold.</div>
+    </div>
+  </div>
+
+  <footer>
+    <p>PPSU PPT Designer — P P Savani University | Maieutic Edu Tech Pvt Ltd</p>
+  </footer>
+
+  <script>
+    // ==========================================================
+    //  BACKEND ADDRESS  --  the only thing you need to edit
+    // ==========================================================
+    // Your machine's local network IPv4 address. Every device on the network
+    // (and this machine) sends its API calls here.
+    //
+    // Find it any time by running:  python show_ip.py
+    // If your IP changes (it is handed out by DHCP and can change after a
+    // reboot or reconnecting to Wi-Fi), update this ONE line.
+    const BACKEND_HOST = '192.168.3.106';
+    const BACKEND_PORT = 5001;
+
+    // Hosted deployment (Vercel frontend -> Render backend). When this page is
+    // served from a real domain (not localhost / a LAN IP / a local file), API
+    // calls go to the hosted backend below instead of the LAN address above.
+    // If the Render service is named differently, update this ONE line.
+    const HOSTED_BACKEND = 'https://ppsu-ppt-designer.onrender.com';
+    const IS_HOSTED = location.protocol !== 'file:'
+      && !['localhost', '127.0.0.1', ''].includes(location.hostname)
+      && !/^(192\.168\.|10\.|172\.(1[6-9]|2\d|3[01])\.)/.test(location.hostname);
+
+    const API_BASE = IS_HOSTED ? HOSTED_BACKEND
+                               : `http://${BACKEND_HOST}:${BACKEND_PORT}`;
+
+    document.addEventListener('DOMContentLoaded', () => {
+      // Drag and drop setup for files
+      setupDropzone('raw');
+      setupDropzone('template');
+
+      // Loader status messages sequence
+      const statusTexts = [
+        "Uploading presentations...",
+        "Analyzing layout shape matrices...",
+        "Evaluating content bullet vectors...",
+        "Matching items to optimal layouts...",
+        "Splitting & merging bullets cleanly...",
+        "Generating slide deck copies...",
+        "Applying fonts and structures...",
+        "Saving final presentation..."
+      ];
+
+      const form = document.getElementById('generation-form');
+      const loaderModal = document.getElementById('loading-modal');
+      const loaderStatusText = document.getElementById('loader-status-text');
+      const previewView = document.getElementById('preview-view');
+      const uploadView = document.getElementById('upload-view');
+      const lightbox = document.getElementById('lightbox');
+      const lightboxImg = document.getElementById('lightbox-img');
+
+      // ---- shared state ----
+      let currentPayload = null;   // latest /generate or /redesign response
+      let activeDeck = 0;          // which deck's slides are on screen
+      let currentDownloadUrl = null;
+
+      function resolveUrl(path) {
+        return path.startsWith('http') ? path : `${API_BASE}${path}`;
+      }
+
+      function startLoader(seq) {
+        loaderModal.classList.add('active');
+        let i = 0;
+        loaderStatusText.textContent = seq[0];
+        return setInterval(() => {
+          i = (i + 1) % seq.length;
+          loaderStatusText.textContent = seq[i];
+        }, 1500);
+      }
+
+      // Poll the server for real per-deck build progress and show it in the
+      // loader ("Deck 2 of 3 — rendering previews"). Returns a stop function.
+      function startProgress(token) {
+        loaderModal.classList.add('active');
+        const sub = document.getElementById('loader-subtext');
+        loaderStatusText.textContent = 'Starting…';
+        const timer = setInterval(async () => {
+          try {
+            const p = await (await fetch(`${API_BASE}/progress/${token}`)).json();
+            if (!p || !p.deck_total) return;
+            if (p.phase === 'done') {
+              loaderStatusText.textContent = 'Finishing up…';
+              return;
+            }
+            const phase = p.phase === 'rendering' ? 'rendering previews' : 'building slides';
+            loaderStatusText.textContent =
+              `Deck ${p.deck_index} of ${p.deck_total} — ${phase}`;
+            if (p.deck_name) sub.textContent = p.deck_name;
+          } catch (e) { /* ignore transient poll errors */ }
+        }, 700);
+        return () => {
+          clearInterval(timer);
+          sub.textContent = 'Executing intelligent slide engine pipeline. Please hold.';
+        };
+      }
+
+      // ---- generate: upload -> preview (no auto-download anymore) ----
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const rawInput = document.getElementById('raw-input');
+        const templateInput = document.getElementById('template-input');
+        if (!rawInput.files.length) {
+          alert("Please select a Raw PPTX file. (The design template is optional — the built-in PPSU template is used if you don't add one.)");
+          return;
+        }
+
+        const messageInterval = startLoader(statusTexts);
+        try {
+          const formData = new FormData();
+          for (const f of rawInput.files) formData.append('raw', f);
+          if (templateInput.files.length) formData.append('template', templateInput.files[0]);
+
+          // Phase 1: fast look-ahead (no building, no rendering) so any
+          // point-count gaps show up in seconds instead of minutes.
+          const response = await fetch(`${API_BASE}/analyze`, { method: 'POST', body: formData });
+          if (!response.ok) {
+            const errData = await response.json().catch(() => ({}));
+            let msg = errData.error || `HTTP ${response.status}: ${response.statusText}`;
+            if (errData.skipped && errData.skipped.length) {
+              msg += '\n\n' + errData.skipped.join('\n');
+            }
+            throw new Error(msg);
+          }
+          showPreflight(await response.json());
+        } catch (error) {
+          console.error(error);
+          alert(`Error processing slides: ${error.message}`);
+        } finally {
+          clearInterval(messageInterval);
+          loaderModal.classList.remove('active');
+        }
+      });
+
+      // ---- redesign: same files, fresh non-repeating layouts ----
+      document.getElementById('redesign-btn').addEventListener('click', async () => {
+        if (!currentPayload) return;
+        const stopProgress = startProgress(currentPayload.token);
+        try {
+          const response = await fetch(`${API_BASE}/redesign/${currentPayload.token}`, { method: 'POST' });
+          if (!response.ok) {
+            const errData = await response.json().catch(() => ({}));
+            throw new Error(errData.error || `HTTP ${response.status}`);
+          }
+          showPreview(await response.json());
+        } catch (error) {
+          console.error(error);
+          alert(`Could not redesign: ${error.message}`);
+        } finally {
+          stopProgress();
+          loaderModal.classList.remove('active');
+        }
+      });
+
+      // ---- pre-flight screen ----
+      const preflightView = document.getElementById('preflight-view');
+      let preflightToken = null;
+
+      function showPreflight(pf) {
+        preflightToken = pf.token;
+        uploadView.style.display = 'none';
+        previewView.style.display = 'none';
+        preflightView.style.display = 'block';
+
+        const warnBox = document.getElementById('preflight-warnings');
+        const warnList = document.getElementById('preflight-warning-list');
+        warnList.innerHTML = '';
+        const items = (pf.warnings || []).concat(pf.skipped || []);
+        items.forEach(w => {
+          const li = document.createElement('li');
+          li.className = 'unmatched-item';
+          li.textContent = w;
+          warnList.appendChild(li);
+        });
+        warnBox.style.display = items.length ? 'block' : 'none';
+
+        const body = document.getElementById('preflight-decks');
+        body.innerHTML = '';
+        (pf.decks || []).forEach(d => {
+          const pts = Object.entries(d.counts)
+            .map(([k, v]) => `${v}× ${k}pt`).join(', ') || '—';
+          const tr = document.createElement('tr');
+          tr.innerHTML =
+            `<td style="font-weight:500;">${escapeHtml(d.filename)}</td>` +
+            `<td>${d.total_slides}</td>` +
+            `<td><span class="badge-status success">${d.will_redesign}</span></td>` +
+            `<td><span class="badge-status warning">${d.will_keep}</span></td>` +
+            `<td style="color:var(--text-muted);">${pts}</td>`;
+          body.appendChild(tr);
+        });
+
+        const designs = document.getElementById('preflight-designs');
+        designs.innerHTML = '';
+        Object.entries(pf.template_designs || {}).forEach(([count, n]) => {
+          const chip = document.createElement('div');
+          chip.className = 'deck-tab active';
+          chip.textContent = `${count}-item × ${n}`;
+          designs.appendChild(chip);
+        });
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+
+      document.getElementById('preflight-back').addEventListener('click', () => {
+        preflightView.style.display = 'none';
+        uploadView.style.display = 'block';
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      });
+
+      // A hosted free-tier proxy may drop the long /build request while the
+      // server keeps working. Recover by polling /progress until the build is
+      // done, then fetching the finished payload from /result. Gives up early
+      // if the build never even started (the POST really failed).
+      async function waitForResult(token) {
+        const t0 = Date.now();
+        let started = false;
+        while (Date.now() - t0 < 30 * 60 * 1000) {
+          await new Promise(r => setTimeout(r, 4000));
+          try {
+            const p = await (await fetch(`${API_BASE}/progress/${token}`)).json();
+            if (p && p.phase && p.phase !== 'starting') started = true;
+            if (p && p.phase === 'done') {
+              const r = await fetch(`${API_BASE}/result/${token}`);
+              if (r.ok) return await r.json();
+            }
+          } catch (e) { /* transient — keep waiting */ }
+          if (!started && Date.now() - t0 > 90 * 1000) break;
+        }
+        throw new Error('Lost contact with the server while building. Please try again.');
+      }
+
+      // Phase 2: the slow half — build the decks and render the previews.
+      document.getElementById('preflight-go').addEventListener('click', async () => {
+        if (!preflightToken) return;
+        const stopProgress = startProgress(preflightToken);
+        try {
+          const response = await fetch(`${API_BASE}/build/${preflightToken}`,
+                                       { method: 'POST' });
+          if (!response.ok) {
+            const errData = await response.json().catch(() => ({}));
+            throw new Error(errData.error || `HTTP ${response.status}`);
+          }
+          showPreview(await response.json());
+        } catch (error) {
+          // A TypeError means the request itself died (proxy timeout /
+          // connection drop), NOT that the server rejected the build — the
+          // build is very likely still running, so wait for its result.
+          if (error instanceof TypeError) {
+            try {
+              showPreview(await waitForResult(preflightToken));
+              return;
+            } catch (e2) {
+              console.error(e2);
+              alert(`Error building slides: ${e2.message}`);
+              return;
+            }
+          }
+          console.error(error);
+          alert(`Error building slides: ${error.message}`);
+        } finally {
+          stopProgress();
+          loaderModal.classList.remove('active');
+        }
+      });
+
+      // ---- start over: back to the upload screen ----
+      document.getElementById('startover-btn').addEventListener('click', () => {
+        previewView.style.display = 'none';
+        preflightView.style.display = 'none';
+        uploadView.style.display = 'block';
+        currentPayload = null;
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      });
+
+      // ---- download: ask for a filename, then fetch + save ----
+      const filenameModal = document.getElementById('filename-modal');
+      const filenameInput = document.getElementById('filename-input');
+      const filenameExt = document.getElementById('filename-ext');
+      const filenameDesc = document.getElementById('filename-modal-desc');
+
+      document.getElementById('download-btn').addEventListener('click', () => {
+        if (!currentPayload) return;
+        const isZip = currentPayload.kind === 'zip';
+        filenameExt.textContent = isZip ? '.zip' : '.pptx';
+        filenameDesc.textContent = isZip
+          ? 'Several decks were generated — they’ll be saved together in one .zip file.'
+          : 'Choose a name for your presentation file.';
+        filenameInput.value = isZip ? 'final_decks' : (currentPayload.decks[0].stem + '_final');
+        filenameModal.classList.add('active');
+        filenameInput.focus();
+        filenameInput.select();
+      });
+
+      document.getElementById('filename-cancel').addEventListener('click',
+        () => filenameModal.classList.remove('active'));
+      filenameModal.addEventListener('click', (e) => {
+        if (e.target === filenameModal) filenameModal.classList.remove('active');
+      });
+      filenameInput.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') document.getElementById('filename-confirm').click();
+      });
+
+      document.getElementById('filename-confirm').addEventListener('click', () => {
+        if (!currentPayload) return;
+        const isZip = currentPayload.kind === 'zip';
+        let base = (filenameInput.value || '').replace(/[^a-zA-Z0-9 _-]/g, '').trim();
+        if (!base) base = isZip ? 'final_decks' : 'presentation';
+        filenameModal.classList.remove('active');
+
+        // Direct browser download. The server responds with
+        // Content-Disposition: attachment and our chosen filename, so the
+        // browser streams the file straight to disk. We deliberately do NOT
+        // fetch()+blob() here — that buffers the whole (potentially large)
+        // deck in memory and fails on big cross-origin responses.
+        const url = `${API_BASE}/download/${currentPayload.token}?name=${encodeURIComponent(base)}`;
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = base;   // hint for same-origin; cross-origin uses the server's name
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+      });
+
+      // ---- lightbox ----
+      lightbox.addEventListener('click', () => lightbox.classList.remove('active'));
+
+      // ---- build the preview screen from a payload ----
+      function showPreview(payload) {
+        currentPayload = payload;
+        activeDeck = 0;
+        uploadView.style.display = 'none';
+        document.getElementById('preflight-view').style.display = 'none';
+        previewView.style.display = 'block';
+
+        const totalSlides = payload.decks.reduce((n, d) => n + d.slides.length, 0);
+        const previewSub = document.getElementById('preview-subtitle');
+        const tabs = document.getElementById('deck-tabs');
+
+        // warn about any files that could not be read
+        const skipped = payload.skipped || [];
+        const skippedSection = document.getElementById('skipped-section');
+        const skippedList = document.getElementById('skipped-list');
+        skippedList.innerHTML = '';
+        if (skipped.length) {
+          skipped.forEach(s => {
+            const li = document.createElement('li');
+            li.className = 'unmatched-item';
+            li.textContent = s;
+            skippedList.appendChild(li);
+          });
+          skippedSection.style.display = 'block';
+        } else {
+          skippedSection.style.display = 'none';
+        }
+
+        // deck tabs, only when more than one deck was uploaded
+        tabs.innerHTML = '';
+        if (payload.decks.length > 1) {
+          payload.decks.forEach((d, i) => {
+            const tab = document.createElement('div');
+            tab.className = 'deck-tab' + (i === 0 ? ' active' : '');
+            tab.textContent = d.filename || (d.stem + '.pptx');
+            tab.addEventListener('click', () => {
+              activeDeck = i;
+              [...tabs.children].forEach((c, j) => c.classList.toggle('active', j === i));
+              renderGallery();
+            });
+            tabs.appendChild(tab);
+          });
+          tabs.style.display = 'flex';
+        } else {
+          tabs.style.display = 'none';
+        }
+
+        if (!payload.preview_available || totalSlides === 0) {
+          document.getElementById('slide-gallery').innerHTML = '';
+          document.getElementById('preview-empty').style.display = 'block';
+          previewSub.textContent = 'Your presentation is ready to download.';
+        } else {
+          document.getElementById('preview-empty').style.display = 'none';
+          previewSub.textContent = 'Review the rebuilt slides below. Happy with them? Download. Want a different look? Redesign.';
+          renderGallery();
+        }
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+
+      function renderGallery() {
+        const gallery = document.getElementById('slide-gallery');
+        gallery.innerHTML = '';
+        const deck = currentPayload.decks[activeDeck];
+        const why = (deck.report && deck.report.slides) || [];
+        deck.slides.forEach((src, i) => {
+          const url = resolveUrl(src);
+          const info = why[i] || {};
+          const status = info.status === 'redesigned' ? 'redesigned' : 'kept';
+          const reason = info.reason || '';
+
+          const cell = document.createElement('div');
+          cell.className = 'slide-cell';
+
+          const rawSlide = info.raw_slide || (i + 1);
+          const thumb = document.createElement('div');
+          thumb.className = 'slide-thumb';
+          thumb.dataset.designedUrl = url;   // remember the redesigned image
+          thumb.dataset.showing = 'after';
+          thumb.innerHTML = `<span class="slide-num">${i + 1}</span>` +
+            `<img src="${url}" alt="Slide ${i + 1}" loading="lazy">`;
+          thumb.addEventListener('click', () => {
+            lightboxImg.src = thumb.querySelector('img').src;
+            lightbox.classList.add('active');
+          });
+          cell.appendChild(thumb);
+
+          if (reason) {
+            const caption = document.createElement('div');
+            caption.className = 'slide-why';
+            const warn = info.warning
+              ? ` <span style="color:#b45309;">⚠ ${escapeHtml(info.warning)}</span>` : '';
+            caption.innerHTML =
+              `<span class="why-tag ${status}">${status === 'redesigned' ? 'Designed' : 'Kept'}</span>` +
+              `<span>${escapeHtml(reason)}${warn}</span>`;
+            cell.appendChild(caption);
+          }
+
+        
+          const actions = document.createElement('div');
+          actions.className = 'slide-actions';
+          // before/after only makes sense for slides that were actually changed
+          const beforeBtn = status === 'redesigned'
+            ? `<button type="button" class="slide-btn" data-act="ba">` +
+              `<svg viewBox="0 0 24 24"><path d="M12 4V1L8 5l4 4V6a6 6 0 1 1-6 6H4a8 8 0 1 0 8-8z"/></svg>` +
+              `<span class="ba-label">Before</span></button>` : '';
+          actions.innerHTML = beforeBtn +
+            `<button type="button" class="slide-btn" data-act="regen">` +
+            `<svg viewBox="0 0 24 24"><path d="M17.65 6.35A8 8 0 1 0 19.73 13h-2.08A6 6 0 1 1 12 6c1.66 0 3.14.69 4.22 1.78L13 11h7V4z"/></svg>Regenerate</button>` +
+            `<button type="button" class="slide-btn" data-act="change">` +
+            `<svg viewBox="0 0 24 24"><path d="M7 7h10v3l4-4-4-4v3H5v6h2V7zm10 10H7v-3l-4 4 4 4v-3h12v-6h-2v4z"/></svg>Change</button>`;
+          const baBtn = actions.querySelector('[data-act=ba]');
+          if (baBtn) baBtn.addEventListener('click', () => toggleBeforeAfter(rawSlide, thumb, baBtn));
+          actions.querySelector('[data-act=regen]')
+            .addEventListener('click', () => regenerateSlide(rawSlide, thumb));
+          actions.querySelector('[data-act=change]')
+            .addEventListener('click', () => openSlideOptions(rawSlide, thumb));
+          cell.appendChild(actions);
+
+          gallery.appendChild(cell);
+        });
+      }
+
+      // flip a slide between its original (before) and redesigned (after) image;
+      // the 'before' image is rendered lazily the first time it's asked for
+      async function toggleBeforeAfter(rawSlide, thumb, btn) {
+        const img = thumb.querySelector('img');
+        const label = btn.querySelector('.ba-label');
+        if (thumb.dataset.showing === 'after') {
+          btn.style.opacity = '0.5';
+          try {
+            if (!thumb.dataset.rawUrl) {
+              const r = await fetch(`${API_BASE}/raw-image/${currentPayload.token}/${activeDeck}/${rawSlide}`);
+              const res = await r.json();
+              if (!r.ok) throw new Error(res.error || `HTTP ${r.status}`);
+              thumb.dataset.rawUrl = resolveUrl(res.image);
+            }
+            img.src = thumb.dataset.rawUrl;
+            thumb.dataset.showing = 'before';
+            label.textContent = 'After';
+          } catch (e) {
+            alert(`Couldn't load the original slide: ${e.message}`);
+          } finally {
+            btn.style.opacity = '';
+          }
+        } else {
+          img.src = thumb.dataset.designedUrl;
+          thumb.dataset.showing = 'after';
+          label.textContent = 'Before';
+        }
+      }
+
+      // update one thumbnail + its caption in place after a swap
+      function applySwapResult(rawSlide, res, thumb) {
+        const img = thumb.querySelector('img');
+        if (img && res.image) {
+          const newUrl = resolveUrl(res.image);
+          img.src = newUrl;
+          thumb.dataset.designedUrl = newUrl;   // the toggle's 'after' is now this
+          thumb.dataset.showing = 'after';
+          const label = thumb.parentElement.querySelector('.ba-label');
+          if (label) label.textContent = 'Before';
+        }
+        const deck = currentPayload.decks[activeDeck];
+        if (res.report) deck.report = res.report;      // keep state in sync
+        const cell = thumb.parentElement;
+        let cap = cell.querySelector('.slide-why');
+        if (!cap) {
+          cap = document.createElement('div');
+          cap.className = 'slide-why';
+          cell.insertBefore(cap, cell.querySelector('.slide-actions'));
+        }
+        const st = res.status === 'redesigned' ? 'redesigned' : 'kept';
+        cap.innerHTML =
+          `<span class="why-tag ${st}">${st === 'redesigned' ? 'Designed' : 'Kept'}</span>` +
+          `<span>${escapeHtml(res.reason || '')}</span>`;
+      }
+
+      async function regenerateSlide(rawSlide, thumb) {
+        thumb.style.opacity = '0.5';
+        try {
+          const r = await fetch(`${API_BASE}/swap/${currentPayload.token}/${activeDeck}/${rawSlide}`,
+            { method: 'POST', headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ design: 'random' }) });
+          const res = await r.json();
+          if (!r.ok) throw new Error(res.error || `HTTP ${r.status}`);
+          applySwapResult(rawSlide, res, thumb);
+        } catch (e) {
+          alert(`Couldn't regenerate this slide: ${e.message}`);
+        } finally {
+          thumb.style.opacity = '';
+        }
+      }
+
+      // ---- slide-options modal ----
+      const slideoptModal = document.getElementById('slideopt-modal');
+      document.getElementById('slideopt-close').addEventListener('click',
+        () => slideoptModal.classList.remove('active'));
+      slideoptModal.addEventListener('click', (e) => {
+        if (e.target === slideoptModal) slideoptModal.classList.remove('active');
+      });
+
+      async function openSlideOptions(rawSlide, thumb) {
+        const body = document.getElementById('slideopt-body');
+        document.getElementById('slideopt-title').textContent = `Slide ${rawSlide} design`;
+        body.innerHTML = '<p style="color:var(--text-muted);">Loading designs…</p>';
+        slideoptModal.classList.add('active');
+        try {
+          const r = await fetch(`${API_BASE}/slide-options/${currentPayload.token}/${activeDeck}/${rawSlide}`);
+          const o = await r.json();
+          if (!r.ok) throw new Error(o.error || `HTTP ${r.status}`);
+          const freshCount = o.options.filter(x => x.design !== o.current).length;
+          document.getElementById('slideopt-desc').textContent =
+            o.total_of_size === 0
+              ? 'This slide has no matching design (it is a diagram, table, image or prose), so it is kept as-is.'
+              : freshCount === 0
+                ? `All ${o.total_of_size} ${o.points}-point designs are already used elsewhere in this unit — nothing new to add.`
+                : `${o.points} points — showing ${freshCount} design${freshCount > 1 ? 's' : ''} not yet used anywhere in this unit.`;
+
+          // fetch preview images for these designs (cached per template)
+          let imgs = {};
+          if (o.can_design) {
+            try {
+              const tr = await fetch(`${API_BASE}/design-thumbs/${currentPayload.token}/${o.points}`);
+              if (tr.ok) (await tr.json()).designs.forEach(d => { imgs[d.design] = d.image; });
+            } catch (e) { /* fall back to names */ }
+          }
+
+          body.innerHTML = '';
+          body.appendChild(optionRow('Keep as original',
+            'carry this slide over unchanged', undefined, o.current === null,
+            () => doSwap(rawSlide, 'keep', thumb)));
+
+          o.options.forEach(opt => {
+            const isCur = opt.design === o.current;
+            body.appendChild(optionRow(
+              opt.title, `${opt.items}-item design`, imgs[opt.design], isCur,
+              isCur ? null : () => doSwap(rawSlide, opt.design, thumb)));
+          });
+        } catch (e) {
+          body.innerHTML = `<p style="color:var(--error);">${escapeHtml(e.message)}</p>`;
+        }
+      }
+
+      function optionRow(name, sub, imageUrl, isCurrent, onPick) {
+        const row = document.createElement('div');
+        row.className = 'opt-row' + (isCurrent ? ' current' : '');
+
+        const main = document.createElement('div');
+        main.className = 'opt-main';
+        if (imageUrl !== undefined) {   // a design row (has/expects a thumbnail)
+          const t = document.createElement('div');
+          if (imageUrl) {
+            t.className = 'opt-thumb';
+            t.style.backgroundImage = `url("${resolveUrl(imageUrl)}")`;
+          } else {
+            t.className = 'opt-thumb loading';
+            t.textContent = 'no preview';
+          }
+          main.appendChild(t);
+        }
+        main.insertAdjacentHTML('beforeend',
+          `<div><div class="opt-name">${escapeHtml(name)}</div>` +
+          `<div class="opt-sub">${escapeHtml(sub)}</div></div>`);
+        row.appendChild(main);
+
+        const btn = document.createElement('button');
+        btn.className = 'opt-pick' + (isCurrent ? ' is-current' : '');
+        btn.textContent = isCurrent ? 'In use' : 'Use this';
+        if (onPick) btn.addEventListener('click', onPick);
+        row.appendChild(btn);
+        return row;
+      }
+
+      async function doSwap(rawSlide, design, thumb) {
+        slideoptModal.classList.remove('active');
+        thumb.style.opacity = '0.5';
+        try {
+          const r = await fetch(`${API_BASE}/swap/${currentPayload.token}/${activeDeck}/${rawSlide}`,
+            { method: 'POST', headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ design }) });
+          const res = await r.json();
+          if (!r.ok) throw new Error(res.error || `HTTP ${r.status}`);
+          applySwapResult(rawSlide, res, thumb);
+        } catch (e) {
+          alert(`Couldn't change this slide: ${e.message}`);
+        } finally {
+          thumb.style.opacity = '';
+        }
+      }
+
+      function escapeHtml(text) {
+        if (!text) return '';
+        return text
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;")
+          .replace(/"/g, "&quot;")
+          .replace(/'/g, "&#039;");
+      }
+
+      function setupDropzone(id) {
+        const dropzone = document.getElementById(`${id}-dropzone`);
+        const input = document.getElementById(`${id}-input`);
+        const status = document.getElementById(`${id}-status`);
+        const filenameLabel = document.getElementById(`${id}-filename`);
+        const filesizeLabel = document.getElementById(`${id}-filesize`);
+        const removeBtn = document.getElementById(`${id}-remove`);
+
+        // Trigger file input click when clicking on dropzone
+        dropzone.addEventListener('click', (e) => {
+          if (e.target !== input) {
+            input.click();
+          }
+        });
+
+        // Hover styles when dragging file over dropzone
+        ['dragenter', 'dragover'].forEach(eventName => {
+          dropzone.addEventListener(eventName, (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            dropzone.classList.add('dragover');
+          }, false);
+        });
+
+        ['dragleave', 'drop'].forEach(eventName => {
+          dropzone.addEventListener(eventName, (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            dropzone.classList.remove('dragover');
+          }, false);
+        });
+
+        // Handle file drop
+        dropzone.addEventListener('drop', (e) => {
+          const dt = e.dataTransfer;
+          const files = dt.files;
+
+          if (files.length) {
+            input.files = files;
+            handleFileSelection(files[0]);
+          }
+        });
+
+        // Handle input file change (browsing)
+        input.addEventListener('change', (e) => {
+          const files = e.target.files;
+          if (files.length) {
+            handleFileSelection(files[0]);
+          }
+        });
+
+        // Handle remove selected file
+        removeBtn.addEventListener('click', (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          input.value = '';
+          dropzone.style.display = 'flex';
+          status.style.display = 'none';
+          checkFormValidity();
+        });
+
+        function handleFileSelection(file) {
+          const files = input.files;
+          // Verify every selected file is a .pptx
+          for (const f of files) {
+            const ext = f.name.split('.').pop().toLowerCase();
+            if (ext !== 'pptx') {
+              alert('Unsupported file format. Please upload valid PowerPoint (.pptx) files.');
+              input.value = '';
+              return;
+            }
+          }
+
+          if (files.length > 1) {
+            // Multiple raw decks selected — show a count + names
+            filenameLabel.textContent = `${files.length} files selected`;
+            filesizeLabel.textContent = Array.from(files).map(f => f.name).join(', ');
+          } else {
+            filenameLabel.textContent = file.name;
+            let sizeStr = '';
+            if (file.size < 1024) {
+              sizeStr = `${file.size} B`;
+            } else if (file.size < 1024 * 1024) {
+              sizeStr = `${(file.size / 1024).toFixed(1)} KB`;
+            } else {
+              sizeStr = `${(file.size / (1024 * 1024)).toFixed(1)} MB`;
+            }
+            filesizeLabel.textContent = sizeStr;
+          }
+
+          // Toggle view
+          dropzone.style.display = 'none';
+          status.style.display = 'flex';
+
+          checkFormValidity();
+        }
+      }
+
+      function checkFormValidity() {
+        const rawInput = document.getElementById('raw-input');
+        const templateInput = document.getElementById('template-input');
+        const generateBtn = document.getElementById('generate-btn');
+        
+        // the template is optional (built-in PPSU template is used if empty)
+        if (rawInput.files.length) {
+          generateBtn.removeAttribute('disabled');
+        } else {
+          generateBtn.setAttribute('disabled', 'true');
+        }
+      }
+    });
+  </script>
+</body>
+</html>

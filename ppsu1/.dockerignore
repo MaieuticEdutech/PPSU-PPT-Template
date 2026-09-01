@@ -1,0 +1,11 @@
+# keep the image lean — the venv alone is ~700 MB and Linux can't use it
+backend/venv/
+**/__pycache__/
+*.pyc
+FINAL PPTS/
+*.url
+run.bat
+show_ip.bat
+show_ip.py
+Dockerfile
+.dockerignore

@@ -1,0 +1,5341 @@
+{
+  "version": 4,
+  "source_deck": "template.pptx",
+  "patterns": {
+    "2": [
+      {
+        "slide_file": "slide107.xml",
+        "title_id": 1524650370,
+        "title_text": "Systems of Equations",
+        "subtitle_id": 1054661038,
+        "item_count": 2,
+        "item_fields": 1,
+        "items": [
+          40,
+          45
+        ],
+        "item_dims": [
+          [
+            3616995,
+            1446549
+          ],
+          [
+            3364967,
+            1107995
+          ]
+        ],
+        "design_key": "5898dcf2cb73"
+      },
+      {
+        "slide_file": "slide109.xml",
+        "title_id": 1524650370,
+        "title_text": "Systems of Equations",
+        "subtitle_id": 1054661038,
+        "item_count": 2,
+        "item_fields": 1,
+        "items": [
+          23,
+          7
+        ],
+        "item_dims": [
+          [
+            3160294,
+            935796
+          ],
+          [
+            3085133,
+            910732
+          ]
+        ],
+        "design_key": "f762c8b19ac0"
+      },
+      {
+        "slide_file": "slide140.xml",
+        "title_id": 549722563,
+        "title_text": "Introduction",
+        "subtitle_id": 2089006406,
+        "item_count": 2,
+        "item_fields": 1,
+        "items": [
+          21,
+          17
+        ],
+        "item_dims": [
+          [
+            4518837,
+            769441
+          ],
+          [
+            4518837,
+            769441
+          ]
+        ],
+        "design_key": "ca2e52efb7e9"
+      },
+      {
+        "slide_file": "slide141.xml",
+        "title_id": 1555530630,
+        "title_text": "Eigen Vector",
+        "subtitle_id": 1016240231,
+        "item_count": 2,
+        "item_fields": 1,
+        "items": [
+          22,
+          16
+        ],
+        "item_dims": [
+          [
+            1813372,
+            1475292
+          ],
+          [
+            2007775,
+            1315045
+          ]
+        ],
+        "design_key": "e59979993506"
+      },
+      {
+        "slide_file": "slide142.xml",
+        "title_id": 948532803,
+        "title_text": "Eigen Value",
+        "subtitle_id": 1688595918,
+        "item_count": 2,
+        "item_fields": 1,
+        "items": [
+          11,
+          9
+        ],
+        "item_dims": [
+          [
+            5132988,
+            769441
+          ],
+          [
+            5119960,
+            769441
+          ]
+        ],
+        "design_key": "0f7f1a868649"
+      },
+      {
+        "slide_file": "slide143.xml",
+        "title_id": 1981720575,
+        "title_text": "The Eigen Value Equation",
+        "subtitle_id": 342294038,
+        "item_count": 2,
+        "item_fields": 1,
+        "items": [
+          17,
+          13
+        ],
+        "item_dims": [
+          [
+            2444581,
+            1362133
+          ],
+          [
+            2513759,
+            1362132
+          ]
+        ],
+        "design_key": "9adedde91245"
+      },
+      {
+        "slide_file": "slide144.xml",
+        "title_id": 154725741,
+        "title_text": "Characteristic Equation",
+        "subtitle_id": 15112573,
+        "item_count": 2,
+        "item_fields": 1,
+        "items": [
+          16,
+          11
+        ],
+        "item_dims": [
+          [
+            8741095,
+            1649366
+          ],
+          [
+            8983771,
+            1649364
+          ]
+        ],
+        "design_key": "fbdf60b7a1d7"
+      },
+      {
+        "slide_file": "slide145.xml",
+        "title_id": 2009155316,
+        "title_text": "Worked Example 1",
+        "subtitle_id": 1878096747,
+        "item_count": 2,
+        "item_fields": 1,
+        "items": [
+          14,
+          8
+        ],
+        "item_dims": [
+          [
+            5627404,
+            599698
+          ],
+          [
+            5627404,
+            599698
+          ]
+        ],
+        "design_key": "21893e7bced6"
+      },
+      {
+        "slide_file": "slide146.xml",
+        "title_id": 1452992424,
+        "title_text": "Worked Example 1",
+        "subtitle_id": 212075582,
+        "item_count": 2,
+        "item_fields": 1,
+        "items": [
+          2,
+          3
+        ],
+        "item_dims": [
+          [
+            5460268,
+            1038932
+          ],
+          [
+            5460268,
+            1038932
+          ]
+        ],
+        "design_key": "ea8b88bbfd46"
+      },
+      {
+        "slide_file": "slide147.xml",
+        "title_id": 1240524928,
+        "title_text": "Worked Example 1",
+        "subtitle_id": 440355280,
+        "item_count": 2,
+        "item_fields": 1,
+        "items": [
+          15,
+          11
+        ],
+        "item_dims": [
+          [
+            4606630,
+            769441
+          ],
+          [
+            4647740,
+            769441
+          ]
+        ],
+        "design_key": "475346040c03"
+      },
+      {
+        "slide_file": "slide148.xml",
+        "title_id": 936638463,
+        "title_text": "Worked Example 2",
+        "subtitle_id": 227955821,
+        "item_count": 2,
+        "item_fields": 1,
+        "items": [
+          36,
+          32
+        ],
+        "item_dims": [
+          [
+            1394559,
+            832454
+          ],
+          [
+            1481440,
+            832454
+          ]
+        ],
+        "design_key": "6e4d0b56d42b"
+      },
+      {
+        "slide_file": "slide149.xml",
+        "title_id": 2095691557,
+        "title_text": "Worked Example 2",
+        "subtitle_id": 2038053168,
+        "item_count": 2,
+        "item_fields": 1,
+        "items": [
+          8,
+          26
+        ],
+        "item_dims": [
+          [
+            1627129,
+            1569660
+          ],
+          [
+            1627129,
+            1200329
+          ]
+        ],
+        "design_key": "ae5ffcac8568"
+      },
+      {
+        "slide_file": "slide150.xml",
+        "title_id": 625846202,
+        "title_text": "A Special Case",
+        "subtitle_id": 1221730298,
+        "item_count": 2,
+        "item_fields": 1,
+        "items": [
+          10,
+          5
+        ],
+        "item_dims": [
+          [
+            4323641,
+            769441
+          ],
+          [
+            4082355,
+            769441
+          ]
+        ],
+        "design_key": "a51351abe264"
+      },
+      {
+        "slide_file": "slide151.xml",
+        "title_id": 625846202,
+        "title_text": "A Special Case",
+        "subtitle_id": 1221730298,
+        "item_count": 2,
+        "item_fields": 1,
+        "items": [
+          24,
+          17
+        ],
+        "item_dims": [
+          [
+            7376078,
+            763344
+          ],
+          [
+            7131349,
+            1363112
+          ]
+        ],
+        "design_key": "a986f2a61e5e"
+      },
+      {
+        "slide_file": "slide152.xml",
+        "title_id": 625846202,
+        "title_text": "A Special Case",
+        "subtitle_id": 1221730298,
+        "item_count": 2,
+        "item_fields": 1,
+        "items": [
+          6,
+          4
+        ],
+        "item_dims": [
+          [
+            8442050,
+            758566
+          ],
+          [
+            8442048,
+            758566
+          ]
+        ],
+        "design_key": "9a5431674d85"
+      },
+      {
+        "slide_file": "slide153.xml",
+        "title_id": 1455291788,
+        "title_text": "Why This Matters",
+        "subtitle_id": 1868405307,
+        "item_count": 2,
+        "item_fields": 1,
+        "items": [
+          30,
+          35
+        ],
+        "item_dims": [
+          [
+            3937847,
+            931023
+          ],
+          [
+            3937847,
+            931023
+          ]
+        ],
+        "design_key": "5b154e82bf78"
+      },
+      {
+        "slide_file": "slide154.xml",
+        "title_id": 879347145,
+        "title_text": "Applications",
+        "subtitle_id": 396636896,
+        "item_count": 2,
+        "item_fields": 1,
+        "items": [
+          4,
+          10
+        ],
+        "item_dims": [
+          [
+            3789664,
+            962306
+          ],
+          [
+            3789664,
+            962306
+          ]
+        ],
+        "design_key": "3b51b04eac7e"
+      },
+      {
+        "slide_file": "slide155.xml",
+        "title_id": 179598687,
+        "title_text": "More Applications",
+        "subtitle_id": 71530885,
+        "item_count": 2,
+        "item_fields": 1,
+        "items": [
+          14,
+          18
+        ],
+        "item_dims": [
+          [
+            1911283,
+            1315045
+          ],
+          [
+            1911283,
+            1315045
+          ]
+        ],
+        "design_key": "b7c40744926e"
+      },
+      {
+        "slide_file": "slide156.xml",
+        "title_id": 1619311152,
+        "title_text": "Quick Recap",
+        "subtitle_id": 520446565,
+        "item_count": 2,
+        "item_fields": 1,
+        "items": [
+          22,
+          17
+        ],
+        "item_dims": [
+          [
+            4317412,
+            525539
+          ],
+          [
+            4163177,
+            525539
+          ]
+        ],
+        "design_key": "231efaa48ded"
+      },
+      {
+        "slide_file": "slide157.xml",
+        "title_id": 1619311152,
+        "title_text": "Quick Recap",
+        "subtitle_id": 520446565,
+        "item_count": 2,
+        "item_fields": 1,
+        "items": [
+          26,
+          29
+        ],
+        "item_dims": [
+          [
+            3883141,
+            323732
+          ],
+          [
+            3883140,
+            323732
+          ]
+        ],
+        "design_key": "9ab84e07a562"
+      },
+      {
+        "slide_file": "slide158.xml",
+        "title_id": 1619311152,
+        "title_text": "Quick Recap",
+        "subtitle_id": 520446565,
+        "item_count": 2,
+        "item_fields": 1,
+        "items": [
+          26,
+          8
+        ],
+        "item_dims": [
+          [
+            2212783,
+            1320362
+          ],
+          [
+            2799030,
+            1320363
+          ]
+        ],
+        "design_key": "8eedd3acf961"
+      },
+      {
+        "slide_file": "slide159.xml",
+        "title_id": 1619311152,
+        "title_text": "Quick Recap",
+        "subtitle_id": 520446565,
+        "item_count": 2,
+        "item_fields": 1,
+        "items": [
+          11,
+          8
+        ],
+        "item_dims": [
+          [
+            3677251,
+            430887
+          ],
+          [
+            3860577,
+            430887
+          ]
+        ],
+        "design_key": "743fc1b15763"
+      },
+      {
+        "slide_file": "slide160.xml",
+        "title_id": 1619311152,
+        "title_text": "Quick Recap",
+        "subtitle_id": 520446565,
+        "item_count": 2,
+        "item_fields": 1,
+        "items": [
+          8,
+          11
+        ],
+        "item_dims": [
+          [
+            4932108,
+            510778
+          ],
+          [
+            4972590,
+            510778
+          ]
+        ],
+        "design_key": "56f4771c53e1"
+      },
+      {
+        "slide_file": "slide161.xml",
+        "title_id": 1619311152,
+        "title_text": "Quick Recap",
+        "subtitle_id": 520446565,
+        "item_count": 2,
+        "item_fields": 1,
+        "items": [
+          27,
+          12
+        ],
+        "item_dims": [
+          [
+            1998724,
+            1107996
+          ],
+          [
+            1501671,
+            1107996
+          ]
+        ],
+        "design_key": "874cb540325e"
+      },
+      {
+        "slide_file": "slide162.xml",
+        "title_id": 381545431,
+        "title_text": "Summary",
+        "subtitle_id": null,
+        "item_count": 2,
+        "item_fields": 1,
+        "items": [
+          8,
+          6
+        ],
+        "item_dims": [
+          [
+            4643387,
+            630863
+          ],
+          [
+            5008574,
+            630863
+          ]
+        ],
+        "design_key": "1c670c43b9eb"
+      }
+    ],
+    "3": [
+      {
+        "slide_file": "slide1.xml",
+        "title_id": 10,
+        "title_text": "Summary",
+        "subtitle_id": null,
+        "item_count": 3,
+        "item_fields": 1,
+        "items": [
+          12,
+          14,
+          16
+        ],
+        "item_dims": [
+          [
+            5333378,
+            1093120
+          ],
+          [
+            5333378,
+            1093120
+          ],
+          [
+            5333378,
+            1093120
+          ]
+        ],
+        "design_key": "d2aa1a688297"
+      },
+      {
+        "slide_file": "slide56.xml",
+        "title_id": 1524650370,
+        "title_text": "Systems of Equations",
+        "subtitle_id": 1054661038,
+        "item_count": 3,
+        "item_fields": 1,
+        "items": [
+          13,
+          20,
+          16
+        ],
+        "item_dims": [
+          [
+            3759150,
+            613824
+          ],
+          [
+            3209407,
+            584775
+          ],
+          [
+            3759150,
+            613824
+          ]
+        ],
+        "design_key": "763961be95d6"
+      },
+      {
+        "slide_file": "slide77.xml",
+        "title_id": 1524650370,
+        "title_text": "Systems of Equations",
+        "subtitle_id": 1054661038,
+        "item_count": 3,
+        "item_fields": 1,
+        "items": [
+          5,
+          9,
+          13
+        ],
+        "item_dims": [
+          [
+            4948340,
+            699492
+          ],
+          [
+            5137842,
+            699492
+          ],
+          [
+            4948340,
+            699492
+          ]
+        ],
+        "design_key": "c2d4b2a141f5"
+      },
+      {
+        "slide_file": "slide108.xml",
+        "title_id": 1524650370,
+        "title_text": "Systems of Equations",
+        "subtitle_id": 1054661038,
+        "item_count": 3,
+        "item_fields": 1,
+        "items": [
+          45,
+          49,
+          53
+        ],
+        "item_dims": [
+          [
+            4194491,
+            677108
+          ],
+          [
+            4195263,
+            677108
+          ],
+          [
+            4194491,
+            677108
+          ]
+        ],
+        "design_key": "dbe9e8f3039c"
+      },
+      {
+        "slide_file": "slide110.xml",
+        "title_id": 1524650370,
+        "title_text": "Systems of Equations",
+        "subtitle_id": 1054661038,
+        "item_count": 3,
+        "item_fields": 1,
+        "items": [
+          7,
+          23,
+          18
+        ],
+        "item_dims": [
+          [
+            3085133,
+            910732
+          ],
+          [
+            3160294,
+            935796
+          ],
+          [
+            3085133,
+            910732
+          ]
+        ],
+        "design_key": "f762c8b19ac0"
+      }
+    ],
+    "4": [
+      {
+        "slide_file": "slide3.xml",
+        "title_id": 10,
+        "title_text": "Summary",
+        "subtitle_id": null,
+        "item_count": 4,
+        "item_fields": 1,
+        "items": [
+          12,
+          14,
+          16,
+          2
+        ],
+        "item_dims": [
+          [
+            5333378,
+            1093120
+          ],
+          [
+            5333378,
+            1093120
+          ],
+          [
+            5333378,
+            1093120
+          ],
+          [
+            5333378,
+            1093120
+          ]
+        ],
+        "design_key": "d2aa1a688297"
+      },
+      {
+        "slide_file": "slide4.xml",
+        "title_id": 1524650370,
+        "title_text": "Learning Objectives",
+        "subtitle_id": null,
+        "item_count": 4,
+        "item_fields": 1,
+        "items": [
+          4,
+          24,
+          33,
+          42
+        ],
+        "item_dims": [
+          [
+            3585990,
+            769441
+          ],
+          [
+            3657046,
+            769441
+          ],
+          [
+            4190447,
+            769441
+          ],
+          [
+            3607761,
+            1107996
+          ]
+        ],
+        "design_key": "107a5f926b48"
+      },
+      {
+        "slide_file": "slide5.xml",
+        "title_id": 10,
+        "title_text": "Introduction",
+        "subtitle_id": 11,
+        "item_count": 4,
+        "item_fields": 1,
+        "items": [
+          5,
+          14,
+          28,
+          21
+        ],
+        "item_dims": [
+          [
+            3976751,
+            294301
+          ],
+          [
+            3900678,
+            294302
+          ],
+          [
+            4187451,
+            294301
+          ],
+          [
+            4187451,
+            525539
+          ]
+        ],
+        "design_key": "5d20ce2ecea7"
+      },
+      {
+        "slide_file": "slide6.xml",
+        "title_id": 2,
+        "title_text": "Introduction",
+        "subtitle_id": 3,
+        "item_count": 4,
+        "item_fields": 1,
+        "items": [
+          21,
+          25,
+          43,
+          50
+        ],
+        "item_dims": [
+          [
+            5430238,
+            793593
+          ],
+          [
+            5430238,
+            793593
+          ],
+          [
+            5430238,
+            793593
+          ],
+          [
+            5430238,
+            793593
+          ]
+        ],
+        "design_key": "4be9f4aa338b"
+      },
+      {
+        "slide_file": "slide7.xml",
+        "title_id": 10,
+        "title_text": "Algebraic to C Expression",
+        "subtitle_id": 11,
+        "item_count": 4,
+        "item_fields": 1,
+        "items": [
+          4,
+          7,
+          12,
+          15
+        ],
+        "item_dims": [
+          [
+            3418580,
+            699492
+          ],
+          [
+            3183052,
+            699492
+          ],
+          [
+            3419452,
+            391716
+          ],
+          [
+            3357524,
+            699491
+          ]
+        ],
+        "design_key": "c34a153d7522"
+      },
+      {
+        "slide_file": "slide8.xml",
+        "title_id": 10,
+        "title_text": "Arithmetic Expression Definition",
+        "subtitle_id": 11,
+        "item_count": 4,
+        "item_fields": 1,
+        "items": [
+          6,
+          13,
+          18,
+          23
+        ],
+        "item_dims": [
+          [
+            4527488,
+            681557
+          ],
+          [
+            4527488,
+            681557
+          ],
+          [
+            4527488,
+            681557
+          ],
+          [
+            4649194,
+            681557
+          ]
+        ],
+        "design_key": "e7eb13d8cd0b"
+      },
+      {
+        "slide_file": "slide9.xml",
+        "title_id": 10,
+        "title_text": "Integer Expression",
+        "subtitle_id": 11,
+        "item_count": 4,
+        "item_fields": 1,
+        "items": [
+          5,
+          9,
+          15,
+          19
+        ],
+        "item_dims": [
+          [
+            2103120,
+            978178
+          ],
+          [
+            2103120,
+            978178
+          ],
+          [
+            2103120,
+            978178
+          ],
+          [
+            2103120,
+            978178
+          ]
+        ],
+        "design_key": "2a51c31ce28e"
+      },
+      {
+        "slide_file": "slide10.xml",
+        "title_id": 10,
+        "title_text": "Floating-Point Expression",
+        "subtitle_id": 11,
+        "item_count": 4,
+        "item_fields": 1,
+        "items": [
+          14,
+          24,
+          19,
+          7
+        ],
+        "item_dims": [
+          [
+            2603660,
+            769440
+          ],
+          [
+            2634120,
+            1107995
+          ],
+          [
+            2536177,
+            769441
+          ],
+          [
+            2603659,
+            769441
+          ]
+        ],
+        "design_key": "9c1c6340a8fd"
+      },
+      {
+        "slide_file": "slide11.xml",
+        "title_id": 10,
+        "title_text": "Mixed Mode Expression",
+        "subtitle_id": 11,
+        "item_count": 4,
+        "item_fields": 1,
+        "items": [
+          22,
+          8,
+          18,
+          27
+        ],
+        "item_dims": [
+          [
+            4343241,
+            430887
+          ],
+          [
+            4241457,
+            430887
+          ],
+          [
+            4106374,
+            430887
+          ],
+          [
+            4241457,
+            430887
+          ]
+        ],
+        "design_key": "5c14087b0439"
+      },
+      {
+        "slide_file": "slide12.xml",
+        "title_id": 10,
+        "title_text": "Types of Arithmetic Expressions",
+        "subtitle_id": 11,
+        "item_count": 4,
+        "item_fields": 1,
+        "items": [
+          4,
+          9,
+          16,
+          21
+        ],
+        "item_dims": [
+          [
+            4181014,
+            769441
+          ],
+          [
+            4181014,
+            769441
+          ],
+          [
+            4181014,
+            769441
+          ],
+          [
+            4181014,
+            769441
+          ]
+        ],
+        "design_key": "26d635f342e4"
+      },
+      {
+        "slide_file": "slide13.xml",
+        "title_id": 10,
+        "title_text": "Mixed Data Type Conversion",
+        "subtitle_id": 11,
+        "item_count": 4,
+        "item_fields": 1,
+        "items": [
+          4,
+          9,
+          16,
+          21
+        ],
+        "item_dims": [
+          [
+            4290999,
+            664221
+          ],
+          [
+            4290999,
+            664221
+          ],
+          [
+            4290998,
+            946349
+          ],
+          [
+            4832046,
+            664221
+          ]
+        ],
+        "design_key": "0edecb2da5fd"
+      },
+      {
+        "slide_file": "slide14.xml",
+        "title_id": 10,
+        "title_text": "Why Expression Types Matter",
+        "subtitle_id": 11,
+        "item_count": 4,
+        "item_fields": 1,
+        "items": [
+          4,
+          9,
+          16,
+          22
+        ],
+        "item_dims": [
+          [
+            4518837,
+            462499
+          ],
+          [
+            4518837,
+            462499
+          ],
+          [
+            4518837,
+            462499
+          ],
+          [
+            4518837,
+            462499
+          ]
+        ],
+        "design_key": "22faa14a5aee"
+      },
+      {
+        "slide_file": "slide15.xml",
+        "title_id": 10,
+        "title_text": "Expression Examples",
+        "subtitle_id": 11,
+        "item_count": 4,
+        "item_fields": 1,
+        "items": [
+          12,
+          4,
+          15,
+          7
+        ],
+        "item_dims": [
+          [
+            4116383,
+            430887
+          ],
+          [
+            4116383,
+            430887
+          ],
+          [
+            4946996,
+            430887
+          ],
+          [
+            5091686,
+            430887
+          ]
+        ],
+        "design_key": "0f4230516b23"
+      },
+      {
+        "slide_file": "slide16.xml",
+        "title_id": 10,
+        "title_text": "Integer Division \u2014 Common Errors",
+        "subtitle_id": 11,
+        "item_count": 4,
+        "item_fields": 1,
+        "items": [
+          5,
+          16,
+          25,
+          34
+        ],
+        "item_dims": [
+          [
+            3203068,
+            391716
+          ],
+          [
+            3623206,
+            699492
+          ],
+          [
+            3457921,
+            391715
+          ],
+          [
+            3664772,
+            699492
+          ]
+        ],
+        "design_key": "70cc309f36d6"
+      },
+      {
+        "slide_file": "slide17.xml",
+        "title_id": 10,
+        "title_text": "Algebraic Expressions \u2014 Examples",
+        "subtitle_id": 11,
+        "item_count": 4,
+        "item_fields": 1,
+        "items": [
+          3,
+          9,
+          17,
+          25
+        ],
+        "item_dims": [
+          [
+            5691871,
+            654410
+          ],
+          [
+            5691875,
+            654410
+          ],
+          [
+            5691877,
+            654410
+          ],
+          [
+            5691875,
+            654410
+          ]
+        ],
+        "design_key": "4d28b4b926b5"
+      },
+      {
+        "slide_file": "slide18.xml",
+        "title_id": 10,
+        "title_text": "Expression Evaluation - Examples",
+        "subtitle_id": 11,
+        "item_count": 4,
+        "item_fields": 1,
+        "items": [
+          4,
+          12,
+          18,
+          24
+        ],
+        "item_dims": [
+          [
+            4508592,
+            473977
+          ],
+          [
+            4882741,
+            846385
+          ],
+          [
+            5840065,
+            473976
+          ],
+          [
+            5032145,
+            846387
+          ]
+        ],
+        "design_key": "9782428d463a"
+      },
+      {
+        "slide_file": "slide19.xml",
+        "title_id": 10,
+        "title_text": "Arithmetic Expression Types",
+        "subtitle_id": 11,
+        "item_count": 4,
+        "item_fields": 1,
+        "items": [
+          2,
+          4,
+          3,
+          5
+        ],
+        "item_dims": [
+          [
+            4758362,
+            794334
+          ],
+          [
+            4758362,
+            794334
+          ],
+          [
+            4758362,
+            794334
+          ],
+          [
+            4758362,
+            794334
+          ]
+        ],
+        "design_key": "a2f637a1b1d0"
+      },
+      {
+        "slide_file": "slide20.xml",
+        "title_id": 10,
+        "title_text": "Arithmetic Expressions",
+        "subtitle_id": 11,
+        "item_count": 4,
+        "item_fields": 1,
+        "items": [
+          2,
+          3,
+          4,
+          5
+        ],
+        "item_dims": [
+          [
+            2539084,
+            1523450
+          ],
+          [
+            2539084,
+            1523450
+          ],
+          [
+            2539084,
+            1523450
+          ],
+          [
+            2539084,
+            1523450
+          ]
+        ],
+        "design_key": "7f48f8b0ffa7"
+      },
+      {
+        "slide_file": "slide21.xml",
+        "title_id": 10,
+        "title_text": "Arithmetic Expressions",
+        "subtitle_id": 11,
+        "item_count": 4,
+        "item_fields": 1,
+        "items": [
+          8,
+          6,
+          7,
+          9
+        ],
+        "item_dims": [
+          [
+            5220000,
+            900329
+          ],
+          [
+            5220000,
+            900329
+          ],
+          [
+            5220000,
+            900329
+          ],
+          [
+            5220000,
+            900329
+          ]
+        ],
+        "design_key": "7cb0bc2939c7"
+      },
+      {
+        "slide_file": "slide22.xml",
+        "title_id": 10,
+        "title_text": "Arithmetic Expressions",
+        "subtitle_id": 11,
+        "item_count": 4,
+        "item_fields": 1,
+        "items": [
+          2,
+          3,
+          4,
+          5
+        ],
+        "item_dims": [
+          [
+            2196000,
+            2196000
+          ],
+          [
+            2196000,
+            2196000
+          ],
+          [
+            2196000,
+            2196000
+          ],
+          [
+            2196000,
+            2196000
+          ]
+        ],
+        "design_key": "78a000f91b56"
+      },
+      {
+        "slide_file": "slide23.xml",
+        "title_id": 10,
+        "title_text": "Arithmetic Expressions",
+        "subtitle_id": 11,
+        "item_count": 4,
+        "item_fields": 1,
+        "items": [
+          7,
+          15,
+          18,
+          12
+        ],
+        "item_dims": [
+          [
+            4164254,
+            769441
+          ],
+          [
+            4400844,
+            769441
+          ],
+          [
+            4754997,
+            769441
+          ],
+          [
+            4012624,
+            769441
+          ]
+        ],
+        "design_key": "c0ce6efafc2a"
+      },
+      {
+        "slide_file": "slide24.xml",
+        "title_id": 10,
+        "title_text": "Arithmetic Expressions",
+        "subtitle_id": 11,
+        "item_count": 4,
+        "item_fields": 1,
+        "items": [
+          6,
+          15,
+          25,
+          32
+        ],
+        "item_dims": [
+          [
+            5060869,
+            1007066
+          ],
+          [
+            3894497,
+            769441
+          ],
+          [
+            5060869,
+            1007066
+          ],
+          [
+            3894497,
+            769441
+          ]
+        ],
+        "design_key": "e8ccc903ddca"
+      },
+      {
+        "slide_file": "slide25.xml",
+        "title_id": 10,
+        "title_text": "Arithmetic Expressions",
+        "subtitle_id": 11,
+        "item_count": 4,
+        "item_fields": 1,
+        "items": [
+          6,
+          15,
+          22,
+          29
+        ],
+        "item_dims": [
+          [
+            5041395,
+            267547
+          ],
+          [
+            4774757,
+            267547
+          ],
+          [
+            5101683,
+            477762
+          ],
+          [
+            5045071,
+            477762
+          ]
+        ],
+        "design_key": "b0407effdd24"
+      },
+      {
+        "slide_file": "slide26.xml",
+        "title_id": 10,
+        "title_text": "Arithmetic Expressions",
+        "subtitle_id": 11,
+        "item_count": 4,
+        "item_fields": 1,
+        "items": [
+          4,
+          7,
+          12,
+          15
+        ],
+        "item_dims": [
+          [
+            5004202,
+            819896
+          ],
+          [
+            5004202,
+            819896
+          ],
+          [
+            5004202,
+            819896
+          ],
+          [
+            5004202,
+            819896
+          ]
+        ],
+        "design_key": "a815ed36d8f6"
+      },
+      {
+        "slide_file": "slide27.xml",
+        "title_id": 10,
+        "title_text": "Arithmetic Expressions",
+        "subtitle_id": 11,
+        "item_count": 4,
+        "item_fields": 1,
+        "items": [
+          9,
+          5,
+          15,
+          19
+        ],
+        "item_dims": [
+          [
+            2234977,
+            1656520
+          ],
+          [
+            2124334,
+            1159041
+          ],
+          [
+            2124334,
+            1237015
+          ],
+          [
+            2494000,
+            1537738
+          ]
+        ],
+        "design_key": "17edf0cb84c1"
+      },
+      {
+        "slide_file": "slide28.xml",
+        "title_id": 10,
+        "title_text": "Arithmetic Expressions",
+        "subtitle_id": 11,
+        "item_count": 4,
+        "item_fields": 1,
+        "items": [
+          8,
+          17,
+          24,
+          29
+        ],
+        "item_dims": [
+          [
+            4454464,
+            316437
+          ],
+          [
+            4454464,
+            535509
+          ],
+          [
+            4454464,
+            316437
+          ],
+          [
+            4690762,
+            342999
+          ]
+        ],
+        "design_key": "4cfaad15922e"
+      },
+      {
+        "slide_file": "slide29.xml",
+        "title_id": 10,
+        "title_text": "Arithmetic Expressions",
+        "subtitle_id": 11,
+        "item_count": 4,
+        "item_fields": 1,
+        "items": [
+          3,
+          6,
+          9,
+          14
+        ],
+        "item_dims": [
+          [
+            6573920,
+            2427741
+          ],
+          [
+            6573918,
+            2427741
+          ],
+          [
+            6573920,
+            2427741
+          ],
+          [
+            6573918,
+            2427741
+          ]
+        ],
+        "design_key": "e299b66c99e6"
+      },
+      {
+        "slide_file": "slide30.xml",
+        "title_id": 10,
+        "title_text": "Arithmetic Expressions",
+        "subtitle_id": 11,
+        "item_count": 4,
+        "item_fields": 1,
+        "items": [
+          9,
+          4,
+          16,
+          21
+        ],
+        "item_dims": [
+          [
+            3226823,
+            1107996
+          ],
+          [
+            3210998,
+            769440
+          ],
+          [
+            2846899,
+            1107996
+          ],
+          [
+            3210998,
+            1107995
+          ]
+        ],
+        "design_key": "01303ebd9ac6"
+      },
+      {
+        "slide_file": "slide31.xml",
+        "title_id": 10,
+        "title_text": "Arithmetic Expressions",
+        "subtitle_id": 11,
+        "item_count": 4,
+        "item_fields": 1,
+        "items": [
+          7,
+          12,
+          15,
+          4
+        ],
+        "item_dims": [
+          [
+            4246615,
+            1218795
+          ],
+          [
+            4246613,
+            1218795
+          ],
+          [
+            4508112,
+            1218795
+          ],
+          [
+            4194851,
+            1218795
+          ]
+        ],
+        "design_key": "dc83f7beacca"
+      },
+      {
+        "slide_file": "slide32.xml",
+        "title_id": 10,
+        "title_text": "Arithmetic Expressions",
+        "subtitle_id": 11,
+        "item_count": 4,
+        "item_fields": 1,
+        "items": [
+          3,
+          5,
+          7,
+          9
+        ],
+        "item_dims": [
+          [
+            3677653,
+            769441
+          ],
+          [
+            3677653,
+            769441
+          ],
+          [
+            3677653,
+            769441
+          ],
+          [
+            3677653,
+            769441
+          ]
+        ],
+        "design_key": "a679b7c327aa"
+      },
+      {
+        "slide_file": "slide33.xml",
+        "title_id": 10,
+        "title_text": "Arithmetic Expressions",
+        "subtitle_id": 11,
+        "item_count": 4,
+        "item_fields": 1,
+        "items": [
+          6,
+          13,
+          18,
+          23
+        ],
+        "item_dims": [
+          [
+            4576649,
+            779526
+          ],
+          [
+            4576649,
+            779526
+          ],
+          [
+            4576649,
+            779526
+          ],
+          [
+            4576649,
+            779526
+          ]
+        ],
+        "design_key": "d63986cc38b4"
+      },
+      {
+        "slide_file": "slide57.xml",
+        "title_id": 1524650370,
+        "title_text": "Systems of Equations",
+        "subtitle_id": 1054661038,
+        "item_count": 4,
+        "item_fields": 1,
+        "items": [
+          3,
+          8,
+          18,
+          23
+        ],
+        "item_dims": [
+          [
+            3872189,
+            769441
+          ],
+          [
+            3872189,
+            769441
+          ],
+          [
+            3410984,
+            769441
+          ],
+          [
+            3872190,
+            769441
+          ]
+        ],
+        "design_key": "f215f9a4af05"
+      },
+      {
+        "slide_file": "slide58.xml",
+        "title_id": 1524650370,
+        "title_text": "Systems of Equations",
+        "subtitle_id": 1054661038,
+        "item_count": 4,
+        "item_fields": 1,
+        "items": [
+          10,
+          19,
+          28,
+          37
+        ],
+        "item_dims": [
+          [
+            4089804,
+            643252
+          ],
+          [
+            5130276,
+            372409
+          ],
+          [
+            5347208,
+            643252
+          ],
+          [
+            5130276,
+            643252
+          ]
+        ],
+        "design_key": "f58bae0903b0"
+      },
+      {
+        "slide_file": "slide59.xml",
+        "title_id": 1524650370,
+        "title_text": "Systems of Equations",
+        "subtitle_id": 1054661038,
+        "item_count": 4,
+        "item_fields": 1,
+        "items": [
+          35,
+          30,
+          25,
+          20
+        ],
+        "item_dims": [
+          [
+            2281566,
+            1007269
+          ],
+          [
+            2050139,
+            1446550
+          ],
+          [
+            2281566,
+            1007269
+          ],
+          [
+            2050139,
+            1446550
+          ]
+        ],
+        "design_key": "0f30c054509b"
+      },
+      {
+        "slide_file": "slide60.xml",
+        "title_id": 1524650370,
+        "title_text": "Systems of Equations",
+        "subtitle_id": 1054661038,
+        "item_count": 4,
+        "item_fields": 1,
+        "items": [
+          4,
+          13,
+          40,
+          49
+        ],
+        "item_dims": [
+          [
+            5029267,
+            1340675
+          ],
+          [
+            5073211,
+            931023
+          ],
+          [
+            5332473,
+            931024
+          ],
+          [
+            5027329,
+            931024
+          ]
+        ],
+        "design_key": "4de6b3798a8e"
+      },
+      {
+        "slide_file": "slide61.xml",
+        "title_id": 1524650370,
+        "title_text": "Systems of Equations",
+        "subtitle_id": 1054661038,
+        "item_count": 4,
+        "item_fields": 1,
+        "items": [
+          6,
+          15,
+          24,
+          33
+        ],
+        "item_dims": [
+          [
+            4374423,
+            707577
+          ],
+          [
+            4134817,
+            707577
+          ],
+          [
+            4374423,
+            707577
+          ],
+          [
+            4374423,
+            707577
+          ]
+        ],
+        "design_key": "77aad58dbe17"
+      },
+      {
+        "slide_file": "slide62.xml",
+        "title_id": 1524650370,
+        "title_text": "Systems of Equations",
+        "subtitle_id": 1054661038,
+        "item_count": 4,
+        "item_fields": 1,
+        "items": [
+          3,
+          6,
+          9,
+          12
+        ],
+        "item_dims": [
+          [
+            8413461,
+            936000
+          ],
+          [
+            8413461,
+            936000
+          ],
+          [
+            8413461,
+            936000
+          ],
+          [
+            8413461,
+            936000
+          ]
+        ],
+        "design_key": "4476dcf987c7"
+      },
+      {
+        "slide_file": "slide63.xml",
+        "title_id": 1524650370,
+        "title_text": "Systems of Equations",
+        "subtitle_id": 1054661038,
+        "item_count": 4,
+        "item_fields": 1,
+        "items": [
+          4,
+          10,
+          13,
+          16
+        ],
+        "item_dims": [
+          [
+            5159812,
+            707577
+          ],
+          [
+            5143196,
+            707577
+          ],
+          [
+            5137638,
+            707577
+          ],
+          [
+            5137637,
+            707577
+          ]
+        ],
+        "design_key": "770653f5ef66"
+      },
+      {
+        "slide_file": "slide64.xml",
+        "title_id": 1524650370,
+        "title_text": "Systems of Equations",
+        "subtitle_id": 1054661038,
+        "item_count": 4,
+        "item_fields": 1,
+        "items": [
+          9,
+          29,
+          33,
+          37
+        ],
+        "item_dims": [
+          [
+            2371718,
+            978178
+          ],
+          [
+            2103120,
+            978178
+          ],
+          [
+            2371718,
+            978178
+          ],
+          [
+            2103120,
+            978178
+          ]
+        ],
+        "design_key": "6e68fc52dd92"
+      },
+      {
+        "slide_file": "slide65.xml",
+        "title_id": 1524650370,
+        "title_text": "Systems of Equations",
+        "subtitle_id": 1054661038,
+        "item_count": 4,
+        "item_fields": 1,
+        "items": [
+          4,
+          6,
+          13,
+          15
+        ],
+        "item_dims": [
+          [
+            3998694,
+            707579
+          ],
+          [
+            3271495,
+            525538
+          ],
+          [
+            3998694,
+            707579
+          ],
+          [
+            3271495,
+            525538
+          ]
+        ],
+        "design_key": "49fe512d7a1f"
+      },
+      {
+        "slide_file": "slide66.xml",
+        "title_id": 1524650370,
+        "title_text": "Systems of Equations",
+        "subtitle_id": 1054661038,
+        "item_count": 4,
+        "item_fields": 1,
+        "items": [
+          4,
+          11,
+          18,
+          25
+        ],
+        "item_dims": [
+          [
+            3428073,
+            356105
+          ],
+          [
+            3413270,
+            356105
+          ],
+          [
+            3428073,
+            356105
+          ],
+          [
+            3413270,
+            356105
+          ]
+        ],
+        "design_key": "bc2fefb2196b"
+      },
+      {
+        "slide_file": "slide67.xml",
+        "title_id": 1524650370,
+        "title_text": "Systems of Equations",
+        "subtitle_id": 1054661038,
+        "item_count": 4,
+        "item_fields": 1,
+        "items": [
+          6,
+          10,
+          16,
+          24
+        ],
+        "item_dims": [
+          [
+            5322221,
+            1474743
+          ],
+          [
+            5322222,
+            1024125
+          ],
+          [
+            5313131,
+            1024125
+          ],
+          [
+            5313131,
+            1474743
+          ]
+        ],
+        "design_key": "265d70a59c69"
+      },
+      {
+        "slide_file": "slide68.xml",
+        "title_id": 1524650370,
+        "title_text": "Systems of Equations",
+        "subtitle_id": 1054661038,
+        "item_count": 4,
+        "item_fields": 1,
+        "items": [
+          5,
+          25,
+          37,
+          33
+        ],
+        "item_dims": [
+          [
+            5263021,
+            445040
+          ],
+          [
+            5263021,
+            445040
+          ],
+          [
+            5263021,
+            445040
+          ],
+          [
+            5263021,
+            445040
+          ]
+        ],
+        "design_key": "c82aea0171bb"
+      },
+      {
+        "slide_file": "slide69.xml",
+        "title_id": 1524650370,
+        "title_text": "Systems of Equations",
+        "subtitle_id": 1054661038,
+        "item_count": 4,
+        "item_fields": 1,
+        "items": [
+          6,
+          11,
+          16,
+          21
+        ],
+        "item_dims": [
+          [
+            5390730,
+            973273
+          ],
+          [
+            5390728,
+            973273
+          ],
+          [
+            5390730,
+            973273
+          ],
+          [
+            5390728,
+            973273
+          ]
+        ],
+        "design_key": "29e60bbea27a"
+      },
+      {
+        "slide_file": "slide70.xml",
+        "title_id": 1524650370,
+        "title_text": "Systems of Equations",
+        "subtitle_id": 1054661038,
+        "item_count": 4,
+        "item_fields": 1,
+        "items": [
+          2,
+          3,
+          7,
+          8
+        ],
+        "item_dims": [
+          [
+            2550000,
+            2100000
+          ],
+          [
+            2550000,
+            2100000
+          ],
+          [
+            2550000,
+            2100000
+          ],
+          [
+            2550000,
+            2100000
+          ]
+        ],
+        "design_key": "2de9f980918d"
+      },
+      {
+        "slide_file": "slide71.xml",
+        "title_id": 1524650370,
+        "title_text": "Systems of Equations",
+        "subtitle_id": 1054661038,
+        "item_count": 4,
+        "item_fields": 1,
+        "items": [
+          4,
+          13,
+          22,
+          31
+        ],
+        "item_dims": [
+          [
+            3109129,
+            578092
+          ],
+          [
+            3138299,
+            578092
+          ],
+          [
+            3109129,
+            578092
+          ],
+          [
+            3138299,
+            578092
+          ]
+        ],
+        "design_key": "f1192c7e6d62"
+      },
+      {
+        "slide_file": "slide72.xml",
+        "title_id": 1524650370,
+        "title_text": "Systems of Equations",
+        "subtitle_id": 1054661038,
+        "item_count": 4,
+        "item_fields": 1,
+        "items": [
+          5,
+          9,
+          13,
+          17
+        ],
+        "item_dims": [
+          [
+            2747991,
+            769441
+          ],
+          [
+            2819528,
+            769440
+          ],
+          [
+            2753761,
+            769441
+          ],
+          [
+            2819528,
+            769440
+          ]
+        ],
+        "design_key": "fc4910aacb02"
+      },
+      {
+        "slide_file": "slide73.xml",
+        "title_id": 1524650370,
+        "title_text": "Systems of Equations",
+        "subtitle_id": 1054661038,
+        "item_count": 4,
+        "item_fields": 1,
+        "items": [
+          4,
+          9,
+          14,
+          19
+        ],
+        "item_dims": [
+          [
+            3377088,
+            584775
+          ],
+          [
+            3377088,
+            584775
+          ],
+          [
+            3377088,
+            584775
+          ],
+          [
+            3377088,
+            584775
+          ]
+        ],
+        "design_key": "c8a240b6dad3"
+      },
+      {
+        "slide_file": "slide74.xml",
+        "title_id": 1524650370,
+        "title_text": "Systems of Equations",
+        "subtitle_id": 1054661038,
+        "item_count": 4,
+        "item_fields": 1,
+        "items": [
+          3,
+          10,
+          17,
+          24
+        ],
+        "item_dims": [
+          [
+            3728401,
+            635901
+          ],
+          [
+            3741191,
+            584775
+          ],
+          [
+            3728401,
+            635901
+          ],
+          [
+            3741191,
+            584775
+          ]
+        ],
+        "design_key": "96c4be50ccad"
+      },
+      {
+        "slide_file": "slide75.xml",
+        "title_id": 1524650370,
+        "title_text": "Systems of Equations",
+        "subtitle_id": 1054661038,
+        "item_count": 4,
+        "item_fields": 1,
+        "items": [
+          5,
+          4,
+          9,
+          6
+        ],
+        "item_dims": [
+          [
+            2688427,
+            2100000
+          ],
+          [
+            2583864,
+            2100000
+          ],
+          [
+            2688427,
+            2100000
+          ],
+          [
+            2583864,
+            2100000
+          ]
+        ],
+        "design_key": "02807825a912"
+      },
+      {
+        "slide_file": "slide76.xml",
+        "title_id": 1524650370,
+        "title_text": "Systems of Equations",
+        "subtitle_id": 1054661038,
+        "item_count": 4,
+        "item_fields": 1,
+        "items": [
+          5,
+          9,
+          13,
+          17
+        ],
+        "item_dims": [
+          [
+            2520280,
+            778335
+          ],
+          [
+            2772308,
+            778335
+          ],
+          [
+            2520280,
+            778335
+          ],
+          [
+            2772308,
+            778335
+          ]
+        ],
+        "design_key": "c525c1435297"
+      },
+      {
+        "slide_file": "slide78.xml",
+        "title_id": 1524650370,
+        "title_text": "Systems of Equations",
+        "subtitle_id": 1054661038,
+        "item_count": 4,
+        "item_fields": 1,
+        "items": [
+          4,
+          7,
+          10,
+          13
+        ],
+        "item_dims": [
+          [
+            3841392,
+            707578
+          ],
+          [
+            3833284,
+            769441
+          ],
+          [
+            3841392,
+            707578
+          ],
+          [
+            3833284,
+            769441
+          ]
+        ],
+        "design_key": "8247d195d04c"
+      },
+      {
+        "slide_file": "slide79.xml",
+        "title_id": 1524650370,
+        "title_text": "Systems of Equations",
+        "subtitle_id": 1054661038,
+        "item_count": 4,
+        "item_fields": 1,
+        "items": [
+          56,
+          1054660992,
+          1054661000,
+          1054661008
+        ],
+        "item_dims": [
+          [
+            3221014,
+            643252
+          ],
+          [
+            3217454,
+            643253
+          ],
+          [
+            3213894,
+            635902
+          ],
+          [
+            3210334,
+            643253
+          ]
+        ],
+        "design_key": "f0b922ca05c8"
+      },
+      {
+        "slide_file": "slide80.xml",
+        "title_id": 1524650370,
+        "title_text": "Systems of Equations",
+        "subtitle_id": 1054661038,
+        "item_count": 4,
+        "item_fields": 1,
+        "items": [
+          5,
+          9,
+          13,
+          17
+        ],
+        "item_dims": [
+          [
+            3553170,
+            846385
+          ],
+          [
+            3553170,
+            846385
+          ],
+          [
+            3553170,
+            846385
+          ],
+          [
+            3553170,
+            846385
+          ]
+        ],
+        "design_key": "25fd249f2caf"
+      },
+      {
+        "slide_file": "slide81.xml",
+        "title_id": 1524650370,
+        "title_text": "Systems of Equations",
+        "subtitle_id": 1054661038,
+        "item_count": 4,
+        "item_fields": 1,
+        "items": [
+          14,
+          8,
+          18,
+          10
+        ],
+        "item_dims": [
+          [
+            2176515,
+            1653437
+          ],
+          [
+            2543835,
+            1653437
+          ],
+          [
+            2176515,
+            1653437
+          ],
+          [
+            2543835,
+            1653437
+          ]
+        ],
+        "design_key": "763a6c162572"
+      },
+      {
+        "slide_file": "slide82.xml",
+        "title_id": 1524650370,
+        "title_text": "Systems of Equations",
+        "subtitle_id": 1054661038,
+        "item_count": 4,
+        "item_fields": 1,
+        "items": [
+          5,
+          9,
+          13,
+          17
+        ],
+        "item_dims": [
+          [
+            3119478,
+            551030
+          ],
+          [
+            2731423,
+            551030
+          ],
+          [
+            3119478,
+            551030
+          ],
+          [
+            2731423,
+            551030
+          ]
+        ],
+        "design_key": "fc4910aacb02"
+      },
+      {
+        "slide_file": "slide83.xml",
+        "title_id": 1524650370,
+        "title_text": "Systems of Equations",
+        "subtitle_id": 1054661038,
+        "item_count": 4,
+        "item_fields": 1,
+        "items": [
+          4,
+          12,
+          20,
+          28
+        ],
+        "item_dims": [
+          [
+            5608751,
+            931022
+          ],
+          [
+            5608751,
+            931022
+          ],
+          [
+            5608751,
+            931022
+          ],
+          [
+            5608751,
+            931022
+          ]
+        ],
+        "design_key": "c8a240b6dad3"
+      },
+      {
+        "slide_file": "slide84.xml",
+        "title_id": 1524650370,
+        "title_text": "Systems of Equations",
+        "subtitle_id": 1054661038,
+        "item_count": 4,
+        "item_fields": 1,
+        "items": [
+          4,
+          8,
+          14,
+          18
+        ],
+        "item_dims": [
+          [
+            5687130,
+            941787
+          ],
+          [
+            5673596,
+            941785
+          ],
+          [
+            5687130,
+            941787
+          ],
+          [
+            5673596,
+            941785
+          ]
+        ],
+        "design_key": "fd5e28720265"
+      },
+      {
+        "slide_file": "slide85.xml",
+        "title_id": 1524650370,
+        "title_text": "Systems of Equations",
+        "subtitle_id": 1054661038,
+        "item_count": 4,
+        "item_fields": 1,
+        "items": [
+          4,
+          42,
+          51,
+          1054660997
+        ],
+        "item_dims": [
+          [
+            3959610,
+            584775
+          ],
+          [
+            3959610,
+            584775
+          ],
+          [
+            3959610,
+            584775
+          ],
+          [
+            3959610,
+            584775
+          ]
+        ],
+        "design_key": "bad947d0b556"
+      },
+      {
+        "slide_file": "slide86.xml",
+        "title_id": 1524650370,
+        "title_text": "Systems of Equations",
+        "subtitle_id": 1054661038,
+        "item_count": 4,
+        "item_fields": 1,
+        "items": [
+          3,
+          6,
+          9,
+          12
+        ],
+        "item_dims": [
+          [
+            3612954,
+            584775
+          ],
+          [
+            3674757,
+            584775
+          ],
+          [
+            3571547,
+            584775
+          ],
+          [
+            3611247,
+            584775
+          ]
+        ],
+        "design_key": "c07da72b8f81"
+      },
+      {
+        "slide_file": "slide87.xml",
+        "title_id": 1524650370,
+        "title_text": "Systems of Equations",
+        "subtitle_id": 1054661038,
+        "item_count": 4,
+        "item_fields": 1,
+        "items": [
+          4,
+          10,
+          16,
+          22
+        ],
+        "item_dims": [
+          [
+            2891109,
+            584775
+          ],
+          [
+            3371525,
+            584775
+          ],
+          [
+            3038519,
+            584775
+          ],
+          [
+            3078082,
+            584775
+          ]
+        ],
+        "design_key": "776db3b3476e"
+      },
+      {
+        "slide_file": "slide88.xml",
+        "title_id": 1524650370,
+        "title_text": "Systems of Equations",
+        "subtitle_id": 1054661038,
+        "item_count": 4,
+        "item_fields": 1,
+        "items": [
+          16,
+          31,
+          36,
+          41
+        ],
+        "item_dims": [
+          [
+            2224424,
+            1925358
+          ],
+          [
+            2196244,
+            1925358
+          ],
+          [
+            2224424,
+            1925358
+          ],
+          [
+            2196244,
+            1925358
+          ]
+        ],
+        "design_key": "f435d369a220"
+      },
+      {
+        "slide_file": "slide89.xml",
+        "title_id": 1524650370,
+        "title_text": "Systems of Equations",
+        "subtitle_id": 1054661038,
+        "item_count": 4,
+        "item_fields": 1,
+        "items": [
+          6,
+          13,
+          20,
+          27
+        ],
+        "item_dims": [
+          [
+            2839194,
+            584775
+          ],
+          [
+            3004974,
+            584775
+          ],
+          [
+            3008987,
+            584775
+          ],
+          [
+            3183193,
+            584775
+          ]
+        ],
+        "design_key": "9ad601bb81d3"
+      },
+      {
+        "slide_file": "slide90.xml",
+        "title_id": 1524650370,
+        "title_text": "Systems of Equations",
+        "subtitle_id": 1054661038,
+        "item_count": 4,
+        "item_fields": 1,
+        "items": [
+          7,
+          13,
+          19,
+          25
+        ],
+        "item_dims": [
+          [
+            3466602,
+            531613
+          ],
+          [
+            3270149,
+            531613
+          ],
+          [
+            3466602,
+            531613
+          ],
+          [
+            3466602,
+            531614
+          ]
+        ],
+        "design_key": "8a372b707164"
+      },
+      {
+        "slide_file": "slide91.xml",
+        "title_id": 1524650370,
+        "title_text": "Systems of Equations",
+        "subtitle_id": 1054661038,
+        "item_count": 4,
+        "item_fields": 1,
+        "items": [
+          8,
+          15,
+          23,
+          30
+        ],
+        "item_dims": [
+          [
+            3037709,
+            584775
+          ],
+          [
+            3270791,
+            584775
+          ],
+          [
+            3270791,
+            584775
+          ],
+          [
+            3234279,
+            584775
+          ]
+        ],
+        "design_key": "43f1eaf293c1"
+      },
+      {
+        "slide_file": "slide92.xml",
+        "title_id": 1524650370,
+        "title_text": "Systems of Equations",
+        "subtitle_id": 1054661038,
+        "item_count": 4,
+        "item_fields": 1,
+        "items": [
+          36,
+          41,
+          46,
+          51
+        ],
+        "item_dims": [
+          [
+            4178694,
+            584775
+          ],
+          [
+            4178694,
+            584775
+          ],
+          [
+            4178694,
+            584775
+          ],
+          [
+            4178694,
+            584775
+          ]
+        ],
+        "design_key": "068381b4ff0d"
+      },
+      {
+        "slide_file": "slide93.xml",
+        "title_id": 1524650370,
+        "title_text": "Systems of Equations",
+        "subtitle_id": 1054661038,
+        "item_count": 4,
+        "item_fields": 1,
+        "items": [
+          6,
+          11,
+          16,
+          21
+        ],
+        "item_dims": [
+          [
+            3289738,
+            584775
+          ],
+          [
+            3289738,
+            584775
+          ],
+          [
+            3289738,
+            584775
+          ],
+          [
+            3248190,
+            584775
+          ]
+        ],
+        "design_key": "44bc5f9bbdd5"
+      },
+      {
+        "slide_file": "slide94.xml",
+        "title_id": 1524650370,
+        "title_text": "Systems of Equations",
+        "subtitle_id": 1054661038,
+        "item_count": 4,
+        "item_fields": 1,
+        "items": [
+          20,
+          17,
+          10,
+          5
+        ],
+        "item_dims": [
+          [
+            3098325,
+            584775
+          ],
+          [
+            3718764,
+            584775
+          ],
+          [
+            3487808,
+            584775
+          ],
+          [
+            3287930,
+            584775
+          ]
+        ],
+        "design_key": "eb8f62fe5e57"
+      },
+      {
+        "slide_file": "slide95.xml",
+        "title_id": 1524650370,
+        "title_text": "Systems of Equations",
+        "subtitle_id": 1054661038,
+        "item_count": 4,
+        "item_fields": 1,
+        "items": [
+          6,
+          11,
+          16,
+          21
+        ],
+        "item_dims": [
+          [
+            3505846,
+            584775
+          ],
+          [
+            3505846,
+            584775
+          ],
+          [
+            3505846,
+            584775
+          ],
+          [
+            3520325,
+            584775
+          ]
+        ],
+        "design_key": "e57da521f218"
+      },
+      {
+        "slide_file": "slide96.xml",
+        "title_id": 1524650370,
+        "title_text": "Systems of Equations",
+        "subtitle_id": 1054661038,
+        "item_count": 4,
+        "item_fields": 1,
+        "items": [
+          4,
+          7,
+          10,
+          13
+        ],
+        "item_dims": [
+          [
+            3861503,
+            584775
+          ],
+          [
+            3861504,
+            584775
+          ],
+          [
+            3861503,
+            584775
+          ],
+          [
+            3861504,
+            584775
+          ]
+        ],
+        "design_key": "b7e5cc84dbfc"
+      },
+      {
+        "slide_file": "slide97.xml",
+        "title_id": 1524650370,
+        "title_text": "Systems of Equations",
+        "subtitle_id": 1054661038,
+        "item_count": 4,
+        "item_fields": 1,
+        "items": [
+          4,
+          14,
+          9,
+          19
+        ],
+        "item_dims": [
+          [
+            3661487,
+            338554
+          ],
+          [
+            3340095,
+            584775
+          ],
+          [
+            3340095,
+            584775
+          ],
+          [
+            3665896,
+            584775
+          ]
+        ],
+        "design_key": "398fae98875c"
+      },
+      {
+        "slide_file": "slide98.xml",
+        "title_id": 1524650370,
+        "title_text": "Systems of Equations",
+        "subtitle_id": 1054661038,
+        "item_count": 4,
+        "item_fields": 1,
+        "items": [
+          13,
+          19,
+          25,
+          31
+        ],
+        "item_dims": [
+          [
+            3369963,
+            473976
+          ],
+          [
+            3369963,
+            846385
+          ],
+          [
+            3369963,
+            473976
+          ],
+          [
+            3369963,
+            846385
+          ]
+        ],
+        "design_key": "60b6ad7fdcc4"
+      },
+      {
+        "slide_file": "slide99.xml",
+        "title_id": 1524650370,
+        "title_text": "Systems of Equations",
+        "subtitle_id": 1054661038,
+        "item_count": 4,
+        "item_fields": 1,
+        "items": [
+          3,
+          11,
+          19,
+          27
+        ],
+        "item_dims": [
+          [
+            4092248,
+            769441
+          ],
+          [
+            4092248,
+            769441
+          ],
+          [
+            4085915,
+            769441
+          ],
+          [
+            4092248,
+            769441
+          ]
+        ],
+        "design_key": "c353ed9b7df4"
+      },
+      {
+        "slide_file": "slide100.xml",
+        "title_id": 1524650370,
+        "title_text": "Systems of Equations",
+        "subtitle_id": 1054661038,
+        "item_count": 4,
+        "item_fields": 1,
+        "items": [
+          10,
+          16,
+          22,
+          28
+        ],
+        "item_dims": [
+          [
+            3100941,
+            699492
+          ],
+          [
+            3096655,
+            699492
+          ],
+          [
+            2973532,
+            699491
+          ],
+          [
+            3096655,
+            699492
+          ]
+        ],
+        "design_key": "ecc395c8e906"
+      },
+      {
+        "slide_file": "slide101.xml",
+        "title_id": 1524650370,
+        "title_text": "Systems of Equations",
+        "subtitle_id": 1054661038,
+        "item_count": 4,
+        "item_fields": 1,
+        "items": [
+          5,
+          9,
+          13,
+          17
+        ],
+        "item_dims": [
+          [
+            3787123,
+            769441
+          ],
+          [
+            4032351,
+            769441
+          ],
+          [
+            3787123,
+            769441
+          ],
+          [
+            4032351,
+            769441
+          ]
+        ],
+        "design_key": "fbe7ffa94bfc"
+      },
+      {
+        "slide_file": "slide102.xml",
+        "title_id": 1524650370,
+        "title_text": "Systems of Equations",
+        "subtitle_id": 1054661038,
+        "item_count": 4,
+        "item_fields": 1,
+        "items": [
+          5,
+          14,
+          21,
+          28
+        ],
+        "item_dims": [
+          [
+            4459344,
+            769441
+          ],
+          [
+            4848074,
+            769441
+          ],
+          [
+            4459344,
+            769441
+          ],
+          [
+            4848074,
+            769441
+          ]
+        ],
+        "design_key": "a62ccf0d4567"
+      },
+      {
+        "slide_file": "slide103.xml",
+        "title_id": 1524650370,
+        "title_text": "Systems of Equations",
+        "subtitle_id": 1054661038,
+        "item_count": 4,
+        "item_fields": 1,
+        "items": [
+          12,
+          16,
+          20,
+          24
+        ],
+        "item_dims": [
+          [
+            3192387,
+            832453
+          ],
+          [
+            3192387,
+            832453
+          ],
+          [
+            3192387,
+            832453
+          ],
+          [
+            3192387,
+            832453
+          ]
+        ],
+        "design_key": "06ea0abf3442"
+      },
+      {
+        "slide_file": "slide104.xml",
+        "title_id": 1524650370,
+        "title_text": "Systems of Equations",
+        "subtitle_id": 1054661038,
+        "item_count": 4,
+        "item_fields": 1,
+        "items": [
+          3,
+          7,
+          11,
+          15
+        ],
+        "item_dims": [
+          [
+            5996190,
+            812706
+          ],
+          [
+            5641032,
+            812706
+          ],
+          [
+            5996190,
+            812706
+          ],
+          [
+            5641032,
+            812706
+          ]
+        ],
+        "design_key": "74ac669f5c65"
+      },
+      {
+        "slide_file": "slide105.xml",
+        "title_id": 1524650370,
+        "title_text": "Systems of Equations",
+        "subtitle_id": 1054661038,
+        "item_count": 4,
+        "item_fields": 1,
+        "items": [
+          4,
+          11,
+          32,
+          39
+        ],
+        "item_dims": [
+          [
+            4557388,
+            769441
+          ],
+          [
+            4618343,
+            769441
+          ],
+          [
+            4557388,
+            769441
+          ],
+          [
+            4618343,
+            769441
+          ]
+        ],
+        "design_key": "47128424d7b5"
+      },
+      {
+        "slide_file": "slide106.xml",
+        "title_id": 1524650370,
+        "title_text": "Systems of Equations",
+        "subtitle_id": 1054661038,
+        "item_count": 4,
+        "item_fields": 1,
+        "items": [
+          6,
+          15,
+          24,
+          33
+        ],
+        "item_dims": [
+          [
+            4133701,
+            800043
+          ],
+          [
+            4087314,
+            800043
+          ],
+          [
+            4133964,
+            800043
+          ],
+          [
+            4203023,
+            800043
+          ]
+        ],
+        "design_key": "e6c8365744bf"
+      },
+      {
+        "slide_file": "slide139.xml",
+        "title_id": 1524650370,
+        "title_text": "Systems of Equations",
+        "subtitle_id": 1054661038,
+        "item_count": 4,
+        "item_fields": 1,
+        "items": [
+          3,
+          10,
+          6,
+          18
+        ],
+        "item_dims": [
+          [
+            3759150,
+            613824
+          ],
+          [
+            3209407,
+            584775
+          ],
+          [
+            3759150,
+            613824
+          ],
+          [
+            3209407,
+            584775
+          ]
+        ],
+        "design_key": "763961be95d6"
+      }
+    ],
+    "5": [
+      {
+        "slide_file": "slide2.xml",
+        "title_id": 10,
+        "title_text": "Summary",
+        "subtitle_id": null,
+        "item_count": 5,
+        "item_fields": 1,
+        "items": [
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "item_dims": [
+          [
+            5333378,
+            1093120
+          ],
+          [
+            5333378,
+            1093120
+          ],
+          [
+            5333378,
+            1093120
+          ],
+          [
+            5333378,
+            1093120
+          ],
+          [
+            5333378,
+            1093120
+          ]
+        ],
+        "design_key": "f6990a3bb6e4"
+      },
+      {
+        "slide_file": "slide34.xml",
+        "title_id": 10,
+        "title_text": "Arithmetic Expressions",
+        "subtitle_id": 11,
+        "item_count": 5,
+        "item_fields": 1,
+        "items": [
+          9,
+          26,
+          40,
+          33,
+          47
+        ],
+        "item_dims": [
+          [
+            3976751,
+            356105
+          ],
+          [
+            3900678,
+            356105
+          ],
+          [
+            4187451,
+            356105
+          ],
+          [
+            4187451,
+            635902
+          ],
+          [
+            4187451,
+            356105
+          ]
+        ],
+        "design_key": "5d20ce2ecea7"
+      },
+      {
+        "slide_file": "slide35.xml",
+        "title_id": 10,
+        "title_text": "Arithmetic Expressions",
+        "subtitle_id": 11,
+        "item_count": 5,
+        "item_fields": 1,
+        "items": [
+          6,
+          13,
+          18,
+          23,
+          7
+        ],
+        "item_dims": [
+          [
+            4576649,
+            779526
+          ],
+          [
+            4576649,
+            779526
+          ],
+          [
+            4576649,
+            779526
+          ],
+          [
+            4576649,
+            779526
+          ],
+          [
+            4576649,
+            779526
+          ]
+        ],
+        "design_key": "d63986cc38b4"
+      },
+      {
+        "slide_file": "slide36.xml",
+        "title_id": 10,
+        "title_text": "Arithmetic Expressions",
+        "subtitle_id": 11,
+        "item_count": 5,
+        "item_fields": 1,
+        "items": [
+          16,
+          25,
+          29,
+          33,
+          37
+        ],
+        "item_dims": [
+          [
+            5430238,
+            793593
+          ],
+          [
+            5430238,
+            793593
+          ],
+          [
+            5430238,
+            793593
+          ],
+          [
+            5430238,
+            793593
+          ],
+          [
+            5430238,
+            793593
+          ]
+        ],
+        "design_key": "4be9f4aa338b"
+      },
+      {
+        "slide_file": "slide37.xml",
+        "title_id": 10,
+        "title_text": "Arithmetic Expressions",
+        "subtitle_id": 11,
+        "item_count": 5,
+        "item_fields": 1,
+        "items": [
+          4,
+          7,
+          12,
+          15,
+          18
+        ],
+        "item_dims": [
+          [
+            3418580,
+            699492
+          ],
+          [
+            3183052,
+            699492
+          ],
+          [
+            3419452,
+            391716
+          ],
+          [
+            3357524,
+            699491
+          ],
+          [
+            3419452,
+            391716
+          ]
+        ],
+        "design_key": "c34a153d7522"
+      },
+      {
+        "slide_file": "slide38.xml",
+        "title_id": 10,
+        "title_text": "Arithmetic Expressions",
+        "subtitle_id": 11,
+        "item_count": 5,
+        "item_fields": 1,
+        "items": [
+          6,
+          13,
+          18,
+          23,
+          28
+        ],
+        "item_dims": [
+          [
+            4527488,
+            681557
+          ],
+          [
+            4527488,
+            681557
+          ],
+          [
+            4527488,
+            681557
+          ],
+          [
+            4649194,
+            681557
+          ],
+          [
+            4527488,
+            681557
+          ]
+        ],
+        "design_key": "e7eb13d8cd0b"
+      },
+      {
+        "slide_file": "slide39.xml",
+        "title_id": 10,
+        "title_text": "Arithmetic Expressions",
+        "subtitle_id": 11,
+        "item_count": 5,
+        "item_fields": 1,
+        "items": [
+          5,
+          22,
+          12,
+          37,
+          32
+        ],
+        "item_dims": [
+          [
+            4343241,
+            430887
+          ],
+          [
+            4241457,
+            430887
+          ],
+          [
+            4106374,
+            430887
+          ],
+          [
+            4241457,
+            430887
+          ],
+          [
+            4106374,
+            430887
+          ]
+        ],
+        "design_key": "5c14087b0439"
+      },
+      {
+        "slide_file": "slide40.xml",
+        "title_id": 10,
+        "title_text": "Arithmetic Expressions",
+        "subtitle_id": 11,
+        "item_count": 5,
+        "item_fields": 1,
+        "items": [
+          26,
+          4,
+          9,
+          16,
+          21
+        ],
+        "item_dims": [
+          [
+            4181014,
+            769441
+          ],
+          [
+            4181014,
+            769441
+          ],
+          [
+            4181014,
+            769441
+          ],
+          [
+            4181014,
+            769441
+          ],
+          [
+            4181014,
+            769441
+          ]
+        ],
+        "design_key": "26d635f342e4"
+      },
+      {
+        "slide_file": "slide41.xml",
+        "title_id": 10,
+        "title_text": "Arithmetic Expressions",
+        "subtitle_id": 11,
+        "item_count": 5,
+        "item_fields": 1,
+        "items": [
+          4,
+          9,
+          16,
+          21,
+          26
+        ],
+        "item_dims": [
+          [
+            4290999,
+            664221
+          ],
+          [
+            4290999,
+            664221
+          ],
+          [
+            4290998,
+            946349
+          ],
+          [
+            4832046,
+            664221
+          ],
+          [
+            4290998,
+            946349
+          ]
+        ],
+        "design_key": "0edecb2da5fd"
+      },
+      {
+        "slide_file": "slide42.xml",
+        "title_id": 10,
+        "title_text": "Arithmetic Expressions",
+        "subtitle_id": 11,
+        "item_count": 5,
+        "item_fields": 1,
+        "items": [
+          4,
+          9,
+          16,
+          21,
+          26
+        ],
+        "item_dims": [
+          [
+            4518837,
+            462499
+          ],
+          [
+            4518837,
+            462499
+          ],
+          [
+            4518837,
+            462499
+          ],
+          [
+            4518837,
+            462499
+          ],
+          [
+            4518837,
+            462499
+          ]
+        ],
+        "design_key": "22faa14a5aee"
+      },
+      {
+        "slide_file": "slide43.xml",
+        "title_id": 10,
+        "title_text": "Arithmetic Expressions",
+        "subtitle_id": 11,
+        "item_count": 5,
+        "item_fields": 1,
+        "items": [
+          5,
+          16,
+          25,
+          34,
+          43
+        ],
+        "item_dims": [
+          [
+            3203068,
+            391716
+          ],
+          [
+            3623206,
+            699492
+          ],
+          [
+            3457921,
+            391715
+          ],
+          [
+            3664772,
+            699492
+          ],
+          [
+            3457921,
+            391715
+          ]
+        ],
+        "design_key": "70cc309f36d6"
+      },
+      {
+        "slide_file": "slide44.xml",
+        "title_id": 10,
+        "title_text": "Arithmetic Expressions",
+        "subtitle_id": 11,
+        "item_count": 5,
+        "item_fields": 1,
+        "items": [
+          6,
+          15,
+          25,
+          32,
+          42
+        ],
+        "item_dims": [
+          [
+            5060869,
+            1107772
+          ],
+          [
+            3894497,
+            846385
+          ],
+          [
+            5060869,
+            1107772
+          ],
+          [
+            3894497,
+            846385
+          ],
+          [
+            5060869,
+            1107772
+          ]
+        ],
+        "design_key": "e8ccc903ddca"
+      },
+      {
+        "slide_file": "slide45.xml",
+        "title_id": 10,
+        "title_text": "Arithmetic Expressions",
+        "subtitle_id": 11,
+        "item_count": 5,
+        "item_fields": 1,
+        "items": [
+          3,
+          9,
+          17,
+          23,
+          29
+        ],
+        "item_dims": [
+          [
+            5691871,
+            654410
+          ],
+          [
+            5691875,
+            654410
+          ],
+          [
+            5691877,
+            654410
+          ],
+          [
+            5691875,
+            654410
+          ],
+          [
+            5691877,
+            654410
+          ]
+        ],
+        "design_key": "4d28b4b926b5"
+      },
+      {
+        "slide_file": "slide46.xml",
+        "title_id": 10,
+        "title_text": "Arithmetic Expressions",
+        "subtitle_id": 11,
+        "item_count": 5,
+        "item_fields": 1,
+        "items": [
+          4,
+          12,
+          18,
+          24,
+          30
+        ],
+        "item_dims": [
+          [
+            4508592,
+            473977
+          ],
+          [
+            4882741,
+            473976
+          ],
+          [
+            5840065,
+            473976
+          ],
+          [
+            5032145,
+            846387
+          ],
+          [
+            5840065,
+            473976
+          ]
+        ],
+        "design_key": "9782428d463a"
+      },
+      {
+        "slide_file": "slide47.xml",
+        "title_id": 10,
+        "title_text": "Arithmetic Expressions",
+        "subtitle_id": 11,
+        "item_count": 5,
+        "item_fields": 1,
+        "items": [
+          2,
+          4,
+          3,
+          5,
+          6
+        ],
+        "item_dims": [
+          [
+            4758362,
+            794334
+          ],
+          [
+            4758362,
+            794334
+          ],
+          [
+            4758362,
+            794334
+          ],
+          [
+            4758362,
+            794334
+          ],
+          [
+            4758362,
+            794334
+          ]
+        ],
+        "design_key": "a2f637a1b1d0"
+      },
+      {
+        "slide_file": "slide48.xml",
+        "title_id": 10,
+        "title_text": "Arithmetic Expressions",
+        "subtitle_id": 11,
+        "item_count": 5,
+        "item_fields": 1,
+        "items": [
+          4,
+          2,
+          3,
+          5,
+          6
+        ],
+        "item_dims": [
+          [
+            5220000,
+            900329
+          ],
+          [
+            5220000,
+            900329
+          ],
+          [
+            5220000,
+            900329
+          ],
+          [
+            5220000,
+            900329
+          ],
+          [
+            5220000,
+            900329
+          ]
+        ],
+        "design_key": "7cb0bc2939c7"
+      },
+      {
+        "slide_file": "slide49.xml",
+        "title_id": 10,
+        "title_text": "Arithmetic Expressions",
+        "subtitle_id": 11,
+        "item_count": 5,
+        "item_fields": 1,
+        "items": [
+          3,
+          14,
+          9,
+          6,
+          23
+        ],
+        "item_dims": [
+          [
+            4164254,
+            769441
+          ],
+          [
+            4754997,
+            769441
+          ],
+          [
+            4400844,
+            769441
+          ],
+          [
+            4012624,
+            769441
+          ],
+          [
+            4400844,
+            769441
+          ]
+        ],
+        "design_key": "c0ce6efafc2a"
+      },
+      {
+        "slide_file": "slide50.xml",
+        "title_id": 10,
+        "title_text": "Arithmetic Expressions",
+        "subtitle_id": 11,
+        "item_count": 5,
+        "item_fields": 1,
+        "items": [
+          6,
+          13,
+          18,
+          23,
+          28
+        ],
+        "item_dims": [
+          [
+            5041395,
+            294301
+          ],
+          [
+            4774757,
+            294302
+          ],
+          [
+            5101683,
+            525538
+          ],
+          [
+            5045071,
+            525538
+          ],
+          [
+            5101683,
+            525538
+          ]
+        ],
+        "design_key": "b0407effdd24"
+      },
+      {
+        "slide_file": "slide51.xml",
+        "title_id": 10,
+        "title_text": "Arithmetic Expressions",
+        "subtitle_id": 11,
+        "item_count": 5,
+        "item_fields": 1,
+        "items": [
+          3,
+          6,
+          9,
+          14,
+          17
+        ],
+        "item_dims": [
+          [
+            6573920,
+            2427741
+          ],
+          [
+            6573918,
+            2427741
+          ],
+          [
+            6573920,
+            2427741
+          ],
+          [
+            6573918,
+            2427741
+          ],
+          [
+            6573920,
+            2427741
+          ]
+        ],
+        "design_key": "e299b66c99e6"
+      },
+      {
+        "slide_file": "slide52.xml",
+        "title_id": 10,
+        "title_text": "Arithmetic Expressions",
+        "subtitle_id": 11,
+        "item_count": 5,
+        "item_fields": 1,
+        "items": [
+          3,
+          4,
+          5,
+          6,
+          12
+        ],
+        "item_dims": [
+          [
+            5004202,
+            819896
+          ],
+          [
+            5004202,
+            819896
+          ],
+          [
+            5004202,
+            819896
+          ],
+          [
+            5004202,
+            819896
+          ],
+          [
+            5004202,
+            819896
+          ]
+        ],
+        "design_key": "a815ed36d8f6"
+      },
+      {
+        "slide_file": "slide53.xml",
+        "title_id": 10,
+        "title_text": "Arithmetic Expressions",
+        "subtitle_id": 11,
+        "item_count": 5,
+        "item_fields": 1,
+        "items": [
+          9,
+          4,
+          16,
+          21,
+          26
+        ],
+        "item_dims": [
+          [
+            3210997,
+            769441
+          ],
+          [
+            3210998,
+            769440
+          ],
+          [
+            3427667,
+            769441
+          ],
+          [
+            3329652,
+            769440
+          ],
+          [
+            3389036,
+            769441
+          ]
+        ],
+        "design_key": "01303ebd9ac6"
+      },
+      {
+        "slide_file": "slide54.xml",
+        "title_id": 10,
+        "title_text": "Arithmetic Expressions",
+        "subtitle_id": 11,
+        "item_count": 5,
+        "item_fields": 1,
+        "items": [
+          7,
+          12,
+          15,
+          4,
+          18
+        ],
+        "item_dims": [
+          [
+            4246615,
+            1962883
+          ],
+          [
+            4246613,
+            1962883
+          ],
+          [
+            4508112,
+            1962883
+          ],
+          [
+            4194851,
+            1962883
+          ],
+          [
+            4508112,
+            1962883
+          ]
+        ],
+        "design_key": "dc83f7beacca"
+      },
+      {
+        "slide_file": "slide55.xml",
+        "title_id": 10,
+        "title_text": "Arithmetic Expressions",
+        "subtitle_id": 11,
+        "item_count": 5,
+        "item_fields": 1,
+        "items": [
+          3,
+          5,
+          7,
+          9,
+          14
+        ],
+        "item_dims": [
+          [
+            3677653,
+            769441
+          ],
+          [
+            3677653,
+            769441
+          ],
+          [
+            3677653,
+            769441
+          ],
+          [
+            3677653,
+            769441
+          ],
+          [
+            3677653,
+            769441
+          ]
+        ],
+        "design_key": "a679b7c327aa"
+      },
+      {
+        "slide_file": "slide111.xml",
+        "title_id": 1524650370,
+        "title_text": "Systems of Equations",
+        "subtitle_id": 1054661038,
+        "item_count": 5,
+        "item_fields": 1,
+        "items": [
+          6,
+          26,
+          33,
+          40,
+          47
+        ],
+        "item_dims": [
+          [
+            4557388,
+            769441
+          ],
+          [
+            4618343,
+            769441
+          ],
+          [
+            4557388,
+            769441
+          ],
+          [
+            4618343,
+            769441
+          ],
+          [
+            4557388,
+            769441
+          ]
+        ],
+        "design_key": "47128424d7b5"
+      },
+      {
+        "slide_file": "slide112.xml",
+        "title_id": 1524650370,
+        "title_text": "Systems of Equations",
+        "subtitle_id": 1054661038,
+        "item_count": 5,
+        "item_fields": 1,
+        "items": [
+          58,
+          1054660993,
+          1054661000,
+          1054661007,
+          1054661014
+        ],
+        "item_dims": [
+          [
+            4459344,
+            769441
+          ],
+          [
+            4848074,
+            769441
+          ],
+          [
+            4459344,
+            769441
+          ],
+          [
+            4848074,
+            769441
+          ],
+          [
+            4459344,
+            769441
+          ]
+        ],
+        "design_key": "a62ccf0d4567"
+      },
+      {
+        "slide_file": "slide113.xml",
+        "title_id": 1524650370,
+        "title_text": "Systems of Equations",
+        "subtitle_id": 1054661038,
+        "item_count": 5,
+        "item_fields": 1,
+        "items": [
+          4,
+          8,
+          12,
+          16,
+          21
+        ],
+        "item_dims": [
+          [
+            3192387,
+            832453
+          ],
+          [
+            3192387,
+            832453
+          ],
+          [
+            3192387,
+            832453
+          ],
+          [
+            3192387,
+            832453
+          ],
+          [
+            3192387,
+            832453
+          ]
+        ],
+        "design_key": "06ea0abf3442"
+      },
+      {
+        "slide_file": "slide114.xml",
+        "title_id": 1524650370,
+        "title_text": "Systems of Equations",
+        "subtitle_id": 1054661038,
+        "item_count": 5,
+        "item_fields": 1,
+        "items": [
+          25,
+          29,
+          33,
+          37,
+          45
+        ],
+        "item_dims": [
+          [
+            3787123,
+            769441
+          ],
+          [
+            4032351,
+            769441
+          ],
+          [
+            3787123,
+            769441
+          ],
+          [
+            4032351,
+            769441
+          ],
+          [
+            3787123,
+            769441
+          ]
+        ],
+        "design_key": "fbe7ffa94bfc"
+      },
+      {
+        "slide_file": "slide115.xml",
+        "title_id": 1524650370,
+        "title_text": "Systems of Equations",
+        "subtitle_id": 1054661038,
+        "item_count": 5,
+        "item_fields": 1,
+        "items": [
+          4,
+          10,
+          16,
+          38,
+          54
+        ],
+        "item_dims": [
+          [
+            3096656,
+            699492
+          ],
+          [
+            3096655,
+            699492
+          ],
+          [
+            2973532,
+            699492
+          ],
+          [
+            3096655,
+            699492
+          ],
+          [
+            2973532,
+            699492
+          ]
+        ],
+        "design_key": "ecc395c8e906"
+      },
+      {
+        "slide_file": "slide116.xml",
+        "title_id": 1524650370,
+        "title_text": "Systems of Equations",
+        "subtitle_id": 1054661038,
+        "item_count": 5,
+        "item_fields": 1,
+        "items": [
+          23,
+          31,
+          43,
+          51,
+          1054660993
+        ],
+        "item_dims": [
+          [
+            4092248,
+            769441
+          ],
+          [
+            4092248,
+            769441
+          ],
+          [
+            4085915,
+            769441
+          ],
+          [
+            4092248,
+            769441
+          ],
+          [
+            4092248,
+            769441
+          ]
+        ],
+        "design_key": "c353ed9b7df4"
+      },
+      {
+        "slide_file": "slide117.xml",
+        "title_id": 1524650370,
+        "title_text": "Systems of Equations",
+        "subtitle_id": 1054661038,
+        "item_count": 5,
+        "item_fields": 1,
+        "items": [
+          24,
+          29,
+          34,
+          43,
+          1054661002
+        ],
+        "item_dims": [
+          [
+            3369963,
+            473976
+          ],
+          [
+            3369963,
+            846385
+          ],
+          [
+            3369963,
+            473976
+          ],
+          [
+            3369963,
+            846385
+          ],
+          [
+            3369963,
+            473976
+          ]
+        ],
+        "design_key": "60b6ad7fdcc4"
+      },
+      {
+        "slide_file": "slide118.xml",
+        "title_id": 1524650370,
+        "title_text": "Systems of Equations",
+        "subtitle_id": 1054661038,
+        "item_count": 5,
+        "item_fields": 1,
+        "items": [
+          26,
+          31,
+          36,
+          45,
+          50
+        ],
+        "item_dims": [
+          [
+            3505846,
+            584775
+          ],
+          [
+            3505846,
+            584775
+          ],
+          [
+            3505846,
+            584775
+          ],
+          [
+            3520325,
+            584775
+          ],
+          [
+            3505846,
+            584775
+          ]
+        ],
+        "design_key": "e57da521f218"
+      },
+      {
+        "slide_file": "slide119.xml",
+        "title_id": 1524650370,
+        "title_text": "Systems of Equations",
+        "subtitle_id": 1054661038,
+        "item_count": 5,
+        "item_fields": 1,
+        "items": [
+          26,
+          31,
+          36,
+          45,
+          50
+        ],
+        "item_dims": [
+          [
+            3289738,
+            584775
+          ],
+          [
+            3289738,
+            584775
+          ],
+          [
+            3289738,
+            584775
+          ],
+          [
+            3248190,
+            584775
+          ],
+          [
+            3289738,
+            584775
+          ]
+        ],
+        "design_key": "44bc5f9bbdd5"
+      },
+      {
+        "slide_file": "slide120.xml",
+        "title_id": 1524650370,
+        "title_text": "Systems of Equations",
+        "subtitle_id": 1054661038,
+        "item_count": 5,
+        "item_fields": 1,
+        "items": [
+          26,
+          31,
+          36,
+          45,
+          50
+        ],
+        "item_dims": [
+          [
+            3289738,
+            584775
+          ],
+          [
+            3289738,
+            584775
+          ],
+          [
+            3289738,
+            584775
+          ],
+          [
+            3248190,
+            584775
+          ],
+          [
+            3289738,
+            584775
+          ]
+        ],
+        "design_key": "44bc5f9bbdd5"
+      },
+      {
+        "slide_file": "slide121.xml",
+        "title_id": 1524650370,
+        "title_text": "Systems of Equations",
+        "subtitle_id": 1054661038,
+        "item_count": 5,
+        "item_fields": 1,
+        "items": [
+          6,
+          11,
+          16,
+          21,
+          26
+        ],
+        "item_dims": [
+          [
+            4178694,
+            584775
+          ],
+          [
+            4178694,
+            584775
+          ],
+          [
+            4178694,
+            584775
+          ],
+          [
+            4178694,
+            584775
+          ],
+          [
+            4178694,
+            584775
+          ]
+        ],
+        "design_key": "068381b4ff0d"
+      },
+      {
+        "slide_file": "slide122.xml",
+        "title_id": 1524650370,
+        "title_text": "Systems of Equations",
+        "subtitle_id": 1054661038,
+        "item_count": 5,
+        "item_fields": 1,
+        "items": [
+          8,
+          15,
+          23,
+          30,
+          38
+        ],
+        "item_dims": [
+          [
+            3037709,
+            584775
+          ],
+          [
+            3270791,
+            584775
+          ],
+          [
+            3270791,
+            584775
+          ],
+          [
+            3234279,
+            584775
+          ],
+          [
+            3037709,
+            584775
+          ]
+        ],
+        "design_key": "43f1eaf293c1"
+      },
+      {
+        "slide_file": "slide123.xml",
+        "title_id": 1524650370,
+        "title_text": "Systems of Equations",
+        "subtitle_id": 1054661038,
+        "item_count": 5,
+        "item_fields": 1,
+        "items": [
+          4,
+          10,
+          16,
+          22,
+          28
+        ],
+        "item_dims": [
+          [
+            2891109,
+            584775
+          ],
+          [
+            3371525,
+            584775
+          ],
+          [
+            3038519,
+            584775
+          ],
+          [
+            3078082,
+            584775
+          ],
+          [
+            2891109,
+            584775
+          ]
+        ],
+        "design_key": "776db3b3476e"
+      },
+      {
+        "slide_file": "slide124.xml",
+        "title_id": 1524650370,
+        "title_text": "Systems of Equations",
+        "subtitle_id": 1054661038,
+        "item_count": 5,
+        "item_fields": 1,
+        "items": [
+          3,
+          6,
+          9,
+          12,
+          15
+        ],
+        "item_dims": [
+          [
+            3612954,
+            584775
+          ],
+          [
+            3674757,
+            584775
+          ],
+          [
+            3571547,
+            584775
+          ],
+          [
+            3611247,
+            584775
+          ],
+          [
+            3612954,
+            584775
+          ]
+        ],
+        "design_key": "c07da72b8f81"
+      },
+      {
+        "slide_file": "slide125.xml",
+        "title_id": 1524650370,
+        "title_text": "Systems of Equations",
+        "subtitle_id": 1054661038,
+        "item_count": 5,
+        "item_fields": 1,
+        "items": [
+          4,
+          8,
+          14,
+          18,
+          24
+        ],
+        "item_dims": [
+          [
+            4700108,
+            707578
+          ],
+          [
+            4688920,
+            707578
+          ],
+          [
+            4700108,
+            707578
+          ],
+          [
+            4688920,
+            707578
+          ],
+          [
+            4700108,
+            707578
+          ]
+        ],
+        "design_key": "fd5e28720265"
+      },
+      {
+        "slide_file": "slide126.xml",
+        "title_id": 1524650370,
+        "title_text": "Systems of Equations",
+        "subtitle_id": 1054661038,
+        "item_count": 5,
+        "item_fields": 1,
+        "items": [
+          4,
+          12,
+          20,
+          28,
+          36
+        ],
+        "item_dims": [
+          [
+            5608751,
+            931022
+          ],
+          [
+            5608751,
+            931022
+          ],
+          [
+            5608751,
+            931022
+          ],
+          [
+            5608751,
+            931022
+          ],
+          [
+            5608751,
+            931022
+          ]
+        ],
+        "design_key": "c8a240b6dad3"
+      },
+      {
+        "slide_file": "slide127.xml",
+        "title_id": 1524650370,
+        "title_text": "Systems of Equations",
+        "subtitle_id": 1054661038,
+        "item_count": 5,
+        "item_fields": 1,
+        "items": [
+          5,
+          9,
+          13,
+          17,
+          21
+        ],
+        "item_dims": [
+          [
+            3119478,
+            551030
+          ],
+          [
+            2731423,
+            551030
+          ],
+          [
+            3119478,
+            551030
+          ],
+          [
+            2731423,
+            551030
+          ],
+          [
+            3119478,
+            551030
+          ]
+        ],
+        "design_key": "fc4910aacb02"
+      },
+      {
+        "slide_file": "slide128.xml",
+        "title_id": 1524650370,
+        "title_text": "Systems of Equations",
+        "subtitle_id": 1054661038,
+        "item_count": 5,
+        "item_fields": 1,
+        "items": [
+          5,
+          9,
+          13,
+          17,
+          21
+        ],
+        "item_dims": [
+          [
+            3553170,
+            846385
+          ],
+          [
+            3553170,
+            846385
+          ],
+          [
+            3553170,
+            846385
+          ],
+          [
+            3553170,
+            846385
+          ],
+          [
+            3553170,
+            846385
+          ]
+        ],
+        "design_key": "25fd249f2caf"
+      },
+      {
+        "slide_file": "slide129.xml",
+        "title_id": 1524650370,
+        "title_text": "Systems of Equations",
+        "subtitle_id": 1054661038,
+        "item_count": 5,
+        "item_fields": 1,
+        "items": [
+          4,
+          12,
+          20,
+          28,
+          36
+        ],
+        "item_dims": [
+          [
+            3092746,
+            643252
+          ],
+          [
+            3092746,
+            643253
+          ],
+          [
+            3213894,
+            635902
+          ],
+          [
+            3092746,
+            643253
+          ],
+          [
+            3092746,
+            643252
+          ]
+        ],
+        "design_key": "f0b922ca05c8"
+      },
+      {
+        "slide_file": "slide130.xml",
+        "title_id": 1524650370,
+        "title_text": "Systems of Equations",
+        "subtitle_id": 1054661038,
+        "item_count": 5,
+        "item_fields": 1,
+        "items": [
+          4,
+          7,
+          10,
+          13,
+          16
+        ],
+        "item_dims": [
+          [
+            3841392,
+            707578
+          ],
+          [
+            3833284,
+            769441
+          ],
+          [
+            3841392,
+            707578
+          ],
+          [
+            3833284,
+            769441
+          ],
+          [
+            3841392,
+            707578
+          ]
+        ],
+        "design_key": "8247d195d04c"
+      },
+      {
+        "slide_file": "slide131.xml",
+        "title_id": 1524650370,
+        "title_text": "Systems of Equations",
+        "subtitle_id": 1054661038,
+        "item_count": 5,
+        "item_fields": 1,
+        "items": [
+          4,
+          9,
+          14,
+          19,
+          24
+        ],
+        "item_dims": [
+          [
+            3377088,
+            584775
+          ],
+          [
+            3377088,
+            584775
+          ],
+          [
+            3377088,
+            584775
+          ],
+          [
+            3377088,
+            584775
+          ],
+          [
+            3377088,
+            584775
+          ]
+        ],
+        "design_key": "c8a240b6dad3"
+      },
+      {
+        "slide_file": "slide132.xml",
+        "title_id": 1524650370,
+        "title_text": "Systems of Equations",
+        "subtitle_id": 1054661038,
+        "item_count": 5,
+        "item_fields": 1,
+        "items": [
+          4,
+          13,
+          22,
+          31,
+          40
+        ],
+        "item_dims": [
+          [
+            3109129,
+            578092
+          ],
+          [
+            3138299,
+            578092
+          ],
+          [
+            3109129,
+            578092
+          ],
+          [
+            3138299,
+            578092
+          ],
+          [
+            3109129,
+            578092
+          ]
+        ],
+        "design_key": "f1192c7e6d62"
+      },
+      {
+        "slide_file": "slide133.xml",
+        "title_id": 1524650370,
+        "title_text": "Systems of Equations",
+        "subtitle_id": 1054661038,
+        "item_count": 5,
+        "item_fields": 1,
+        "items": [
+          6,
+          11,
+          16,
+          21,
+          26
+        ],
+        "item_dims": [
+          [
+            5390730,
+            973273
+          ],
+          [
+            5390728,
+            973273
+          ],
+          [
+            5390730,
+            973273
+          ],
+          [
+            5390728,
+            973273
+          ],
+          [
+            5390730,
+            973273
+          ]
+        ],
+        "design_key": "29e60bbea27a"
+      },
+      {
+        "slide_file": "slide134.xml",
+        "title_id": 1524650370,
+        "title_text": "Systems of Equations",
+        "subtitle_id": 1054661038,
+        "item_count": 5,
+        "item_fields": 1,
+        "items": [
+          4,
+          8,
+          16,
+          12,
+          20
+        ],
+        "item_dims": [
+          [
+            5263021,
+            445040
+          ],
+          [
+            5263021,
+            445040
+          ],
+          [
+            5263021,
+            445040
+          ],
+          [
+            5263021,
+            445040
+          ],
+          [
+            5263021,
+            445040
+          ]
+        ],
+        "design_key": "c82aea0171bb"
+      },
+      {
+        "slide_file": "slide135.xml",
+        "title_id": 1524650370,
+        "title_text": "Systems of Equations",
+        "subtitle_id": 1054661038,
+        "item_count": 5,
+        "item_fields": 1,
+        "items": [
+          4,
+          11,
+          18,
+          25,
+          32
+        ],
+        "item_dims": [
+          [
+            3428073,
+            356105
+          ],
+          [
+            3413270,
+            356105
+          ],
+          [
+            3428073,
+            356105
+          ],
+          [
+            3413270,
+            356105
+          ],
+          [
+            3428073,
+            356105
+          ]
+        ],
+        "design_key": "bc2fefb2196b"
+      },
+      {
+        "slide_file": "slide136.xml",
+        "title_id": 1524650370,
+        "title_text": "Systems of Equations",
+        "subtitle_id": 1054661038,
+        "item_count": 5,
+        "item_fields": 1,
+        "items": [
+          4,
+          6,
+          10,
+          12,
+          16
+        ],
+        "item_dims": [
+          [
+            3998694,
+            707579
+          ],
+          [
+            3271495,
+            525538
+          ],
+          [
+            3998694,
+            707579
+          ],
+          [
+            3271495,
+            525538
+          ],
+          [
+            3998694,
+            707579
+          ]
+        ],
+        "design_key": "49fe512d7a1f"
+      },
+      {
+        "slide_file": "slide137.xml",
+        "title_id": 1524650370,
+        "title_text": "Systems of Equations",
+        "subtitle_id": 1054661038,
+        "item_count": 5,
+        "item_fields": 1,
+        "items": [
+          4,
+          7,
+          10,
+          13,
+          22
+        ],
+        "item_dims": [
+          [
+            5159812,
+            707577
+          ],
+          [
+            5143196,
+            707577
+          ],
+          [
+            5137638,
+            707577
+          ],
+          [
+            5137637,
+            707577
+          ],
+          [
+            5159812,
+            707577
+          ]
+        ],
+        "design_key": "770653f5ef66"
+      },
+      {
+        "slide_file": "slide138.xml",
+        "title_id": 1524650370,
+        "title_text": "Systems of Equations",
+        "subtitle_id": 1054661038,
+        "item_count": 5,
+        "item_fields": 1,
+        "items": [
+          10,
+          19,
+          28,
+          37,
+          46
+        ],
+        "item_dims": [
+          [
+            4089804,
+            643252
+          ],
+          [
+            5130276,
+            372409
+          ],
+          [
+            5347208,
+            643252
+          ],
+          [
+            5130276,
+            643252
+          ],
+          [
+            4089804,
+            643252
+          ]
+        ],
+        "design_key": "f58bae0903b0"
+      }
+    ]
+  },
+  "skipped_slides": []
+}

@@ -1,0 +1,22 @@
+{
+  "source_deck": "template.pptx",
+  "patterns": {
+    "4": [
+      {
+        "slide_file": "slide1.xml",
+        "title_id": 2,
+        "subtitle_id": null,
+        "item_count": 4,
+        "item_fields": 1,
+        "items": [
+          3,
+          4,
+          5,
+          6
+        ],
+        "design_key": "1aeaefa170e3"
+      }
+    ]
+  },
+  "skipped_slides": []
+}

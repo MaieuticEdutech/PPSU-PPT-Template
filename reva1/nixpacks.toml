@@ -1,0 +1,9 @@
+# Railway / Nixpacks build config.
+# LibreOffice (Impress) is required so the backend can render finished .pptx
+# decks to preview images (pptx -> PDF -> PNG). Without it the app still works
+# but the preview falls back to "unavailable" and only the download is offered.
+#
+# NOTE: if your Railway service builds from the `backend/` subdirectory rather
+# than the repo root, move this file into `backend/`.
+[phases.setup]
+aptPkgs = ["libreoffice-impress", "libreoffice-core", "fonts-dejavu", "fonts-liberation"]

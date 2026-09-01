@@ -1,0 +1,23 @@
+# Navigate to the project directory
+
+cd "C:\Users\HP\OneDrive\Desktop\reva1"
+
+
+
+# Install backend dependencies
+
+pip install -r backend/requirements.txt
+
+
+
+# Start the Flask backend server
+
+python backend/app.py                                                                                                                                              # Navigate to the project directory
+
+cd "C:\Users\HP\OneDrive\Desktop\reva1"
+
+
+
+# Serve the static frontend folder
+
+python -m http.server 8000 --directory frontend

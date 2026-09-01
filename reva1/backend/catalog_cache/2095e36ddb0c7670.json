@@ -1,0 +1,316 @@
+{
+  "version": 2,
+  "source_deck": "template.pptx",
+  "patterns": {
+    "3": [
+      {
+        "slide_file": "slide17.xml",
+        "title_id": 2,
+        "title_text": "Role of Message",
+        "subtitle_id": null,
+        "item_count": 3,
+        "item_fields": 1,
+        "items": [
+          7,
+          8,
+          19
+        ],
+        "design_key": "ad4f39d6bc24"
+      }
+    ],
+    "4": [
+      {
+        "slide_file": "slide7.xml",
+        "title_id": 2,
+        "title_text": "Manager Employee Feedback",
+        "subtitle_id": null,
+        "item_count": 4,
+        "item_fields": 1,
+        "items": [
+          12,
+          30,
+          18,
+          24
+        ],
+        "design_key": "2117bcd7e5be"
+      },
+      {
+        "slide_file": "slide8.xml",
+        "title_id": 2,
+        "title_text": "Customer Service Interaction",
+        "subtitle_id": null,
+        "item_count": 4,
+        "item_fields": 1,
+        "items": [
+          7,
+          13,
+          16,
+          10
+        ],
+        "design_key": "f1bd21be0e64"
+      },
+      {
+        "slide_file": "slide9.xml",
+        "title_id": 2,
+        "title_text": "Managerial Implications Communication Models",
+        "subtitle_id": 5,
+        "item_count": 4,
+        "item_fields": 1,
+        "items": [
+          49,
+          32,
+          46,
+          52
+        ],
+        "design_key": "2117bcd7e5be"
+      },
+      {
+        "slide_file": "slide11.xml",
+        "title_id": 2,
+        "title_text": "Integrated Communication Models",
+        "subtitle_id": null,
+        "item_count": 4,
+        "item_fields": 1,
+        "items": [
+          18,
+          14,
+          11,
+          23
+        ],
+        "design_key": "b383b2b46578"
+      },
+      {
+        "slide_file": "slide12.xml",
+        "title_id": 2,
+        "title_text": "Enhancing Communication Effectiveness",
+        "subtitle_id": null,
+        "item_count": 4,
+        "item_fields": 1,
+        "items": [
+          63,
+          43,
+          73,
+          53
+        ],
+        "design_key": "cf5a90acce41"
+      },
+      {
+        "slide_file": "slide13.xml",
+        "title_id": 2,
+        "title_text": "Crisis Communication Product Recall",
+        "subtitle_id": null,
+        "item_count": 4,
+        "item_fields": 1,
+        "items": [
+          44,
+          41,
+          43,
+          42
+        ],
+        "design_key": "1aeaefa170e3"
+      },
+      {
+        "slide_file": "slide14.xml",
+        "title_id": 2,
+        "title_text": "Communication Elements Feedback Systems",
+        "subtitle_id": null,
+        "item_count": 4,
+        "item_fields": 1,
+        "items": [
+          10,
+          19,
+          34,
+          46
+        ],
+        "design_key": "d7df1d1efa00"
+      },
+      {
+        "slide_file": "slide16.xml",
+        "title_id": 2,
+        "title_text": "Role of Sender",
+        "subtitle_id": null,
+        "item_count": 4,
+        "item_fields": 1,
+        "items": [
+          31,
+          16,
+          26,
+          21
+        ],
+        "design_key": "db1fb82020c8"
+      }
+    ],
+    "5": [
+      {
+        "slide_file": "slide4.xml",
+        "title_id": 3,
+        "title_text": "Schramm Interactive Model",
+        "subtitle_id": null,
+        "item_count": 5,
+        "item_fields": 1,
+        "items": [
+          57,
+          60,
+          76,
+          62,
+          73
+        ],
+        "design_key": "653da8ce0061"
+      },
+      {
+        "slide_file": "slide5.xml",
+        "title_id": 2,
+        "title_text": "Berlo SMCR Model",
+        "subtitle_id": null,
+        "item_count": 5,
+        "item_fields": 1,
+        "items": [
+          3,
+          4,
+          5,
+          6,
+          7
+        ],
+        "design_key": "754955e118b3"
+      },
+      {
+        "slide_file": "slide6.xml",
+        "title_id": 2,
+        "title_text": "Cross Functional Communication",
+        "subtitle_id": null,
+        "item_count": 5,
+        "item_fields": 1,
+        "items": [
+          22,
+          24,
+          46,
+          39,
+          28
+        ],
+        "design_key": "1c292c42ef39"
+      },
+      {
+        "slide_file": "slide10.xml",
+        "title_id": 2,
+        "title_text": "Global FMCG Communication",
+        "subtitle_id": null,
+        "item_count": 5,
+        "item_fields": 1,
+        "items": [
+          92,
+          97,
+          86,
+          88,
+          90
+        ],
+        "design_key": "3df7ac59a860"
+      },
+      {
+        "slide_file": "slide18.xml",
+        "title_id": 2,
+        "title_text": "Process of Encoding",
+        "subtitle_id": null,
+        "item_count": 5,
+        "item_fields": 1,
+        "items": [
+          67,
+          73,
+          65,
+          69,
+          71
+        ],
+        "design_key": "59291467dd44"
+      },
+      {
+        "slide_file": "slide19.xml",
+        "title_id": 2,
+        "title_text": "Role of Communication Channel",
+        "subtitle_id": null,
+        "item_count": 5,
+        "item_fields": 1,
+        "items": [
+          76,
+          78,
+          69,
+          71,
+          74
+        ],
+        "design_key": "d0478367b6fa"
+      },
+      {
+        "slide_file": "slide20.xml",
+        "title_id": 2,
+        "title_text": "Role of Receiver",
+        "subtitle_id": null,
+        "item_count": 5,
+        "item_fields": 1,
+        "items": [
+          42,
+          46,
+          49,
+          51,
+          39
+        ],
+        "design_key": "6afc3becadfb"
+      },
+      {
+        "slide_file": "slide21.xml",
+        "title_id": 2,
+        "title_text": "Process of Decoding",
+        "subtitle_id": null,
+        "item_count": 5,
+        "item_fields": 1,
+        "items": [
+          65,
+          63,
+          67,
+          71,
+          69
+        ],
+        "design_key": "c69e011d6d18"
+      },
+      {
+        "slide_file": "slide22.xml",
+        "title_id": 2,
+        "title_text": "Role of Feedback",
+        "subtitle_id": null,
+        "item_count": 5,
+        "item_fields": 1,
+        "items": [
+          40,
+          51,
+          48,
+          44,
+          34
+        ],
+        "design_key": "8b34f7be23ec"
+      }
+    ],
+    "7": [
+      {
+        "slide_file": "slide15.xml",
+        "title_id": 2,
+        "title_text": "Sequential Communication Flow",
+        "subtitle_id": null,
+        "item_count": 7,
+        "item_fields": 1,
+        "items": [
+          90,
+          88,
+          92,
+          94,
+          96,
+          98,
+          100
+        ],
+        "design_key": "6f4d0844dfbf"
+      }
+    ]
+  },
+  "skipped_slides": [
+    1,
+    2,
+    3,
+    23
+  ]
+}

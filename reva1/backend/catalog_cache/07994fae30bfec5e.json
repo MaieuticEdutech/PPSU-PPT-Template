@@ -1,0 +1,1573 @@
+{
+  "version": 3,
+  "source_deck": "template.pptx",
+  "patterns": {
+    "2": [
+      {
+        "slide_file": "slide5.xml",
+        "title_id": 10,
+        "title_text": "Swapping",
+        "subtitle_id": 2,
+        "item_count": 2,
+        "item_fields": 1,
+        "items": [
+          5,
+          12
+        ],
+        "design_key": "117dd5ae529d"
+      },
+      {
+        "slide_file": "slide8.xml",
+        "title_id": 10,
+        "title_text": "Array Swapping and Design Notes",
+        "subtitle_id": 2,
+        "item_count": 2,
+        "item_fields": 1,
+        "items": [
+          6,
+          13
+        ],
+        "design_key": "59a8fc11c0f5"
+      },
+      {
+        "slide_file": "slide15.xml",
+        "title_id": 10,
+        "title_text": "Swapping vs Counting",
+        "subtitle_id": 2,
+        "item_count": 2,
+        "item_fields": 1,
+        "items": [
+          5,
+          8
+        ],
+        "design_key": "3b51b04eac7e"
+      },
+      {
+        "slide_file": "slide20.xml",
+        "title_id": 10,
+        "title_text": "Swapping Applications",
+        "subtitle_id": 2,
+        "item_count": 2,
+        "item_fields": 1,
+        "items": [
+          5,
+          15
+        ],
+        "design_key": "4729e351bb93"
+      },
+      {
+        "slide_file": "slide30.xml",
+        "title_id": 10,
+        "title_text": "Swapping Applications",
+        "subtitle_id": 2,
+        "item_count": 2,
+        "item_fields": 1,
+        "items": [
+          6,
+          13
+        ],
+        "design_key": "ecd78f3e9b54"
+      },
+      {
+        "slide_file": "slide31.xml",
+        "title_id": 10,
+        "title_text": "Swapping Applications",
+        "subtitle_id": 2,
+        "item_count": 2,
+        "item_fields": 1,
+        "items": [
+          8,
+          18
+        ],
+        "design_key": "d2e1b834a5ee"
+      },
+      {
+        "slide_file": "slide32.xml",
+        "title_id": 10,
+        "title_text": "Swapping Applications",
+        "subtitle_id": 13,
+        "item_count": 2,
+        "item_fields": 1,
+        "items": [
+          6,
+          12
+        ],
+        "design_key": "f3775db4a4a0"
+      },
+      {
+        "slide_file": "slide33.xml",
+        "title_id": 10,
+        "title_text": "Swapping Applications",
+        "subtitle_id": 2,
+        "item_count": 2,
+        "item_fields": 1,
+        "items": [
+          6,
+          13
+        ],
+        "design_key": "75fa5ccad5f9"
+      },
+      {
+        "slide_file": "slide36.xml",
+        "title_id": 10,
+        "title_text": "Swapping Applications",
+        "subtitle_id": 2,
+        "item_count": 2,
+        "item_fields": 1,
+        "items": [
+          4,
+          15
+        ],
+        "design_key": "91c3bf492283"
+      },
+      {
+        "slide_file": "slide38.xml",
+        "title_id": 10,
+        "title_text": "Swapping Applications",
+        "subtitle_id": 2,
+        "item_count": 2,
+        "item_fields": 1,
+        "items": [
+          5,
+          11
+        ],
+        "design_key": "57d24a8e027c"
+      },
+      {
+        "slide_file": "slide39.xml",
+        "title_id": 10,
+        "title_text": "Swapping Applications",
+        "subtitle_id": 19,
+        "item_count": 2,
+        "item_fields": 1,
+        "items": [
+          9,
+          4
+        ],
+        "design_key": "1401d15dc475"
+      },
+      {
+        "slide_file": "slide46.xml",
+        "title_id": 10,
+        "title_text": "Swapping Applications",
+        "subtitle_id": 2,
+        "item_count": 2,
+        "item_fields": 1,
+        "items": [
+          8,
+          5
+        ],
+        "design_key": "0dde0f9999cc"
+      },
+      {
+        "slide_file": "slide49.xml",
+        "title_id": 10,
+        "title_text": "Swapping Applications",
+        "subtitle_id": 2,
+        "item_count": 2,
+        "item_fields": 1,
+        "items": [
+          5,
+          11
+        ],
+        "design_key": "b29115cb7d69"
+      },
+      {
+        "slide_file": "slide52.xml",
+        "title_id": 10,
+        "title_text": "Swapping Applications",
+        "subtitle_id": 2,
+        "item_count": 2,
+        "item_fields": 1,
+        "items": [
+          9,
+          5
+        ],
+        "design_key": "a35665e3ce51"
+      },
+      {
+        "slide_file": "slide53.xml",
+        "title_id": 10,
+        "title_text": "Swapping Applications",
+        "subtitle_id": 2,
+        "item_count": 2,
+        "item_fields": 1,
+        "items": [
+          5,
+          12
+        ],
+        "design_key": "a51351abe264"
+      },
+      {
+        "slide_file": "slide94.xml",
+        "title_id": 549722563,
+        "title_text": "Introduction",
+        "subtitle_id": 2089006406,
+        "item_count": 2,
+        "item_fields": 1,
+        "items": [
+          21,
+          17
+        ],
+        "design_key": "ca2e52efb7e9"
+      },
+      {
+        "slide_file": "slide95.xml",
+        "title_id": 1555530630,
+        "title_text": "Eigen Vector",
+        "subtitle_id": 1016240231,
+        "item_count": 2,
+        "item_fields": 1,
+        "items": [
+          22,
+          16
+        ],
+        "design_key": "e59979993506"
+      },
+      {
+        "slide_file": "slide96.xml",
+        "title_id": 948532803,
+        "title_text": "Eigen Value",
+        "subtitle_id": 1688595918,
+        "item_count": 2,
+        "item_fields": 1,
+        "items": [
+          11,
+          9
+        ],
+        "design_key": "0f7f1a868649"
+      },
+      {
+        "slide_file": "slide97.xml",
+        "title_id": 1981720575,
+        "title_text": "The Eigen Value Equation",
+        "subtitle_id": 342294038,
+        "item_count": 2,
+        "item_fields": 1,
+        "items": [
+          17,
+          13
+        ],
+        "design_key": "9adedde91245"
+      },
+      {
+        "slide_file": "slide98.xml",
+        "title_id": 154725741,
+        "title_text": "Characteristic Equation",
+        "subtitle_id": 15112573,
+        "item_count": 2,
+        "item_fields": 1,
+        "items": [
+          16,
+          11
+        ],
+        "design_key": "fbdf60b7a1d7"
+      },
+      {
+        "slide_file": "slide99.xml",
+        "title_id": 2009155316,
+        "title_text": "Worked Example 1",
+        "subtitle_id": 1878096747,
+        "item_count": 2,
+        "item_fields": 1,
+        "items": [
+          14,
+          8
+        ],
+        "design_key": "21893e7bced6"
+      },
+      {
+        "slide_file": "slide100.xml",
+        "title_id": 1452992424,
+        "title_text": "Worked Example 1",
+        "subtitle_id": 212075582,
+        "item_count": 2,
+        "item_fields": 1,
+        "items": [
+          2,
+          3
+        ],
+        "design_key": "ea8b88bbfd46"
+      },
+      {
+        "slide_file": "slide101.xml",
+        "title_id": 1240524928,
+        "title_text": "Worked Example 1",
+        "subtitle_id": 440355280,
+        "item_count": 2,
+        "item_fields": 1,
+        "items": [
+          15,
+          11
+        ],
+        "design_key": "475346040c03"
+      },
+      {
+        "slide_file": "slide102.xml",
+        "title_id": 936638463,
+        "title_text": "Worked Example 2",
+        "subtitle_id": 227955821,
+        "item_count": 2,
+        "item_fields": 1,
+        "items": [
+          36,
+          32
+        ],
+        "design_key": "6e4d0b56d42b"
+      },
+      {
+        "slide_file": "slide103.xml",
+        "title_id": 2095691557,
+        "title_text": "Worked Example 2",
+        "subtitle_id": 2038053168,
+        "item_count": 2,
+        "item_fields": 1,
+        "items": [
+          8,
+          26
+        ],
+        "design_key": "ae5ffcac8568"
+      },
+      {
+        "slide_file": "slide104.xml",
+        "title_id": 625846202,
+        "title_text": "A Special Case",
+        "subtitle_id": 1221730298,
+        "item_count": 2,
+        "item_fields": 1,
+        "items": [
+          10,
+          5
+        ],
+        "design_key": "a51351abe264"
+      },
+      {
+        "slide_file": "slide105.xml",
+        "title_id": 625846202,
+        "title_text": "A Special Case",
+        "subtitle_id": 1221730298,
+        "item_count": 2,
+        "item_fields": 1,
+        "items": [
+          24,
+          17
+        ],
+        "design_key": "a986f2a61e5e"
+      },
+      {
+        "slide_file": "slide106.xml",
+        "title_id": 625846202,
+        "title_text": "A Special Case",
+        "subtitle_id": 1221730298,
+        "item_count": 2,
+        "item_fields": 1,
+        "items": [
+          6,
+          4
+        ],
+        "design_key": "9a5431674d85"
+      },
+      {
+        "slide_file": "slide107.xml",
+        "title_id": 1455291788,
+        "title_text": "Why This Matters",
+        "subtitle_id": 1868405307,
+        "item_count": 2,
+        "item_fields": 1,
+        "items": [
+          30,
+          35
+        ],
+        "design_key": "5b154e82bf78"
+      },
+      {
+        "slide_file": "slide108.xml",
+        "title_id": 879347145,
+        "title_text": "Applications",
+        "subtitle_id": 396636896,
+        "item_count": 2,
+        "item_fields": 1,
+        "items": [
+          4,
+          10
+        ],
+        "design_key": "3b51b04eac7e"
+      },
+      {
+        "slide_file": "slide109.xml",
+        "title_id": 179598687,
+        "title_text": "More Applications",
+        "subtitle_id": 71530885,
+        "item_count": 2,
+        "item_fields": 1,
+        "items": [
+          14,
+          18
+        ],
+        "design_key": "b7c40744926e"
+      },
+      {
+        "slide_file": "slide110.xml",
+        "title_id": 1619311152,
+        "title_text": "Quick Recap",
+        "subtitle_id": 520446565,
+        "item_count": 2,
+        "item_fields": 1,
+        "items": [
+          22,
+          17
+        ],
+        "design_key": "231efaa48ded"
+      },
+      {
+        "slide_file": "slide112.xml",
+        "title_id": 1619311152,
+        "title_text": "Quick Recap",
+        "subtitle_id": 520446565,
+        "item_count": 2,
+        "item_fields": 1,
+        "items": [
+          26,
+          8
+        ],
+        "design_key": "8eedd3acf961"
+      },
+      {
+        "slide_file": "slide114.xml",
+        "title_id": 1619311152,
+        "title_text": "Quick Recap",
+        "subtitle_id": 520446565,
+        "item_count": 2,
+        "item_fields": 1,
+        "items": [
+          11,
+          8
+        ],
+        "design_key": "743fc1b15763"
+      },
+      {
+        "slide_file": "slide115.xml",
+        "title_id": 1619311152,
+        "title_text": "Quick Recap",
+        "subtitle_id": 520446565,
+        "item_count": 2,
+        "item_fields": 1,
+        "items": [
+          8,
+          11
+        ],
+        "design_key": "56f4771c53e1"
+      },
+      {
+        "slide_file": "slide116.xml",
+        "title_id": 1619311152,
+        "title_text": "Quick Recap",
+        "subtitle_id": 520446565,
+        "item_count": 2,
+        "item_fields": 1,
+        "items": [
+          27,
+          12
+        ],
+        "design_key": "874cb540325e"
+      },
+      {
+        "slide_file": "slide117.xml",
+        "title_id": 381545431,
+        "title_text": "Summary",
+        "subtitle_id": null,
+        "item_count": 2,
+        "item_fields": 1,
+        "items": [
+          8,
+          6
+        ],
+        "design_key": "1c670c43b9eb"
+      }
+    ],
+    "3": [
+      {
+        "slide_file": "slide2.xml",
+        "title_id": 10,
+        "title_text": "Summary",
+        "subtitle_id": null,
+        "item_count": 3,
+        "item_fields": 1,
+        "items": [
+          12,
+          14,
+          16
+        ],
+        "design_key": "d2aa1a688297"
+      },
+      {
+        "slide_file": "slide14.xml",
+        "title_id": 10,
+        "title_text": "Counting Case Study",
+        "subtitle_id": 2,
+        "item_count": 3,
+        "item_fields": 1,
+        "items": [
+          6,
+          9,
+          14
+        ],
+        "design_key": "c54510e0a587"
+      },
+      {
+        "slide_file": "slide18.xml",
+        "title_id": 10,
+        "title_text": "Swap Method 2 \u2014 Worked Example",
+        "subtitle_id": 2,
+        "item_count": 3,
+        "item_fields": 1,
+        "items": [
+          5,
+          12,
+          17
+        ],
+        "design_key": "4c416e658453"
+      },
+      {
+        "slide_file": "slide25.xml",
+        "title_id": 10,
+        "title_text": "Swapping Applications",
+        "subtitle_id": 2,
+        "item_count": 3,
+        "item_fields": 1,
+        "items": [
+          3,
+          4,
+          5
+        ],
+        "design_key": "e349c36a1d4b"
+      },
+      {
+        "slide_file": "slide48.xml",
+        "title_id": 10,
+        "title_text": "Swapping Applications",
+        "subtitle_id": 2,
+        "item_count": 3,
+        "item_fields": 1,
+        "items": [
+          11,
+          15,
+          6
+        ],
+        "design_key": "58d9f24b813f"
+      },
+      {
+        "slide_file": "slide54.xml",
+        "title_id": 10,
+        "title_text": "Swapping Applications",
+        "subtitle_id": 2,
+        "item_count": 3,
+        "item_fields": 1,
+        "items": [
+          6,
+          9,
+          16
+        ],
+        "design_key": "85e702229648"
+      },
+      {
+        "slide_file": "slide56.xml",
+        "title_id": 10,
+        "title_text": "Swapping Applications",
+        "subtitle_id": 2,
+        "item_count": 3,
+        "item_fields": 1,
+        "items": [
+          11,
+          27,
+          18
+        ],
+        "design_key": "27b1d299d408"
+      },
+      {
+        "slide_file": "slide59.xml",
+        "title_id": 10,
+        "title_text": "Swapping Applications",
+        "subtitle_id": 2,
+        "item_count": 3,
+        "item_fields": 1,
+        "items": [
+          5,
+          12,
+          18
+        ],
+        "design_key": "52caf46395ee"
+      },
+      {
+        "slide_file": "slide63.xml",
+        "title_id": 10,
+        "title_text": "Swapping Applications",
+        "subtitle_id": 3,
+        "item_count": 3,
+        "item_fields": 1,
+        "items": [
+          7,
+          14,
+          47
+        ],
+        "design_key": "e864029d93c8"
+      }
+    ],
+    "4": [
+      {
+        "slide_file": "slide1.xml",
+        "title_id": 10,
+        "title_text": "Introduction",
+        "subtitle_id": 2,
+        "item_count": 4,
+        "item_fields": 1,
+        "items": [
+          5,
+          13,
+          19,
+          33
+        ],
+        "design_key": "c24bd218da9c"
+      },
+      {
+        "slide_file": "slide3.xml",
+        "title_id": 10,
+        "title_text": "Summary",
+        "subtitle_id": null,
+        "item_count": 4,
+        "item_fields": 1,
+        "items": [
+          12,
+          14,
+          16,
+          2
+        ],
+        "design_key": "d2aa1a688297"
+      },
+      {
+        "slide_file": "slide4.xml",
+        "title_id": 1524650370,
+        "title_text": "Learning Objectives",
+        "subtitle_id": null,
+        "item_count": 4,
+        "item_fields": 1,
+        "items": [
+          4,
+          24,
+          33,
+          42
+        ],
+        "design_key": "107a5f926b48"
+      },
+      {
+        "slide_file": "slide9.xml",
+        "title_id": 10,
+        "title_text": "Swapping Case Study",
+        "subtitle_id": 2,
+        "item_count": 4,
+        "item_fields": 1,
+        "items": [
+          5,
+          12,
+          17,
+          30
+        ],
+        "design_key": "65cca9ccc3f6"
+      },
+      {
+        "slide_file": "slide10.xml",
+        "title_id": 10,
+        "title_text": "Counting Algorithm",
+        "subtitle_id": 2,
+        "item_count": 4,
+        "item_fields": 1,
+        "items": [
+          19,
+          33,
+          39,
+          45
+        ],
+        "design_key": "231efaa48ded"
+      },
+      {
+        "slide_file": "slide11.xml",
+        "title_id": 10,
+        "title_text": "Counting Examples",
+        "subtitle_id": 2,
+        "item_count": 4,
+        "item_fields": 1,
+        "items": [
+          5,
+          12,
+          17,
+          30
+        ],
+        "design_key": "7c7061d79013"
+      },
+      {
+        "slide_file": "slide12.xml",
+        "title_id": 10,
+        "title_text": "Counting Examination Mark",
+        "subtitle_id": 2,
+        "item_count": 4,
+        "item_fields": 1,
+        "items": [
+          19,
+          30,
+          33,
+          36
+        ],
+        "design_key": "d3a8e4b826ac"
+      },
+      {
+        "slide_file": "slide16.xml",
+        "title_id": 10,
+        "title_text": "Counting Occurrences of a Value",
+        "subtitle_id": 2,
+        "item_count": 4,
+        "item_fields": 1,
+        "items": [
+          6,
+          13,
+          18,
+          31
+        ],
+        "design_key": "475346040c03"
+      },
+      {
+        "slide_file": "slide19.xml",
+        "title_id": 10,
+        "title_text": "Counting \u2014 Key Principles",
+        "subtitle_id": 2,
+        "item_count": 4,
+        "item_fields": 1,
+        "items": [
+          28,
+          6,
+          12,
+          16
+        ],
+        "design_key": "fd5e28720265"
+      },
+      {
+        "slide_file": "slide21.xml",
+        "title_id": 10,
+        "title_text": "Swapping Applications",
+        "subtitle_id": 11,
+        "item_count": 4,
+        "item_fields": 1,
+        "items": [
+          23,
+          29,
+          35,
+          41
+        ],
+        "design_key": "243550b564f9"
+      },
+      {
+        "slide_file": "slide22.xml",
+        "title_id": 10,
+        "title_text": "Swapping Applications",
+        "subtitle_id": 2,
+        "item_count": 4,
+        "item_fields": 1,
+        "items": [
+          5,
+          11,
+          16,
+          21
+        ],
+        "design_key": "a35665e3ce51"
+      },
+      {
+        "slide_file": "slide23.xml",
+        "title_id": 10,
+        "title_text": "Swapping Applications",
+        "subtitle_id": 2,
+        "item_count": 4,
+        "item_fields": 1,
+        "items": [
+          30,
+          5,
+          18,
+          42
+        ],
+        "design_key": "fab279b19af1"
+      },
+      {
+        "slide_file": "slide24.xml",
+        "title_id": 10,
+        "title_text": "Swapping Applications",
+        "subtitle_id": 2,
+        "item_count": 4,
+        "item_fields": 1,
+        "items": [
+          5,
+          8,
+          12,
+          15
+        ],
+        "design_key": "8fc544825ccd"
+      },
+      {
+        "slide_file": "slide26.xml",
+        "title_id": 10,
+        "title_text": "Swapping Applications",
+        "subtitle_id": 2,
+        "item_count": 4,
+        "item_fields": 1,
+        "items": [
+          5,
+          6,
+          8,
+          11
+        ],
+        "design_key": "fd5e28720265"
+      },
+      {
+        "slide_file": "slide27.xml",
+        "title_id": 10,
+        "title_text": "Swapping Applications",
+        "subtitle_id": 2,
+        "item_count": 4,
+        "item_fields": 1,
+        "items": [
+          16,
+          5,
+          11,
+          21
+        ],
+        "design_key": "bb21589069d5"
+      },
+      {
+        "slide_file": "slide29.xml",
+        "title_id": 10,
+        "title_text": "Swapping Applications",
+        "subtitle_id": 2,
+        "item_count": 4,
+        "item_fields": 1,
+        "items": [
+          4,
+          11,
+          14,
+          7
+        ],
+        "design_key": "874885d7255a"
+      },
+      {
+        "slide_file": "slide34.xml",
+        "title_id": 10,
+        "title_text": "Swapping Applications",
+        "subtitle_id": 2,
+        "item_count": 4,
+        "item_fields": 1,
+        "items": [
+          7,
+          13,
+          18,
+          23
+        ],
+        "design_key": "b5f77eb4aa5b"
+      },
+      {
+        "slide_file": "slide35.xml",
+        "title_id": 10,
+        "title_text": "Swapping Applications",
+        "subtitle_id": 19,
+        "item_count": 4,
+        "item_fields": 1,
+        "items": [
+          4,
+          8,
+          13,
+          17
+        ],
+        "design_key": "4be9f4aa338b"
+      },
+      {
+        "slide_file": "slide37.xml",
+        "title_id": 10,
+        "title_text": "Swapping Applications",
+        "subtitle_id": 2,
+        "item_count": 4,
+        "item_fields": 1,
+        "items": [
+          5,
+          8,
+          12,
+          15
+        ],
+        "design_key": "cd907cb4145e"
+      },
+      {
+        "slide_file": "slide40.xml",
+        "title_id": 10,
+        "title_text": "Swapping Applications",
+        "subtitle_id": 2,
+        "item_count": 4,
+        "item_fields": 1,
+        "items": [
+          4,
+          14,
+          23,
+          32
+        ],
+        "design_key": "572fac0717b2"
+      },
+      {
+        "slide_file": "slide41.xml",
+        "title_id": 10,
+        "title_text": "Swapping Applications",
+        "subtitle_id": 16,
+        "item_count": 4,
+        "item_fields": 1,
+        "items": [
+          5,
+          8,
+          12,
+          15
+        ],
+        "design_key": "0b3f50fbffe5"
+      },
+      {
+        "slide_file": "slide42.xml",
+        "title_id": 10,
+        "title_text": "Swapping Applications",
+        "subtitle_id": 2,
+        "item_count": 4,
+        "item_fields": 1,
+        "items": [
+          5,
+          11,
+          16,
+          21
+        ],
+        "design_key": "082883634eeb"
+      },
+      {
+        "slide_file": "slide43.xml",
+        "title_id": 10,
+        "title_text": "Swapping Applications",
+        "subtitle_id": 2,
+        "item_count": 4,
+        "item_fields": 1,
+        "items": [
+          9,
+          13,
+          16,
+          19
+        ],
+        "design_key": "292d4edf5b17"
+      },
+      {
+        "slide_file": "slide44.xml",
+        "title_id": 10,
+        "title_text": "Swapping Applications",
+        "subtitle_id": 2,
+        "item_count": 4,
+        "item_fields": 1,
+        "items": [
+          11,
+          5,
+          21,
+          16
+        ],
+        "design_key": "a35665e3ce51"
+      },
+      {
+        "slide_file": "slide45.xml",
+        "title_id": 10,
+        "title_text": "Swapping Applications",
+        "subtitle_id": 2,
+        "item_count": 4,
+        "item_fields": 1,
+        "items": [
+          6,
+          13,
+          19,
+          25
+        ],
+        "design_key": "291944371bfc"
+      },
+      {
+        "slide_file": "slide47.xml",
+        "title_id": 10,
+        "title_text": "Swapping Applications",
+        "subtitle_id": 2,
+        "item_count": 4,
+        "item_fields": 1,
+        "items": [
+          5,
+          8,
+          12,
+          15
+        ],
+        "design_key": "5f99bc9b0b59"
+      },
+      {
+        "slide_file": "slide55.xml",
+        "title_id": 10,
+        "title_text": "Swapping Applications",
+        "subtitle_id": 2,
+        "item_count": 4,
+        "item_fields": 1,
+        "items": [
+          5,
+          16,
+          11,
+          21
+        ],
+        "design_key": "a35665e3ce51"
+      },
+      {
+        "slide_file": "slide58.xml",
+        "title_id": 10,
+        "title_text": "Swapping Applications",
+        "subtitle_id": 2,
+        "item_count": 4,
+        "item_fields": 1,
+        "items": [
+          12,
+          16,
+          6,
+          20
+        ],
+        "design_key": "a35665e3ce51"
+      },
+      {
+        "slide_file": "slide60.xml",
+        "title_id": 10,
+        "title_text": "Swapping Applications",
+        "subtitle_id": 2,
+        "item_count": 4,
+        "item_fields": 1,
+        "items": [
+          24,
+          30,
+          36,
+          42
+        ],
+        "design_key": "927d18437948"
+      },
+      {
+        "slide_file": "slide62.xml",
+        "title_id": 10,
+        "title_text": "Swapping Applications",
+        "subtitle_id": 3,
+        "item_count": 4,
+        "item_fields": 1,
+        "items": [
+          16,
+          23,
+          30,
+          37
+        ],
+        "design_key": "22d8ca6cc208"
+      },
+      {
+        "slide_file": "slide64.xml",
+        "title_id": 10,
+        "title_text": "Swapping Applications",
+        "subtitle_id": 3,
+        "item_count": 4,
+        "item_fields": 1,
+        "items": [
+          2,
+          15,
+          16,
+          17
+        ],
+        "design_key": "ea8b88bbfd46"
+      },
+      {
+        "slide_file": "slide65.xml",
+        "title_id": 10,
+        "title_text": "Swapping Applications",
+        "subtitle_id": 3,
+        "item_count": 4,
+        "item_fields": 1,
+        "items": [
+          56,
+          54,
+          52,
+          50
+        ],
+        "design_key": "11b1afdc457e"
+      },
+      {
+        "slide_file": "slide66.xml",
+        "title_id": 10,
+        "title_text": "Swapping Applications",
+        "subtitle_id": 3,
+        "item_count": 4,
+        "item_fields": 1,
+        "items": [
+          15,
+          13,
+          11,
+          8
+        ],
+        "design_key": "f84e2fae73d3"
+      },
+      {
+        "slide_file": "slide67.xml",
+        "title_id": 10,
+        "title_text": "Swapping Applications",
+        "subtitle_id": 3,
+        "item_count": 4,
+        "item_fields": 1,
+        "items": [
+          29,
+          23,
+          17,
+          11
+        ],
+        "design_key": "3c06c35053cb"
+      },
+      {
+        "slide_file": "slide68.xml",
+        "title_id": 10,
+        "title_text": "Swapping Applications",
+        "subtitle_id": 3,
+        "item_count": 4,
+        "item_fields": 1,
+        "items": [
+          23,
+          19,
+          15,
+          11
+        ],
+        "design_key": "46a58d30bff1"
+      },
+      {
+        "slide_file": "slide69.xml",
+        "title_id": 10,
+        "title_text": "Swapping Applications",
+        "subtitle_id": 3,
+        "item_count": 4,
+        "item_fields": 1,
+        "items": [
+          19,
+          16,
+          23,
+          27
+        ],
+        "design_key": "3c601a11faf0"
+      }
+    ],
+    "5": [
+      {
+        "slide_file": "slide50.xml",
+        "title_id": 10,
+        "title_text": "Swapping Applications",
+        "subtitle_id": 2,
+        "item_count": 5,
+        "item_fields": 1,
+        "items": [
+          6,
+          13,
+          19,
+          25,
+          31
+        ],
+        "design_key": "e72e68a77747"
+      },
+      {
+        "slide_file": "slide51.xml",
+        "title_id": 10,
+        "title_text": "Swapping Applications",
+        "subtitle_id": 2,
+        "item_count": 5,
+        "item_fields": 1,
+        "items": [
+          6,
+          11,
+          15,
+          19,
+          23
+        ],
+        "design_key": "bc68a37b12c9"
+      },
+      {
+        "slide_file": "slide70.xml",
+        "title_id": 10,
+        "title_text": "Swapping Applications",
+        "subtitle_id": 3,
+        "item_count": 5,
+        "item_fields": 1,
+        "items": [
+          40,
+          18,
+          14,
+          35,
+          45
+        ],
+        "design_key": "47805d82458b"
+      },
+      {
+        "slide_file": "slide72.xml",
+        "title_id": 10,
+        "title_text": "Arithmetic Expressions",
+        "subtitle_id": 11,
+        "item_count": 5,
+        "item_fields": 1,
+        "items": [
+          9,
+          26,
+          40,
+          33,
+          47
+        ],
+        "design_key": "5d20ce2ecea7"
+      },
+      {
+        "slide_file": "slide73.xml",
+        "title_id": 10,
+        "title_text": "Arithmetic Expressions",
+        "subtitle_id": 11,
+        "item_count": 5,
+        "item_fields": 1,
+        "items": [
+          6,
+          13,
+          18,
+          23,
+          7
+        ],
+        "design_key": "d63986cc38b4"
+      },
+      {
+        "slide_file": "slide74.xml",
+        "title_id": 10,
+        "title_text": "Arithmetic Expressions",
+        "subtitle_id": 11,
+        "item_count": 5,
+        "item_fields": 1,
+        "items": [
+          16,
+          25,
+          29,
+          33,
+          37
+        ],
+        "design_key": "4be9f4aa338b"
+      },
+      {
+        "slide_file": "slide75.xml",
+        "title_id": 10,
+        "title_text": "Arithmetic Expressions",
+        "subtitle_id": 11,
+        "item_count": 5,
+        "item_fields": 1,
+        "items": [
+          4,
+          7,
+          12,
+          15,
+          18
+        ],
+        "design_key": "c34a153d7522"
+      },
+      {
+        "slide_file": "slide76.xml",
+        "title_id": 10,
+        "title_text": "Arithmetic Expressions",
+        "subtitle_id": 11,
+        "item_count": 5,
+        "item_fields": 1,
+        "items": [
+          6,
+          13,
+          18,
+          23,
+          28
+        ],
+        "design_key": "e7eb13d8cd0b"
+      },
+      {
+        "slide_file": "slide77.xml",
+        "title_id": 10,
+        "title_text": "Arithmetic Expressions",
+        "subtitle_id": 11,
+        "item_count": 5,
+        "item_fields": 1,
+        "items": [
+          5,
+          22,
+          12,
+          32,
+          37
+        ],
+        "design_key": "5c14087b0439"
+      },
+      {
+        "slide_file": "slide78.xml",
+        "title_id": 10,
+        "title_text": "Arithmetic Expressions",
+        "subtitle_id": 11,
+        "item_count": 5,
+        "item_fields": 1,
+        "items": [
+          26,
+          4,
+          9,
+          16,
+          21
+        ],
+        "design_key": "26d635f342e4"
+      },
+      {
+        "slide_file": "slide79.xml",
+        "title_id": 10,
+        "title_text": "Arithmetic Expressions",
+        "subtitle_id": 11,
+        "item_count": 5,
+        "item_fields": 1,
+        "items": [
+          4,
+          9,
+          16,
+          21,
+          26
+        ],
+        "design_key": "0edecb2da5fd"
+      },
+      {
+        "slide_file": "slide80.xml",
+        "title_id": 10,
+        "title_text": "Arithmetic Expressions",
+        "subtitle_id": 11,
+        "item_count": 5,
+        "item_fields": 1,
+        "items": [
+          4,
+          9,
+          16,
+          21,
+          26
+        ],
+        "design_key": "22faa14a5aee"
+      },
+      {
+        "slide_file": "slide81.xml",
+        "title_id": 10,
+        "title_text": "Arithmetic Expressions",
+        "subtitle_id": 11,
+        "item_count": 5,
+        "item_fields": 1,
+        "items": [
+          5,
+          16,
+          25,
+          34,
+          43
+        ],
+        "design_key": "70cc309f36d6"
+      },
+      {
+        "slide_file": "slide82.xml",
+        "title_id": 10,
+        "title_text": "Arithmetic Expressions",
+        "subtitle_id": 11,
+        "item_count": 5,
+        "item_fields": 1,
+        "items": [
+          6,
+          15,
+          25,
+          32,
+          42
+        ],
+        "design_key": "e8ccc903ddca"
+      },
+      {
+        "slide_file": "slide83.xml",
+        "title_id": 10,
+        "title_text": "Arithmetic Expressions",
+        "subtitle_id": 11,
+        "item_count": 5,
+        "item_fields": 1,
+        "items": [
+          3,
+          9,
+          17,
+          23,
+          29
+        ],
+        "design_key": "4d28b4b926b5"
+      },
+      {
+        "slide_file": "slide84.xml",
+        "title_id": 10,
+        "title_text": "Arithmetic Expressions",
+        "subtitle_id": 11,
+        "item_count": 5,
+        "item_fields": 1,
+        "items": [
+          4,
+          12,
+          18,
+          24,
+          30
+        ],
+        "design_key": "9782428d463a"
+      },
+      {
+        "slide_file": "slide85.xml",
+        "title_id": 10,
+        "title_text": "Arithmetic Expressions",
+        "subtitle_id": 11,
+        "item_count": 5,
+        "item_fields": 1,
+        "items": [
+          2,
+          4,
+          3,
+          5,
+          6
+        ],
+        "design_key": "a2f637a1b1d0"
+      },
+      {
+        "slide_file": "slide86.xml",
+        "title_id": 10,
+        "title_text": "Arithmetic Expressions",
+        "subtitle_id": 11,
+        "item_count": 5,
+        "item_fields": 1,
+        "items": [
+          4,
+          2,
+          3,
+          5,
+          6
+        ],
+        "design_key": "7cb0bc2939c7"
+      },
+      {
+        "slide_file": "slide87.xml",
+        "title_id": 10,
+        "title_text": "Arithmetic Expressions",
+        "subtitle_id": 11,
+        "item_count": 5,
+        "item_fields": 1,
+        "items": [
+          3,
+          14,
+          9,
+          6,
+          23
+        ],
+        "design_key": "c0ce6efafc2a"
+      },
+      {
+        "slide_file": "slide88.xml",
+        "title_id": 10,
+        "title_text": "Arithmetic Expressions",
+        "subtitle_id": 11,
+        "item_count": 5,
+        "item_fields": 1,
+        "items": [
+          6,
+          13,
+          18,
+          23,
+          28
+        ],
+        "design_key": "b0407effdd24"
+      },
+      {
+        "slide_file": "slide89.xml",
+        "title_id": 10,
+        "title_text": "Arithmetic Expressions",
+        "subtitle_id": 11,
+        "item_count": 5,
+        "item_fields": 1,
+        "items": [
+          3,
+          6,
+          9,
+          14,
+          17
+        ],
+        "design_key": "e299b66c99e6"
+      },
+      {
+        "slide_file": "slide90.xml",
+        "title_id": 10,
+        "title_text": "Arithmetic Expressions",
+        "subtitle_id": 11,
+        "item_count": 5,
+        "item_fields": 1,
+        "items": [
+          3,
+          4,
+          5,
+          6,
+          12
+        ],
+        "design_key": "a815ed36d8f6"
+      },
+      {
+        "slide_file": "slide91.xml",
+        "title_id": 10,
+        "title_text": "Arithmetic Expressions",
+        "subtitle_id": 11,
+        "item_count": 5,
+        "item_fields": 1,
+        "items": [
+          9,
+          4,
+          16,
+          21,
+          26
+        ],
+        "design_key": "01303ebd9ac6"
+      },
+      {
+        "slide_file": "slide92.xml",
+        "title_id": 10,
+        "title_text": "Arithmetic Expressions",
+        "subtitle_id": 11,
+        "item_count": 5,
+        "item_fields": 1,
+        "items": [
+          7,
+          12,
+          15,
+          4,
+          18
+        ],
+        "design_key": "dc83f7beacca"
+      },
+      {
+        "slide_file": "slide93.xml",
+        "title_id": 10,
+        "title_text": "Arithmetic Expressions",
+        "subtitle_id": 11,
+        "item_count": 5,
+        "item_fields": 1,
+        "items": [
+          3,
+          5,
+          7,
+          9,
+          14
+        ],
+        "design_key": "a679b7c327aa"
+      }
+    ]
+  },
+  "skipped_slides": [
+    6,
+    7,
+    13,
+    17,
+    28,
+    57,
+    61,
+    71,
+    111,
+    113
+  ]
+}

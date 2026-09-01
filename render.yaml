@@ -1,0 +1,23 @@
+# Render Blueprint — deploys the ppsu1 backend as a free Docker web service.
+# In the Render dashboard: New + -> Blueprint -> pick this repo -> Apply.
+#
+# If the name "ppsu-ppt-designer" is taken, Render will suffix the URL; the
+# actual URL then has to be copied into ppsu1/frontend/index.html
+# (HOSTED_BACKEND constant) before deploying the frontend to Vercel.
+services:
+  - type: web
+    name: ppsu-ppt-designer
+    runtime: docker
+    plan: free
+    dockerfilePath: ./ppsu1/Dockerfile
+    dockerContext: ./ppsu1
+    healthCheckPath: /
+    envVars:
+      # The Vercel frontend's production origin, e.g. https://ppsu-ppt.vercel.app
+      # (no trailing slash). Optional: when unset the backend allows all origins.
+      - key: FRONTEND_URL
+        sync: false
+      # Uncomment to switch the bundled default to the small 0.46 MB template
+      # if the 50 MB library ever OOMs the 512 MB free instance:
+      # - key: DEFAULT_TEMPLATE_PATH
+      #   value: /app/template/PPSU TEMPLATE.pptx

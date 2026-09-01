@@ -1,0 +1,512 @@
+{
+  "version": 4,
+  "source_deck": "template.pptx",
+  "patterns": {
+    "4": [
+      {
+        "slide_file": "slide4.xml",
+        "title_id": 10,
+        "title_text": "Introduction",
+        "subtitle_id": 11,
+        "item_count": 4,
+        "item_fields": 1,
+        "items": [
+          7,
+          12,
+          15,
+          4
+        ],
+        "item_dims": [
+          [
+            3805049,
+            769441
+          ],
+          [
+            2701341,
+            769441
+          ],
+          [
+            4544170,
+            430887
+          ],
+          [
+            4246613,
+            769441
+          ]
+        ],
+        "design_key": "dc83f7beacca"
+      },
+      {
+        "slide_file": "slide5.xml",
+        "title_id": 5,
+        "title_text": "Learning Objectives",
+        "subtitle_id": null,
+        "item_count": 4,
+        "item_fields": 1,
+        "items": [
+          54,
+          51,
+          48,
+          45
+        ],
+        "item_dims": [
+          [
+            4501305,
+            769441
+          ],
+          [
+            4769100,
+            769441
+          ],
+          [
+            4769100,
+            769441
+          ],
+          [
+            4018698,
+            769441
+          ]
+        ],
+        "design_key": "6b29898e8f8e"
+      },
+      {
+        "slide_file": "slide6.xml",
+        "title_id": 17,
+        "title_text": "Race Condition",
+        "subtitle_id": 11,
+        "item_count": 4,
+        "item_fields": 1,
+        "items": [
+          3,
+          5,
+          7,
+          9
+        ],
+        "item_dims": [
+          [
+            3447227,
+            769441
+          ],
+          [
+            3677653,
+            769441
+          ],
+          [
+            3677653,
+            769441
+          ],
+          [
+            3677653,
+            769441
+          ]
+        ],
+        "design_key": "028e900bf2ac"
+      },
+      {
+        "slide_file": "slide8.xml",
+        "title_id": 10,
+        "title_text": "Requirements for a Solution",
+        "subtitle_id": 11,
+        "item_count": 4,
+        "item_fields": 1,
+        "items": [
+          6,
+          13,
+          18,
+          23
+        ],
+        "item_dims": [
+          [
+            4065640,
+            779526
+          ],
+          [
+            3633542,
+            779526
+          ],
+          [
+            3963326,
+            779526
+          ],
+          [
+            3963326,
+            779526
+          ]
+        ],
+        "design_key": "d63986cc38b4"
+      },
+      {
+        "slide_file": "slide9.xml",
+        "title_id": 10,
+        "title_text": "Synchronisation Hardware",
+        "subtitle_id": 3,
+        "item_count": 4,
+        "item_fields": 1,
+        "items": [
+          12,
+          14,
+          16,
+          41
+        ],
+        "item_dims": [
+          [
+            5333378,
+            903405
+          ],
+          [
+            5333378,
+            903405
+          ],
+          [
+            5333378,
+            903405
+          ],
+          [
+            5333378,
+            903405
+          ]
+        ],
+        "design_key": "5ff066ec9531"
+      },
+      {
+        "slide_file": "slide10.xml",
+        "title_id": 10,
+        "title_text": "Test-and-Set Instruction",
+        "subtitle_id": 3,
+        "item_count": 4,
+        "item_fields": 1,
+        "items": [
+          23,
+          28,
+          34,
+          39
+        ],
+        "item_dims": [
+          [
+            4147759,
+            700826
+          ],
+          [
+            5185704,
+            392463
+          ],
+          [
+            5185704,
+            392463
+          ],
+          [
+            5594392,
+            392463
+          ]
+        ],
+        "design_key": "c5d950faa8ad"
+      },
+      {
+        "slide_file": "slide11.xml",
+        "title_id": 10,
+        "title_text": "Compare-and-Swap Instruction",
+        "subtitle_id": 11,
+        "item_count": 4,
+        "item_fields": 1,
+        "items": [
+          5,
+          14,
+          28,
+          21
+        ],
+        "item_dims": [
+          [
+            3201058,
+            525538
+          ],
+          [
+            3201054,
+            525539
+          ],
+          [
+            3451754,
+            525538
+          ],
+          [
+            3442308,
+            525539
+          ]
+        ],
+        "design_key": "bde5fda92257"
+      },
+      {
+        "slide_file": "slide13.xml",
+        "title_id": 2,
+        "title_text": "Memory Barriers",
+        "subtitle_id": 3,
+        "item_count": 4,
+        "item_fields": 1,
+        "items": [
+          21,
+          25,
+          43,
+          50
+        ],
+        "item_dims": [
+          [
+            5430238,
+            793593
+          ],
+          [
+            5430238,
+            793593
+          ],
+          [
+            5430238,
+            793593
+          ],
+          [
+            5430238,
+            793593
+          ]
+        ],
+        "design_key": "d8eff27671ab"
+      },
+      {
+        "slide_file": "slide14.xml",
+        "title_id": 10,
+        "title_text": "Disabling Interrupts",
+        "subtitle_id": 11,
+        "item_count": 4,
+        "item_fields": 1,
+        "items": [
+          4,
+          7,
+          12,
+          15
+        ],
+        "item_dims": [
+          [
+            4457253,
+            769441
+          ],
+          [
+            3429887,
+            769441
+          ],
+          [
+            4053082,
+            769441
+          ],
+          [
+            4377647,
+            769441
+          ]
+        ],
+        "design_key": "c34a153d7522"
+      },
+      {
+        "slide_file": "slide15.xml",
+        "title_id": 10,
+        "title_text": "Cache Coherence Protocols",
+        "subtitle_id": 11,
+        "item_count": 4,
+        "item_fields": 1,
+        "items": [
+          6,
+          13,
+          18,
+          23
+        ],
+        "item_dims": [
+          [
+            4092878,
+            681557
+          ],
+          [
+            4006250,
+            681557
+          ],
+          [
+            3082225,
+            681557
+          ],
+          [
+            3284356,
+            681557
+          ]
+        ],
+        "design_key": "e7eb13d8cd0b"
+      },
+      {
+        "slide_file": "slide16.xml",
+        "title_id": 10,
+        "title_text": "Hardware Transactional Memory",
+        "subtitle_id": 11,
+        "item_count": 4,
+        "item_fields": 1,
+        "items": [
+          5,
+          9,
+          15,
+          19
+        ],
+        "item_dims": [
+          [
+            2103120,
+            978177
+          ],
+          [
+            2103120,
+            978177
+          ],
+          [
+            2103120,
+            978177
+          ],
+          [
+            2103120,
+            978177
+          ]
+        ],
+        "design_key": "2a51c31ce28e"
+      },
+      {
+        "slide_file": "slide17.xml",
+        "title_id": 10,
+        "title_text": "Atomic Variables",
+        "subtitle_id": 11,
+        "item_count": 4,
+        "item_fields": 1,
+        "items": [
+          24,
+          14,
+          19,
+          7
+        ],
+        "item_dims": [
+          [
+            2185707,
+            1107996
+          ],
+          [
+            2400910,
+            1107996
+          ],
+          [
+            2212161,
+            1107996
+          ],
+          [
+            2192488,
+            1107996
+          ]
+        ],
+        "design_key": "e3b4cbbe0a02"
+      },
+      {
+        "slide_file": "slide19.xml",
+        "title_id": 10,
+        "title_text": "Semaphores",
+        "subtitle_id": 11,
+        "item_count": 4,
+        "item_fields": 1,
+        "items": [
+          22,
+          8,
+          18,
+          14
+        ],
+        "item_dims": [
+          [
+            4114642,
+            769441
+          ],
+          [
+            4241457,
+            430887
+          ],
+          [
+            3021267,
+            769441
+          ],
+          [
+            3789058,
+            769441
+          ]
+        ],
+        "design_key": "b067f2236195"
+      },
+      {
+        "slide_file": "slide20.xml",
+        "title_id": 10,
+        "title_text": "wait() and signal() Operations",
+        "subtitle_id": 11,
+        "item_count": 4,
+        "item_fields": 1,
+        "items": [
+          4,
+          9,
+          16,
+          21
+        ],
+        "item_dims": [
+          [
+            4181014,
+            430887
+          ],
+          [
+            4181014,
+            430887
+          ],
+          [
+            4846758,
+            430887
+          ],
+          [
+            4300341,
+            430887
+          ]
+        ],
+        "design_key": "f7092a289631"
+      },
+      {
+        "slide_file": "slide21.xml",
+        "title_id": 10,
+        "title_text": "Summary",
+        "subtitle_id": null,
+        "item_count": 4,
+        "item_fields": 1,
+        "items": [
+          24,
+          25,
+          26,
+          27
+        ],
+        "item_dims": [
+          [
+            5333378,
+            903405
+          ],
+          [
+            5333378,
+            903405
+          ],
+          [
+            5333378,
+            903405
+          ],
+          [
+            5333378,
+            903405
+          ]
+        ],
+        "design_key": "338f2f7b6ed8"
+      }
+    ]
+  },
+  "skipped_slides": [
+    1,
+    2,
+    3,
+    7,
+    12,
+    18,
+    22
+  ]
+}

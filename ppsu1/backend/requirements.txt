@@ -1,0 +1,9 @@
+Flask
+Flask-Cors
+gunicorn
+python-pptx
+lxml
+Pillow
+PyMuPDF
+resvg-py
+pywin32; sys_platform == "win32"
