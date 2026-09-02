@@ -85,9 +85,13 @@ Decoded from a real issued SLM (MSc Data Science, "Discrete Mathematics Unit 1",
 
 The AI half fills this; the builder renders it. Keep them decoupled — the builder must render a hand-written JSON perfectly with no AI involved (that's how it's tested).
 
+**This is the schema as actually implemented** (`backend/docx_builder.py`),
+corrected against the real reference sample — see "Current state" for what
+changed from the original pre-sample sketch and why:
+
 ```json
 {
-  "meta": {"programme": "", "semester": "", "course_code": "", "course_name": "", "unit_number": 1, "unit_title": "", "source_mode": "textbook|ai"},
+  "meta": {"programme": "", "course_code": "", "course_name": "", "unit_number": 1, "unit_title": "", "source_mode": "textbook|ai"},
   "introduction": ["para", "para", "para"],
   "learning_objectives": [{"verb": "Define", "rest": "…"}],
   "sections": [
@@ -98,6 +102,7 @@ The AI half fills this; the builder renders it. Keep them decoupled — the buil
           {"type": "prose", "text": ""},
           {"type": "table", "caption": "", "columns": [], "rows": [[]]},
           {"type": "did_you_know", "text": ""},
+          {"type": "code", "text": ""},
           {"type": "problem", "label": "Problem 1.1", "statement": "", "solution": ""},
           {"type": "key_takeaway", "text": ""},
           {"type": "think_and_apply", "title": "", "text": ""},
@@ -106,12 +111,22 @@ The AI half fills this; the builder renders it. Keep them decoupled — the buil
   ],
   "summary": [""],
   "glossary": [{"term": "", "definition": ""}],
-  "case_study": {"title": "", "background": "", "questions": [{"q": "", "a": ""}]},
-  "self_assessment": {"mcq": [{"q": "", "options": ["","","",""], "answer": "b", "why": ""}], "fill_blanks": [{"q": "", "answer": ""}]},
+  "case_study": {"title": "", "background": ["para", "para"], "questions": ["question text, no paired answer"]},
+  "self_assessment": {"mcq": [{"q": "", "options": ["","","",""], "answer": "b", "why": "optional"}], "fill_blanks": [{"q": "", "answer": ""}]},
   "terminal": {"short": [{"q": "", "answer": ""}], "long": [{"q": "", "answer": ""}]},
   "references": [""]
 }
 ```
+
+Notes on fields that moved since the original sketch:
+- `background` is a list of paragraphs, not one string.
+- `case_study.questions` is flat strings, not `{"q","a"}` — this unit's
+  case study has no provided answers; a future unit that DOES pair
+  answers to case-study questions would need a schema addition, not
+  reuse of the old shape (the builder doesn't support `{"q","a"}` there).
+- `self_assessment.fill_blanks` may be `[]` — renders nothing, not an
+  empty heading.
+- There is no top-level `answers` object — see "Current state".
 
 ### Generation order (per unit)
 
@@ -154,6 +169,74 @@ The AI half fills this; the builder renders it. Keep them decoupled — the buil
 
 ## Current state
 
-**Nothing built yet.** This spec was written 2026-09-02 on the office PC (which has no Ollama and no GPU); development happens on the strong PC. The sample SLM PDF ("MSc_Sem 1_Discrete Mathematics_Unit 1.pdf") still needs to be copied into `samples/` — ask the user for it if missing.
+**Phase 1 (docx builder + styles) done and tested, 2026-09-02.** Correction
+to this file's earlier claim: the office PC turned out to have an RTX 4060
+(8 GB VRAM) + 64 GB RAM — capable of running Ollama for Phase 2+ too, not
+just the AI-free Phase 1. Ollama itself is still not installed.
 
-Related repos: `MaieuticEdutech/Template_Designer` (this repo — the PPT designer lives in `../ppsu1`, `../reva1`), `MaieuticEdutech/PPSU-PPT-Template` (hosted deployment fork), `MaieuticEdutech/REVA-AI-PPT-Creator` (prompt rulebook + extraction code to reuse).
+The real reference sample arrived (P P Savani University, ICCS7010 "Information
+Security and Applications" Unit 1, "Foundations of Discrete Mathematics" —
+note the course/unit title mismatch in the source file itself, not a
+transcription error here) and it disagreed with this spec's pre-sample
+guesses in several concrete ways — the code now matches the REAL sample,
+not the paragraph above:
+
+- **New block type: `code`.** Not in the original block list at all. This
+  unit is data-science-flavoured and has a Python/SQL snippet in nearly
+  every subsection (1.1.3, 1.2.1, 1.2.2, 1.2.3, 1.2.4, 1.3.2 ×2, 1.3.3) —
+  far more common here than `problem`/`solution` or `key_takeaway`, which
+  this unit uses **zero** times. Block-type mix is topic-dependent; the
+  builder renders whichever subset of the (now 8) known types a unit's
+  JSON contains, not a fixed set per unit.
+- **`case_study.questions`** is a flat list of strings, not `{"q","a"}`
+  pairs — the real case study's questions have no provided answers at all.
+- **Self-assessment**: this unit has 15 MCQs (not the ~8 guessed) and NO
+  "Fill in the Blanks" subsection — `fill_blanks` can be `[]`, and the
+  builder skips that heading entirely when it is.
+- **No separate "answers" object.** Each MCQ/terminal item carries its own
+  `answer` (+ optional `why`, unused by this unit — the real answer key is
+  just "letter) option text", no separate justification prose); the
+  builder renders the bare question under N.7/N.8 and the answer view
+  under N.9 from the SAME object, so nothing is written twice in the JSON.
+- Glossary: 16 terms here, not "≈20-25" — cosmetic, no schema impact.
+- PPSU brand colours are no longer guessed from the PDF render: pulled
+  directly from `../ppsu1/template`'s slide master shape fills (the
+  template's `theme1.xml` colour scheme is just unmodified Office default,
+  not useful) — navy `#0E2841`, red `#D8181F`, orange `#F47820`,
+  gold `#FBB217`. See `backend/styles.py`.
+
+Built: `backend/styles.py`, `backend/docx_builder.py` (cover, running
+header/footer, unit heading + a REAL updateable Word TOC field via raw
+`w:fldChar`/`instrText` XML — not a static hand-typed page list, all 8
+block types, back matter). `tests/golden_unit1.json` is a representative
+(not exhaustive — the real unit is 33 pages) transcription of the real
+sample; `tests/block_types_synthetic.json` is a small synthetic fixture
+proving `problem`/`solution` and `key_takeaway` render correctly even
+though the real sample never exercises them. `tests/test_docx_builder.py`:
+26 checks, all passing — builds both fixtures, reopens the output with
+python-docx, and asserts real structural facts (heading text, table
+counts, verbatim block content, glossary alphabetisation, TOC field
+presence, header/footer content, valid-zip/OOXML integrity). Own venv at
+`backend/venv/` (python-docx only so far — kept separate from ppsu1's venv
+since FastAPI/Ollama-client deps will diverge from it in Phase 2+).
+
+**Not done / next**: the real PDF itself still needs to be dropped into
+`samples/` (I only had its content pasted into a conversation, not the
+file — `samples/README.md` explains what's needed and why). No PPSU logo
+image asset yet — the cover renders a labelled placeholder box instead
+of the real photography/logo, which needs actual asset files from
+whoever has PPSU's brand kit. Phase 2 (Ollama engine) has not started —
+Ollama is not installed on this machine yet.
+
+Related repos: `MaieuticEdutech/Template_Designer` — **name unverified,
+worth confirming this actually exists on GitHub as a repo distinct from
+`MaieuticEdutech/PPSU-PPT-Template`.** The PPT-designer work done in this
+same working tree this session was pushed directly to
+`MaieuticEdutech/PPSU-PPT-Template` (git remote `origin`) — there was no
+separate `Template_Designer` remote involved, so either that name is stale
+or it refers to something not yet reconciled with this checkout. The PPT
+designer itself lives in `../ppsu1` (deployed to Render+Vercel, see
+`../DEPLOYMENT.md`) and `../reva1` (local-only fork, not deployed).
+`MaieuticEdutech/REVA-AI-PPT-Creator` (prompt rulebook + extraction code
+to reuse in Phase 2 — has a leaked `XAI_API_KEY` committed, see
+"Conventions" above, do not reuse carelessly).

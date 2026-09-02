@@ -28,3 +28,9 @@ reva1/raw ppts/
 
 # Claude Code local settings (machine-specific permission allowlists)
 .claude/
+
+# slm-generator (see slm-generator/CLAUDE.md's "Conventions" — never commit
+# secrets or .env; uploads/output are per-session working data, not source)
+.env
+slm-generator/uploads/
+slm-generator/output/

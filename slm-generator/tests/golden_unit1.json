@@ -1,0 +1,201 @@
+{
+  "_note": "Representative, not exhaustive, transcription of the real reference sample (ICCS7010 Unit 1, supplied 2026-09-02) -- the real unit is 33 pages. Sections 1.2/1.3 are trimmed to a couple of real subsections each rather than all of them, to keep this fixture readable while still proving every real block type (prose/table/did_you_know/code/think_and_apply/figure) renders faithfully against actual content. problem/solution and key_takeaway are NOT exercised here because the real sample doesn't use them -- see block_types_synthetic.json.",
+  "meta": {
+    "programme": "MSc SEMESTER (I)",
+    "course_code": "ICCS7010",
+    "course_name": "Information Security and Applications",
+    "unit_number": 1,
+    "unit_title": "Foundations of Discrete Mathematics",
+    "source_mode": "textbook"
+  },
+  "introduction": [
+    "Welcome to Unit 1 of your Data Science programme. Before you can build models, clean data or write a single line of analysis code, you need a dependable way of thinking about collections of things, the relationships between them, and the rules that connect one idea to another. This is exactly what discrete mathematics gives you. Unlike the mathematics of continuous change — calculus, for instance — discrete mathematics deals with distinct, separate, countable objects: rows in a spreadsheet, customers in a database, categories in a survey, nodes in a network. Because almost everything a data scientist works with is stored as discrete records, discrete mathematics is not an abstract detour before the ‘real’ subject begins — it is the real subject, quietly underneath every dataset, every query and every algorithm you will meet later in this programme.",
+    "This unit introduces the foundational language of sets: the single most widely used mathematical structure in data science. A set is simply a well-defined collection of distinct items, and once you can describe, compare and combine sets confidently, a huge number of everyday data tasks become much easier to reason about — filtering records, removing duplicates, finding customers who appear in two different marketing lists, or checking which product categories two regional stores have in common. Section 1.1 introduces what discrete mathematics is and explains, with concrete business and data-science examples, why it matters so much to your programme. Section 1.2 builds up the vocabulary of sets, subsets and the power set, and shows how the standard set operations — union, intersection, difference and complement — map directly onto everyday data-cleaning tasks and onto Python’s own built-in set type. Section 1.3 introduces Venn diagrams as a visual tool for reasoning about sets, and then extends the idea of a set into a relation — a structured connection between the elements of two sets, which is the mathematical idea underneath every database join and every recommendation engine you will encounter later in your studies.",
+    "Throughout the unit, every new idea is paired with a short, realistic example drawn from business and data-processing contexts — customer segments, product catalogues, survey responses, sales regions — and, wherever the idea has a natural computational counterpart, with the equivalent Python code, so that you can see immediately how an abstract mathematical idea becomes a few lines of working, testable code. You do not need any prior background in formal mathematics to succeed in this unit; only the willingness to think carefully, step by step, about collections of things and how they relate to one another.",
+    "By the end of the unit you will be able to describe a dataset using precise set language, compute the standard set operations by hand and in Python, draw and interpret a Venn diagram, and recognise a relation between two sets when you meet one in a database, a spreadsheet or a piece of code."
+  ],
+  "learning_objectives": [
+    {"verb": "Explain", "rest": "the importance of discrete mathematics."},
+    {"verb": "Identify", "rest": "sets, subsets and power sets."},
+    {"verb": "Apply", "rest": "set operations to given datasets."},
+    {"verb": "Illustrate", "rest": "set relationships using Venn diagrams."},
+    {"verb": "Analyse", "rest": "relations existing between multiple sets."}
+  ],
+  "sections": [
+    {
+      "number": "1.1",
+      "title": "Introduction; Importance in Data Science",
+      "intro": "Every dataset you will ever open, every table you will ever query and every algorithm you will ever run is, underneath its surface, a carefully organised collection of distinct objects governed by precise rules. Discrete mathematics is the branch of mathematics that studies exactly this kind of structure — objects that can be counted one at a time, rather than measured on a continuous scale — and it supplies the vocabulary and reasoning tools that data science depends on at every stage, from the moment raw data is collected to the moment a finished model is deployed.",
+      "subsections": [
+        {
+          "number": "1.1.1",
+          "title": "What Is Discrete Mathematics?",
+          "blocks": [
+            {"type": "prose", "text": "Discrete mathematics is the study of mathematical structures that are fundamentally discrete — made up of distinct, separate elements — rather than continuous. Where continuous mathematics (such as calculus) deals with quantities that can change smoothly, such as temperature or velocity, discrete mathematics deals with quantities that jump from one distinct value to the next: the number of customers who visited a website today, the categories a product can belong to, the connections between people in a social network, or the possible outcomes of a survey question. The main branches typically covered under discrete mathematics include set theory, logic, combinatorics, graph theory and number theory; this programme introduces set theory first, because it is the branch you will use most immediately and most often."},
+            {"type": "prose", "text": "Example: a retail company stores its customer base as a table in a database, with one row per customer. The company might describe this table, in discrete mathematical language, as a finite set of customers, where each customer is a distinct element of that set, uniquely identified by a customer ID. Two different customers are always distinct elements, even if they happen to share the same name; a customer either belongs to this set or does not — there is no notion of ‘partly’ belonging. This simple observation — that data can be described precisely as a set of distinct elements — is the starting point for almost every technique covered in this unit."},
+            {"type": "table", "caption": "Table 1.1.1: Branches of Discrete Mathematics and Their Data Science Applications",
+             "columns": ["Branch", "What It Studies", "Typical Data Science Application"],
+             "rows": [
+               ["Set theory", "Collections of distinct objects and the relationships between them", "Filtering records, joining tables, deduplication, feature encoding"],
+               ["Logic", "Rules for combining true/false statements", "Query conditions, filtering rules, decision rules in models"],
+               ["Combinatorics", "Counting arrangements and selections", "Sampling, feature combinations, hyperparameter search spaces"],
+               ["Graph theory", "Networks of connected nodes", "Social networks, recommendation engines, network analysis"],
+               ["Relations and functions", "Structured connections between sets", "Database joins, mappings between categories, lookups"]
+             ]},
+            {"type": "did_you_know", "text": "The word ‘discrete’ is often confused with ‘discreet’, but the two words have completely different meanings. ‘Discrete’ (used throughout this unit) means ‘separate and distinct’, while ‘discreet’ means ‘careful not to attract attention’. Discrete mathematics has nothing to do with being careful or unnoticed — it is simply the mathematics of things that come in separate, countable pieces."}
+          ]
+        },
+        {
+          "number": "1.1.2",
+          "title": "Why Discrete Mathematics Matters in Data Science",
+          "blocks": [
+            {"type": "prose", "text": "Data science is, at its core, the practice of extracting useful insight from data that has almost always been recorded in discrete form: rows in a spreadsheet, records in a database, responses to survey questions, or categorical labels attached to a customer. Even data that appears continuous at first glance — a customer’s age, for example — is usually stored, queried and reasoned about as a finite, discrete set of values once it enters a database or a dataframe. Understanding discrete mathematics therefore gives you the precise language needed to describe exactly what a dataset contains, exactly what operation you want to perform on it, and exactly why that operation produces the result it does."},
+            {"type": "prose", "text": "Consider a marketing team that wants to identify customers who responded to both an email campaign and a social media campaign. Without a precise way of describing ‘the customers who responded to campaign A’ and ‘the customers who responded to campaign B’ as sets, and without a precise operation for combining them, this task quickly becomes a matter of guesswork and manual spreadsheet cross-referencing. With set theory, the task becomes a single, well-defined operation — the intersection of two sets — which you will meet formally in Section 1.2 and which corresponds directly to a single line of Python or SQL code."},
+            {"type": "think_and_apply", "title": "Think and Apply", "text": "An online retailer has two loyalty programmes: ‘Gold’ members and ‘Frequent Buyers’. Write, in plain English, a precise set-theoretic description of each of the following customer groups: (a) customers who belong to both programmes, (b) customers who belong to at least one of the two programmes, and (c) customers who are Gold members but not Frequent Buyers. Keep your descriptions ready — you will revisit this exact scenario with formal notation in Section 1.2."},
+            {"type": "figure", "caption": "Figure 1: Discrete Mathematics as the Foundation of Data Science"}
+          ]
+        },
+        {
+          "number": "1.1.3",
+          "title": "Practical Relevance: Programming and Business Analytics",
+          "blocks": [
+            {"type": "prose", "text": "Every programming language used in data science — Python especially — provides a built-in data type that implements set theory directly: the set. Python’s set type stores an unordered collection of distinct, unique values, and automatically enforces the defining property of a mathematical set: an item is either a member of the set or it is not, and duplicates are never stored twice."},
+            {"type": "code", "text": "# A Python set stores only distinct, unique values\ncustomers_campaign_a = {\"Anu\", \"Raj\", \"Meera\", \"Anu\"}\nprint(customers_campaign_a)\n# Output: {'Anu', 'Raj', 'Meera'} -- the duplicate 'Anu' is stored only once\n\nprint(len(customers_campaign_a))       # 3 -- counts distinct elements only\nprint(\"Raj\" in customers_campaign_a)   # True -- direct set membership test"},
+            {"type": "prose", "text": "Notice that even though ‘Anu’ was listed twice when the set was created, Python automatically keeps only one copy — this is precisely the mathematical definition of a set in action. In business analytics terms, thinking in sets from the very beginning of a project encourages a habit that experienced analysts rely on constantly: before writing any code, ask ‘what set of records am I actually describing?’"}
+          ]
+        }
+      ]
+    },
+    {
+      "number": "1.2",
+      "title": "Sets, Subsets, Power Set; Set Operations",
+      "intro": "Having seen why sets matter, this section builds the formal vocabulary you will use for the remainder of the unit — and, in a modified form, for the remainder of the programme.",
+      "subsections": [
+        {
+          "number": "1.2.1",
+          "title": "Sets and Subsets",
+          "blocks": [
+            {"type": "prose", "text": "A set is a well-defined collection of distinct objects, called elements or members. Sets are usually named with a capital letter and written using curly-brace notation, listing the elements separated by commas. Two sets are considered equal if they contain exactly the same elements, regardless of the order in which those elements are listed, and regardless of how many times an element was mentioned when the set was written down."},
+            {"type": "code", "text": "A = {\"laptop\", \"tablet\", \"phone\"}\nB = {\"phone\", \"laptop\", \"tablet\"}\nprint(A == B)   # True -- order does not matter in a set"},
+            {"type": "prose", "text": "A set B is called a subset of a set A (written B ⊆ A) if every element of B is also an element of A. Every set is automatically a subset of itself, and the empty set — the set containing no elements at all, written ∅ or {} — is, by convention, a subset of every set, including itself."},
+            {"type": "code", "text": "U = {\"Anu\", \"Raj\", \"Meera\", \"Farah\", \"Devika\"}\nS = {\"Anu\", \"Meera\"}\nprint(S.issubset(U))   # True\nprint(S < U)           # True -- proper subset (S != U)"}
+          ]
+        },
+        {
+          "number": "1.2.3",
+          "title": "Set Operations",
+          "blocks": [
+            {"type": "prose", "text": "Four operations let you combine or compare two sets. The union of A and B (written A ∪ B) is the set containing every element that appears in A, in B, or in both — duplicates are never counted twice. The intersection of A and B (written A ∩ B) is the set containing only the elements that appear in both A and B. The difference of A and B (written A − B) is the set of elements that are in A but not in B."},
+            {"type": "table", "caption": "Table 1.2.2: Set Notation and Corresponding Python Syntax",
+             "columns": ["Operation", "Set Notation", "Python Syntax", "Result (for A, B above)"],
+             "rows": [
+               ["Union", "A ∪ B", "A | B or A.union(B)", "{Anu, Raj, Meera, Sohan, Devika}"],
+               ["Intersection", "A ∩ B", "A.intersection(B)", "{Meera, Sohan}"],
+               ["Difference", "A − B", "A - B or A.difference(B)", "{Anu, Raj}"],
+               ["Complement", "Aᶜ (relative to U)", "U - A", "{Devika, Farah}"],
+               ["Symmetric difference", "A △ B", "A ^ B", "{Anu, Raj, Devika}"]
+             ]}
+          ]
+        }
+      ]
+    },
+    {
+      "number": "1.3",
+      "title": "Venn Diagrams; Relations between Sets",
+      "intro": "Section 1.2 introduced set operations using symbolic notation and Python code. This section introduces Venn diagrams as a visual companion to that notation, and then extends the idea of a set to cover relations.",
+      "subsections": [
+        {
+          "number": "1.3.1",
+          "title": "Venn Diagrams",
+          "blocks": [
+            {"type": "prose", "text": "A Venn diagram is a visual way of representing sets and the relationships between them, using overlapping circles (or other closed shapes) inside a rectangle that represents the universal set. Each circle represents one set; the region where two circles overlap represents the intersection of those sets; the region covered by either circle represents their union; and the area inside the rectangle but outside a given circle represents that set’s complement."},
+            {"type": "table", "caption": "Table 1.3.1: Reading a Two-Set Venn Diagram",
+             "columns": ["Region of the Diagram", "Set Notation", "Meaning"],
+             "rows": [
+               ["Inside P only", "P − R", "Know Python but not R"],
+               ["Inside R only", "R − P", "Know R but not Python"],
+               ["Overlap of P and R", "P ∩ R", "Know both languages"],
+               ["Inside P or R (or both)", "P ∪ R", "Know at least one language"],
+               ["Outside both circles", "(P ∪ R)ᶜ", "Know neither language"]
+             ]},
+            {"type": "did_you_know", "text": "Venn diagrams are named after the British logician John Venn, who introduced them in 1880 as a way of teaching set relationships visually. Although two- and three-circle Venn diagrams are the most common in textbooks, in principle any number of sets can be represented — though diagrams with more than three or four overlapping circles quickly become very difficult to draw and to read clearly."},
+            {"type": "figure", "caption": "Figure 3: Venn Diagram of Students Knowing Python and R"}
+          ]
+        }
+      ]
+    }
+  ],
+  "summary": [
+    "Discrete mathematics studies distinct, countable objects and is the natural mathematical language of data science, since almost all data is stored in discrete form.",
+    "A set is a well-defined collection of distinct elements; two sets are equal if they contain exactly the same elements, regardless of order or repetition.",
+    "A set B is a subset of A if every element of B also belongs to A; it is a proper subset if A contains additional elements that B does not.",
+    "The power set of a set with n elements contains exactly 2ⁿ subsets, including the empty set and the set itself.",
+    "The four core set operations — union, intersection, difference and complement — map directly onto Python’s set methods and onto SQL’s UNION, INTERSECT and EXCEPT commands.",
+    "A Venn diagram visually represents sets as overlapping circles, making union, intersection, difference and complement immediately easy to read.",
+    "A relation between two sets A and B is a subset of their Cartesian product A × B; database joins, lookup tables and recommendation systems are all practical applications of relations.",
+    "Relations may be reflexive, symmetric or transitive; a relation with all three properties is an equivalence relation, and always partitions its underlying set into distinct groups."
+  ],
+  "glossary": [
+    {"term": "Cartesian product (A × B)", "definition": "The set of all ordered pairs (a, b) where a belongs to A and b belongs to B."},
+    {"term": "Complement (Aᶜ)", "definition": "The set of elements in the universal set U that do not belong to A."},
+    {"term": "Difference (A − B)", "definition": "The set of elements that belong to A but not to B."},
+    {"term": "Discrete mathematics", "definition": "The branch of mathematics studying distinct, countable objects rather than continuously varying quantities."},
+    {"term": "Element / member", "definition": "A single object belonging to a set."},
+    {"term": "Empty set", "definition": "The set containing no elements, written ∅ or { }."},
+    {"term": "Equivalence relation", "definition": "A relation that is reflexive, symmetric and transitive; it partitions a set into distinct groups."},
+    {"term": "Intersection (A ∩ B)", "definition": "The set of elements that belong to both A and B."},
+    {"term": "Power set", "definition": "The set of all possible subsets of a given set, including the empty set and the set itself."},
+    {"term": "Proper subset", "definition": "A subset that is not equal to the original set."},
+    {"term": "Relation", "definition": "A subset of the Cartesian product of two sets, pairing elements according to some rule."},
+    {"term": "Set", "definition": "A well-defined collection of distinct elements."},
+    {"term": "Subset", "definition": "A set B is a subset of A if every element of B also belongs to A."},
+    {"term": "Union (A ∪ B)", "definition": "The set of elements that belong to A, to B, or to both."},
+    {"term": "Universal set (U)", "definition": "The overall set of all elements under consideration in a given context."},
+    {"term": "Venn diagram", "definition": "A diagram using overlapping circles to represent sets and their relationships."}
+  ],
+  "case_study": {
+    "title": "Case Study: Cleaning Overlapping Customer Lists at Coastal Retail Group",
+    "background": [
+      "Coastal Retail Group runs three regional online stores. As part of a new loyalty programme, the marketing team asks Sana, a newly hired data analyst, to combine each region’s customer list into a single national mailing list, while flagging any customer who already appears on more than one regional list, since these customers should receive only one combined welcome offer rather than three separate ones.",
+      "Sana’s first instinct is to paste all three regional spreadsheets into one long list and scroll through it manually, checking for repeated names. With several thousand customers per region, this quickly proves unreliable. Remembering the set theory introduced in this unit, Sana instead loads each regional list as a Python set of customer IDs, reasoning that a set automatically enforces the property she actually needs: no element stored more than once.",
+      "The finished script runs in under a second on the full customer base, produces a national list with a mathematically guaranteed absence of duplicates, and a separately flagged list of multi-region customers that the marketing team uses to send a single, appropriately worded welcome offer. Sana’s manager later adopts the same script as the standard monthly process for merging the three regional lists."
+    ],
+    "questions": [
+      "Explain why using a Python set, rather than a plain list, guaranteed that Sana’s combined national list contained no duplicate customers.",
+      "Using set notation, write the expression Sana would use to compute the set of customers appearing on at least two of the three regional lists.",
+      "Explain how the three-circle Venn diagram helped Sana confirm that her calculation correctly handled customers appearing on all three regional lists at once."
+    ]
+  },
+  "self_assessment": {
+    "mcq": [
+      {"q": "What does discrete mathematics primarily study?", "options": ["Continuously changing quantities", "Distinct, countable objects", "Only numerical calculations", "Probability distributions"], "answer": "b"},
+      {"q": "Which of the following is NOT typically a branch of discrete mathematics?", "options": ["Set theory", "Graph theory", "Calculus", "Combinatorics"], "answer": "c"},
+      {"q": "Two sets are considered equal if:", "options": ["They have the same number of elements", "They contain exactly the same elements, regardless of order", "They are written in the same order", "They have the same name"], "answer": "b"},
+      {"q": "Which symbol denotes the empty set?", "options": ["∩", "∪", "∅", "⊆"], "answer": "c"},
+      {"q": "A relation that is reflexive, symmetric and transitive is called:", "options": ["A subset", "A power set", "An equivalence relation", "A universal set"], "answer": "c"}
+    ],
+    "fill_blanks": []
+  },
+  "terminal": {
+    "short": [
+      {"q": "Explain, in your own words, the difference between a subset and a proper subset, giving one short example of each.",
+       "answer": "A subset is a set whose every element belongs to another set and may be equal to it. A proper subset contains only some elements of the larger set and is never equal to it. Example: If A={1,2,3}, then {1,2,3}⊆A and {1,2}⊂A."},
+      {"q": "Describe what the power set of a set is, and calculate the number of subsets in the power set of a 5-element set.",
+       "answer": "The power set of a set is the collection of all possible subsets, including the empty set and the set itself. If a set contains n elements, its power set has 2ⁿ subsets. Therefore, a 5-element set has 2⁵ = 32 subsets."}
+    ],
+    "long": [
+      {"q": "A company holds two sets: customers who opened a marketing email, and customers who clicked a link within it. Using set notation and Python syntax, explain how you would identify customers who opened the email but did not click the link, and discuss why this group might be important to a marketing team.",
+       "answer": "Suppose a company maintains two sets of customers. Let O represent the set of customers who opened a marketing email and C represent the set of customers who clicked a link within that email. The customers who opened the email but did not click the link can be identified using the set difference operation. In set notation, the required group is written as O − C. In Python, the same operation can be performed using opened_customers - clicked_customers. This group is particularly important to a marketing team because it may indicate customers who were attracted by the subject line but were not sufficiently persuaded by the message content, offer, or call to action."}
+    ]
+  },
+  "references": [
+    "Devlin, K. (2003). Sets, functions, and logic: An introduction to abstract mathematics (3rd ed.). Chapman and Hall/CRC.",
+    "Epp, S. S. (2019). Discrete mathematics with applications (5th ed.). Cengage Learning.",
+    "Grimaldi, R. P. (2013). Discrete and combinatorial mathematics: An applied introduction (5th ed.). Pearson.",
+    "Halmos, P. R. (1974). Naive set theory. Springer-Verlag.",
+    "Lipschutz, S., and Lipson, M. (2007). Schaum's outline of discrete mathematics (3rd ed.). McGraw-Hill.",
+    "McKinney, W. (2022). Python for data analysis: Data wrangling with pandas, NumPy, and Jupyter (3rd ed.). O'Reilly Media.",
+    "Rosen, K. H. (2019). Discrete mathematics and its applications (8th ed.). McGraw-Hill Education.",
+    "Python Software Foundation. (2024). The Python tutorial: Sets. https://docs.python.org/3/tutorial/datastructures.html#sets"
+  ]
+}

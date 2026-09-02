@@ -21249,5 +21249,741 @@
 "fluent:globe-surface-20-filled",
 "fluent:globe-surface-20-regular",
 "fluent:globe-surface-24-filled"
-]
+],
+"verb": [
+"arcticons:verbs"
+],
+"subordinating": [],
+"recall": [],
+"reported": [],
+"singular": [],
+"punctuation": [
+"carbon:punctuation-check"
+],
+"comma": [
+"material-symbols:keyboard-command-key",
+"mdi:comma",
+"mdi:comma-box",
+"mdi:comma-box-outline",
+"mdi:comma-circle",
+"mdi:comma-circle-outline",
+"mdi:decimal-comma",
+"mdi:decimal-comma-decrease"
+],
+"augmentation": [],
+"phrase": [
+"material-symbols:quick-phrases",
+"material-symbols:quick-phrases-rounded",
+"carbon:phrase-sentiment",
+"catppuccin:phrase",
+"fluent-mdl2:key-phrase-extraction",
+"file-icons:phraseapp",
+"material-symbols-light:quick-phrases",
+"material-symbols-light:quick-phrases-rounded"
+],
+"noun": [
+"thesvg:noun-project",
+"thesvg-color:noun-project",
+"simple-icons:nounproject"
+],
+"restrictive": [],
+"institutional": [
+"at-icons:institutional-building"
+],
+"introductory": [],
+"surround": [
+"material-symbols:surround-sound",
+"material-symbols:surround-sound-outline",
+"material-symbols:surround-sound-outline-rounded",
+"material-symbols:surround-sound-outline-sharp",
+"material-symbols:surround-sound-rounded",
+"material-symbols:surround-sound-sharp",
+"mdi:surround-sound",
+"mdi:surround-sound-2-0"
+],
+"trailing": [],
+"colon": [
+"picon:colon",
+"healthicons:colon",
+"healthicons:colon-outline",
+"fa7-solid:colon-sign",
+"fa6-solid:colon-sign",
+"fad:digital-colon",
+"picon:semicolon",
+"icon-park-outline:space-colony"
+],
+"possession": [],
+"plurality": [],
+"govern": [
+"fluent:building-government-16-filled",
+"fluent:building-government-16-regular",
+"fluent:building-government-20-filled",
+"fluent:building-government-20-regular",
+"fluent:building-government-24-filled",
+"fluent:building-government-24-regular",
+"fluent:building-government-32-filled",
+"fluent:building-government-32-regular"
+],
+"possessive": [],
+"apostrophe": [
+"simple-icons:apostrophe",
+"logos:apostrophe",
+"thesvg:apostrophe",
+"thesvg-color:apostrophe",
+"selfhst:apostrophecms",
+"selfhst:apostrophecms-dark",
+"selfhst:apostrophecms-light"
+],
+"hyphen": [
+"openmoji:hyphen-minus"
+],
+"omitted": [],
+"modifier": [],
+"completed": [
+"fluent-mdl2:completed",
+"fluent-mdl2:completed-solid",
+"nrk:media-completed",
+"octicon:tracked-by-closed-completed-16",
+"octicon:tracked-by-closed-completed-24"
+],
+"recently": [
+"carbon:recently-viewed",
+"oui:app-recently-viewed",
+"arcticons:niagara-launcher-recently-installed"
+],
+"showed": [],
+"rewriting": [],
+"spelling": [
+"fluent-mdl2:spelling",
+"streamline-cyber:spelling-check-2",
+"streamline-cyber-color:spelling-check-2",
+"selfhst:nyt-spelling-bee",
+"selfhst:nyt-spelling-bee-dark",
+"selfhst:nyt-spelling-bee-light"
+],
+"drafting": [
+"lucide:drafting-compass",
+"fa7-solid:compass-drafting",
+"fa7-solid:drafting-compass",
+"la:drafting-compass",
+"fa6-solid:compass-drafting",
+"fa-solid:drafting-compass",
+"lineicons:compass-drafting-2",
+"pinhead:steel-square-and-drafting-compass"
+],
+"acknowledging": [],
+"paraphrased": [],
+"restated": [],
+"cite": [
+"academicons:datacite",
+"academicons:datacite-square"
+],
+"bert": [
+"thesvg:fishaudio-bert",
+"thesvg-color:fishaudio-bert",
+"arcticons:muj-albert",
+"arcticons:albert-heijn",
+"thesvg:albert-heijn",
+"thesvg-color:albert-heijn"
+],
+"adam": [],
+"contested": [],
+"territory": [
+"openmoji:flag-british-indian-ocean-territory",
+"twemoji:flag-british-indian-ocean-territory",
+"emojione:flag-for-british-indian-ocean-territory",
+"emojione-monotone:flag-for-british-indian-ocean-territory",
+"emojione:flag-for-flag-british-indian-ocean-territory",
+"emojione-monotone:flag-for-flag-british-indian-ocean-territory"
+],
+"sparse": [],
+"consultancy": [
+"thesvg-color:tata-consultancy-services"
+],
+"crediting": [],
+"apa": [
+"material-symbols:apartment",
+"material-symbols:6-ft-apart",
+"material-symbols:6-ft-apart-rounded",
+"material-symbols:6-ft-apart-sharp",
+"mdi:apache-kafka",
+"arcticons:apa",
+"arcticons:tapa",
+"picon:apart"
+],
+"ieee": [
+"simple-icons:ieee",
+"logos:ieee",
+"thesvg:ieee",
+"thesvg-color:ieee",
+"academicons:ieee",
+"academicons:ieee-square"
+],
+"edition": [
+"streamline-freehand:form-edition-text-2",
+"streamline-freehand-color:form-edition-text-2",
+"streamline-freehand:form-edition-number-1",
+"streamline-freehand-color:form-edition-number-1",
+"streamline-freehand:form-edition-clipboard",
+"streamline-freehand-color:form-edition-clipboard",
+"arcticons:fight-club-5th-edition",
+"streamline-freehand:form-edition-file-attach"
+],
+"humanity": [
+"arcticons:no-humanity"
+],
+"author": [
+"wordpress:post-author",
+"wordpress:comment-author-name",
+"wordpress:comment-author-avatar",
+"material-icon-theme:authors",
+"openmoji:authority",
+"hugeicons:authorized",
+"openmoji:authority-building",
+"gcp:binary-authorization"
+],
+"parenthetical": [],
+"smith": [
+"thesvg:smithery",
+"thesvg-color:smithery",
+"simple-icons:appsmith",
+"thesvg:appsmith",
+"thesvg-color:appsmith",
+"arcticons:keysmith",
+"map:locksmith",
+"game-icons:blacksmith"
+],
+"abbreviated": [],
+"restate": [],
+"separated": [],
+"chen": [
+"material-symbols:kitchen",
+"material-symbols:kitchen-outline",
+"material-symbols:kitchen-outline-rounded",
+"material-symbols:kitchen-outline-sharp",
+"material-symbols:kitchen-rounded",
+"material-symbols:kitchen-sharp",
+"material-symbols:soup-kitchen",
+"material-symbols:soup-kitchen-outline"
+],
+"sparingly": [],
+"turing": [
+"material-symbols:manufacturing",
+"file-icons:turing",
+"arcticons:turingmachine",
+"openmoji:man-gesturing-no",
+"openmoji:man-gesturing-ok",
+"twemoji:man-gesturing-no",
+"twemoji:man-gesturing-ok",
+"openmoji:woman-gesturing-no"
+],
+"pedregosa": [],
+"tokenisation": [],
+"unfreezing": [],
+"howard": [],
+"sun": [
+"tabler:sun",
+"tabler:sun-filled",
+"solar:sun-bold",
+"solar:sun-bold-duotone",
+"solar:sun-broken",
+"solar:sun-line-duotone",
+"solar:sun-linear",
+"solar:sun-outline"
+],
+"bibliography": [
+"material-icon-theme:bibliography",
+"material-icon-theme:folder-bibliography"
+],
+"hanging": [
+"material-symbols:baby-changing-station",
+"material-symbols:baby-changing-station-rounded",
+"material-symbols:baby-changing-station-sharp",
+"mdi:human-baby-changing-table",
+"fluent:text-hanging-20-filled",
+"fluent:text-hanging-20-regular",
+"fluent:text-hanging-24-filled",
+"fluent:text-hanging-24-regular"
+],
+"subsequent": [],
+"alphabetical": [
+"mdi:alphabetical",
+"mdi:alphabetical-off",
+"mdi:alphabetical-variant",
+"mdi:alphabetical-variant-off",
+"mdi:sort-alphabetical-variant",
+"mdi:sort-alphabetical-ascending",
+"mdi:order-alphabetical-ascending",
+"mdi:sort-alphabetical-descending"
+],
+"title": [
+"material-symbols:title",
+"material-symbols:title-rounded",
+"mdi:next-title",
+"mdi:format-title",
+"mdi:previous-title",
+"fluent:app-title-20-filled",
+"fluent:app-title-20-regular",
+"fluent:app-title-24-filled"
+],
+"arranged": [],
+"alphabetically": [
+"mdi:sort-alphabetically",
+"solar:sort-alphabetically-bold",
+"solar:sort-alphabetically-bold-duotone",
+"solar:sort-alphabetically-broken",
+"solar:sort-alphabetically-line-duotone",
+"solar:sort-alphabetically-linear",
+"solar:sort-alphabetically-outline",
+"typcn:sort-alphabetically"
+],
+"kingma": [],
+"proceeding": [],
+"alphabetisation": [],
+"italicisation": [],
+"another": [
+"arcticons:another-notes",
+"arcticons:another-shadow",
+"arcticons:another-widget",
+"arcticons:anotherterm"
+],
+"acknowledgement": [],
+"deception": [
+"logos:codeception"
+],
+"paraphrasing": [],
+"submission": [],
+"disclosure": [],
+"attributing": [],
+"submitting": [],
+"generated": [
+"material-icon-theme:dart-generated",
+"catppuccin:dart-generated",
+"vscode-icons:file-type-dartlang-generated"
+],
+"assessor": [],
+"actively": [],
+"grabe": [],
+"stoller": [],
+"locating": [],
+"methodology": [],
+"gaining": [],
+"preliminary": [
+"material-symbols:preliminary",
+"material-symbols:preliminary-outline",
+"material-symbols:preliminary-outline-rounded",
+"material-symbols:preliminary-rounded",
+"carbon:document-preliminary",
+"material-symbols-light:preliminary",
+"material-symbols-light:preliminary-outline",
+"material-symbols-light:preliminary-outline-rounded"
+],
+"refreshing": [],
+"skimming": [],
+"irrelevant": [],
+"verifying": [],
+"auc": [
+"simple-icons:auchan",
+"arcticons:auchan",
+"thesvg:auchan",
+"thesvg-color:auchan",
+"arcticons:aucards",
+"mingcute:auction-fill",
+"mingcute:auction-line",
+"ri:auction-fill"
+],
+"intellectually": [],
+"annotate": [
+"foundation:annotate"
+],
+"capturing": [],
+"asserting": [],
+"exhausting": [],
+"confounding": [],
+"scrutinising": [],
+"isn": [
+"academicons:isni",
+"academicons:isni-square"
+],
+"because": [],
+"someone": [],
+"prominent": [],
+"says": [
+"healthicons:synergist-insecticide-bioassays",
+"healthicons:synergist-insecticide-bioassays-outline",
+"healthicons:intensity-concentration-bioassays",
+"healthicons:intensity-concentration-bioassays-outline",
+"healthicons:discriminating-concentration-bioassays",
+"healthicons:discriminating-concentration-bioassays-outline"
+],
+"survivorship": [],
+"preprint": [],
+"secondary": [
+"fluent-mdl2:secondary-nav"
+],
+"characterisation": [],
+"condensed": [],
+"summariser": [],
+"substantially": [],
+"mirroring": [
+"arcticons:mirroring",
+"tdesign:screen-mirroring",
+"tdesign:screen-mirroring-filled",
+"reicon:mirroring-screen",
+"reicon:mirroring-screen-filled",
+"hugeicons:mirroring-screen",
+"reicon:screenmirroring",
+"reicon:screenmirroring-filled"
+],
+"voice": [
+"material-symbols:voice-chat",
+"material-symbols:voice-chat-outline",
+"material-symbols:voice-chat-outline-rounded",
+"material-symbols:voice-chat-outline-sharp",
+"material-symbols:voice-chat-rounded",
+"material-symbols:voice-chat-sharp",
+"mdi:voice-chat",
+"mingcute:voice-fill"
+],
+"regardless": [],
+"elaboration": [],
+"omit": [],
+"passage": [],
+"shorten": [],
+"viva": [
+"tabler:brand-vivaldi",
+"arcticons:viva-wallet",
+"thesvg:viva-wallet",
+"thesvg-color:viva-wallet",
+"thesvg-color:microsoft-viva",
+"ix:viva-engage-logo",
+"thesvg-color:microsoft-viva-glint",
+"thesvg-color:microsoft-viva-pulse"
+],
+"informative": [],
+"advocate": [],
+"expect": [
+"healthicons:expectorate",
+"healthicons:expectorate-24px",
+"healthicons:expectorate-outline",
+"healthicons:expectorate-outline-24px"
+],
+"preview": [
+"material-symbols:preview",
+"material-symbols:preview-outline",
+"material-symbols:preview-outline-sharp",
+"material-symbols:preview-sharp",
+"material-symbols:preview-off",
+"material-symbols:preview-off-rounded",
+"material-symbols:preview-off-sharp",
+"mdi:print-preview"
+],
+"inverted": [
+"carbon:warning-alt-inverted",
+"carbon:warning-alt-inverted-filled",
+"tabler:triangle-inverted",
+"tabler:triangle-inverted-filled",
+"entypo:image-inverted",
+"qlementine-icons:filter-inverted-16",
+"codicon:github-inverted",
+"game-icons:inverted-dice-1"
+],
+"takeaway": [
+"boxicons:takeaway",
+"boxicons:takeaway-filled",
+"ri:takeaway-fill",
+"ri:takeaway-line",
+"ep:takeaway-box",
+"streamline:coffee-takeaway-cup",
+"streamline:coffee-takeaway-cup-remix",
+"streamline:coffee-takeaway-cup-solid"
+],
+"slide": [
+"mdi:slide",
+"fluent:slide-add-16-filled",
+"fluent:slide-add-16-regular",
+"fluent:slide-add-20-filled",
+"fluent:slide-add-20-regular",
+"fluent:slide-add-24-filled",
+"fluent:slide-add-24-regular",
+"fluent:slide-add-28-filled"
+],
+"dark": [
+"selfhst:x-dark",
+"selfhst:qd-dark",
+"selfhst:amd-dark",
+"selfhst:aol-dark",
+"selfhst:apc-dark",
+"selfhst:bin-dark",
+"selfhst:box-dark",
+"selfhst:dhl-dark"
+],
+"minute": [
+"mdi:beats-per-minute",
+"mdi:beats-per-minute-tick",
+"fluent:shifts-30-minutes-20-filled",
+"fluent:shifts-30-minutes-20-regular",
+"fluent:shifts-30-minutes-24-filled",
+"fluent:shifts-30-minutes-24-regular",
+"arcticons:10-minute-school",
+"arcticons:7-minute-workout"
+],
+"conversational": [],
+"periodically": [],
+"striking": [
+"game-icons:striking-balls",
+"game-icons:striking-arrows",
+"game-icons:striking-clamps",
+"game-icons:striking-diamonds",
+"game-icons:striking-splinter"
+],
+"pausing": [
+"arcticons:pausing-healthily"
+],
+"speech": [
+"material-symbols:speech-to-text",
+"material-symbols:speech-to-text-rounded",
+"material-symbols:speech-to-text-sharp",
+"material-symbols:text-to-speech",
+"material-symbols:text-to-speech-rounded",
+"material-symbols:text-to-speech-sharp",
+"material-symbols:speech-to-text-2",
+"material-symbols:speech-to-text-2-outline"
+],
+"font": [
+"mdi:font-size",
+"fluent:text-font-16-filled",
+"fluent:text-font-16-regular",
+"fluent:text-font-20-filled",
+"fluent:text-font-20-regular",
+"fluent:text-font-24-filled",
+"fluent:text-font-24-regular",
+"carbon:text-font"
+],
+"clutter": [],
+"speak": [
+"material-symbols:select-to-speak",
+"material-symbols:select-to-speak-outline",
+"material-symbols:select-to-speak-outline-rounded",
+"material-symbols:select-to-speak-rounded",
+"material-symbols:home-speaker",
+"material-symbols:home-speaker-outline",
+"material-symbols:movie-speaker",
+"mdi:speak"
+],
+"verbally": [],
+"emphasising": [],
+"narrate": [],
+"pitch": [
+"mdi:football-pitch",
+"mdi:pitchfork",
+"tabler:shovel-pitchforks",
+"thesvg-color:pitch",
+"maki:pitch",
+"streamline-plump:beer-pitch",
+"streamline-plump:beer-pitch-remix",
+"streamline-plump:beer-pitch-solid"
+],
+"articulation": [],
+"upright": [
+"picon:upright",
+"ant-design:radius-upright-outlined",
+"cbi:apc-ups-upright",
+"ix:battery-upright-low",
+"ix:battery-upright-full",
+"ix:battery-upright-half",
+"cbi:ikea-kallax2-upright",
+"ix:battery-upright-check"
+],
+"slouching": [],
+"purposeful": [],
+"gesture": [
+"material-symbols:gesture",
+"material-symbols:gesture-rounded",
+"material-symbols:hand-gesture",
+"material-symbols:hand-gesture-outline",
+"material-symbols:hand-gesture-outline-rounded",
+"material-symbols:hand-gesture-outline-sharp",
+"material-symbols:hand-gesture-rounded",
+"material-symbols:hand-gesture-sharp"
+],
+"fidgeting": [],
+"distracting": [],
+"pacing": [
+"material-symbols:format-line-spacing",
+"material-symbols:format-line-spacing-rounded",
+"material-symbols:format-letter-spacing",
+"material-symbols:format-letter-spacing-rounded",
+"material-symbols:format-letter-spacing-2",
+"material-symbols:format-letter-spacing-2-outline-rounded",
+"material-symbols:format-letter-spacing-2-rounded",
+"material-symbols:format-letter-spacing-wide"
+],
+"extremely": [
+"material-symbols:sentiment-extremely-dissatisfied",
+"material-symbols:sentiment-extremely-dissatisfied-outline",
+"material-symbols:sentiment-extremely-dissatisfied-outline-rounded",
+"material-symbols:sentiment-extremely-dissatisfied-rounded",
+"material-symbols-light:sentiment-extremely-dissatisfied",
+"material-symbols-light:sentiment-extremely-dissatisfied-outline",
+"material-symbols-light:sentiment-extremely-dissatisfied-outline-rounded",
+"material-symbols-light:sentiment-extremely-dissatisfied-rounded"
+],
+"rehearsing": [],
+"aloud": [
+"fluent:read-aloud-16-filled",
+"fluent:read-aloud-16-regular",
+"fluent:read-aloud-20-filled",
+"fluent:read-aloud-20-regular",
+"fluent:read-aloud-24-filled",
+"fluent:read-aloud-24-regular",
+"fluent:read-aloud-28-filled",
+"fluent:read-aloud-28-regular"
+],
+"breathing": [],
+"racing": [
+"mdi:racing-helmet",
+"arcticons:bb-racing",
+"arcticons:csr-racing",
+"arcticons:racing-car",
+"openmoji:racing-car",
+"twemoji:racing-car",
+"noto:racing-car",
+"fluent-emoji-flat:racing-car"
+],
+"arousal": [],
+"reframing": [],
+"excited": [
+"material-symbols:sentiment-excited",
+"material-symbols:sentiment-excited-outline",
+"material-symbols:sentiment-excited-outline-rounded",
+"material-symbols:sentiment-excited-rounded",
+"mdi:robot-excited",
+"mdi:robot-excited-outline",
+"mdi:emoticon-excited",
+"mdi:emoticon-excited-outline"
+],
+"consciousness": [],
+"examiner": [
+"arcticons:droid-examiner"
+],
+"backup": [
+"material-symbols:backup",
+"material-symbols:backup-outline",
+"material-symbols:backup-outline-rounded",
+"material-symbols:backup-rounded",
+"material-symbols:backup-table",
+"material-symbols:backup-table-rounded",
+"material-symbols:backup-table-sharp",
+"mdi:backup"
+],
+"previously": [],
+"afterward": [],
+"debugging": [
+"streamline:bug-antivirus-debugging",
+"streamline:bug-antivirus-debugging-remix",
+"streamline:bug-antivirus-debugging-solid",
+"streamline-color:bug-antivirus-debugging",
+"streamline-color:bug-antivirus-debugging-flat"
+],
+"confluence": [
+"devicon:confluence",
+"devicon-plain:confluence",
+"simple-icons:confluence",
+"logos:confluence",
+"cib:confluence",
+"fa7-brands:confluence",
+"arcticons:confluence",
+"thesvg:confluence"
+],
+"onboarding": [
+"gcp:onboarding",
+"fluent-mdl2:onboarding"
+],
+"negotiating": [],
+"maria": [
+"cbi:maria-db",
+"devicon:mariadb",
+"simple-icons:mariadb",
+"logos:mariadb",
+"thesvg:mariadb",
+"thesvg-color:mariadb",
+"selfhst:mariadb",
+"selfhst:mariadb-dark"
+],
+"harvard": [
+"thesvg-color:harvard",
+"arcticons:harvard-fcu"
+],
+"empirically": [],
+"dominance": [],
+"letting": [],
+"collaborative": [],
+"inevitable": [],
+"surfacing": [],
+"elimination": [],
+"framing": [],
+"particularly": [],
+"dispute": [],
+"acute": [
+"material-symbols:acute",
+"material-symbols:acute-outline",
+"material-symbols:acute-outline-rounded",
+"material-symbols:acute-rounded",
+"mdi:angle-acute",
+"material-symbols-light:acute",
+"material-symbols-light:acute-outline",
+"material-symbols-light:acute-outline-rounded"
+],
+"insist": [],
+"impasse": [],
+"duplicated": [],
+"thoma": [],
+"literally": [],
+"kilmann": [],
+"origin": [
+"material-symbols:trip-origin",
+"mdi:origin",
+"simple-icons:origin",
+"logos:origin",
+"cib:origin",
+"thesvg:origin",
+"thesvg-color:origin",
+"fontisto:origin"
+],
+"assertiveness": [],
+"concession": [],
+"accepting": [],
+"inadequate": [],
+"pursuing": [],
+"compromise": [],
+"cooperativeness": [],
+"unresolved": [
+"codicon:comment-unresolved",
+"codicon:comment-unresolved-compact"
+],
+"soon": [
+"token:soon",
+"token-branded:soon",
+"token-branded:soon-background",
+"qlementine-icons:task-soon-16",
+"openmoji:soon-arrow",
+"twemoji:soon-arrow",
+"noto:soon-arrow",
+"fluent-emoji-flat:soon-arrow"
+],
+"unnecessarily": [],
+"festering": [],
+"factually": [],
+"fisher": [
+"game-icons:lucky-fisherman"
+],
+"learnable": [],
+"escalation": [
+"carbon:bpmn-escalation-fill",
+"carbon:bpmn-escalation-outline"
+],
+"individualism": [],
+"collectivism": [],
+"criticism": []
 }

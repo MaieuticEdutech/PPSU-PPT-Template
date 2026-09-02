@@ -1,0 +1,34 @@
+{
+  "_note": "SYNTHETIC fixture, not from the real sample. Its sole job is proving the two block types golden_unit1.json never exercises (problem/solution, key_takeaway) render without error -- the real reference unit is code/algorithm-flavoured and never uses either.",
+  "meta": {
+    "programme": "Test Programme", "course_code": "TEST0000",
+    "course_name": "Synthetic Block-Type Coverage", "unit_number": 99,
+    "unit_title": "Synthetic Unit", "source_mode": "ai"
+  },
+  "introduction": ["Synthetic introduction paragraph."],
+  "learning_objectives": [{"verb": "Verify", "rest": "that every block type renders."}],
+  "sections": [
+    {
+      "number": "99.1", "title": "Synthetic Section",
+      "intro": "",
+      "subsections": [
+        {
+          "number": "99.1.1", "title": "Problem and Key Takeaway Coverage",
+          "blocks": [
+            {"type": "problem", "label": "Problem 99.1",
+             "statement": "Compute 23 + 12 + 16 + 9.",
+             "solution": "23 + 12 + 16 + 9 = 60. Verify: 23+12+16+9=60 ✓"},
+            {"type": "key_takeaway", "text": "Worked problems always end with a verification step."}
+          ]
+        }
+      ]
+    }
+  ],
+  "summary": ["Synthetic summary bullet."],
+  "glossary": [{"term": "Synthetic term", "definition": "A definition."}],
+  "case_study": {"title": "Synthetic Case", "background": ["Background paragraph."],
+                 "questions": ["A synthetic question?"]},
+  "self_assessment": {"mcq": [], "fill_blanks": []},
+  "terminal": {"short": [], "long": []},
+  "references": ["A synthetic reference."]
+}
