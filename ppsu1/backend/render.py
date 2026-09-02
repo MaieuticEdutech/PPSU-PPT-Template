@@ -31,6 +31,19 @@ from pathlib import Path
 _PPT_LOCK = threading.Lock()
 _PPT_ATTEMPTS = 3
 
+# LibreOffice has no such lock today, but needs one just as much: each
+# headless `soffice` launch carries its own real memory overhead on top of
+# whatever the deck itself costs. With gunicorn running several threads (see
+# ppsu1/Dockerfile), a second /build, the background design-thumbnail warm-up
+# that fires right after every build (app.py's ensure_design_thumbs), and a
+# real second user can all try to render at once. On a memory-capped host
+# (Render's free 512 MB instance) two concurrent soffice processes are enough
+# to cross the container's cgroup limit — and when that happens the kernel's
+# OOM killer can take out the whole gunicorn process, not just the LibreOffice
+# child, which looks like the service crashing (502, then 503s while it
+# restarts) rather than a clean, catchable render failure.
+_LO_LOCK = threading.Lock()
+
 # PyMuPDF (imported as fitz) converts the LibreOffice PDF into page images.
 try:
     import fitz  # noqa: F401
@@ -91,8 +104,11 @@ def _render_with_libreoffice(pptx_path: Path, out_dir: Path):
             "-env:UserInstallation=%s" % profile.as_uri(),
             "--convert-to", "pdf", "--outdir", str(out_dir), str(pptx_path),
         ]
-        subprocess.run(cmd, check=True, timeout=180,
-                       stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        # serialised: see _LO_LOCK above — never run two soffice processes at
+        # once on a memory-capped host
+        with _LO_LOCK:
+            subprocess.run(cmd, check=True, timeout=180,
+                           stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     except Exception:
         shutil.rmtree(profile, ignore_errors=True)
         return []
