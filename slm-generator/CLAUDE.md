@@ -169,6 +169,35 @@ Notes on fields that moved since the original sketch:
 
 ## Current state
 
+**Phase 2 (Ollama engine) done and live-tested, 2026-09-02.** Ollama 0.33.2
+installed (winget, per-user, server auto-runs from the tray);
+`qwen2.5:7b-instruct` pulled. Model default is deliberately **7b, not the
+spec's 14b**: the 14b Q4 weights (~9 GB) plus a 16k KV cache don't fit the
+RTX 4060's 8 GB VRAM without heavy CPU offload; the 7b fits fully and
+generates in 3-10s per call. Override via `OLLAMA_MODEL` on a bigger card.
+
+`backend/ai_engine.py`: the single `ask(task_prompt, schema) -> dict`
+interface (nothing else in the codebase may import/talk to Ollama). Real
+JSON schemas are passed to Ollama's `format` field so generation is
+constrained server-side (structured outputs); client-side the reply is
+fence-stripped, parsed, and `jsonschema`-validated, with exactly ONE
+corrective retry on a parse OR validation failure — a second failure
+raises `AIEngineError` and fails that block, not the unit. `num_ctx`
+defaults to 16384 explicitly. `available()` distinguishes "server down"
+from "model not pulled" so callers can say which.
+
+Tests: `tests/test_ai_engine.py` (14 offline checks, model stubbed —
+fence-stripping variants, the full parse/validate/retry contract, the
+two-attempts-never-three guarantee) and `tests/smoke_ai_engine.py` (LIVE,
+needs server+model; generates MCQs / Bloom's-verb objectives / a
+temperature-0.1 extraction against real schemas and prints the content
+for human quality judgement). Both passing on this machine.
+
+Known quality item for Phase 3 prompts: the model produced "Analyze" (US
+spelling) despite a UK-English system prompt — the house-style rulebook
+(`global_rules.txt` from REVA-AI-PPT-Creator) must be baked into the real
+prompts and UK spelling ideally validated in code, not just requested.
+
 **Phase 1 (docx builder + styles) done and tested, 2026-09-02.** Correction
 to this file's earlier claim: the office PC turned out to have an RTX 4060
 (8 GB VRAM) + 64 GB RAM — capable of running Ollama for Phase 2+ too, not
