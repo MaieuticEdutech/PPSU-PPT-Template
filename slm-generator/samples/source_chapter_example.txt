@@ -1,0 +1,21 @@
+Chapter 2: Cryptographic Foundations
+
+Cryptography is the science of protecting information by transforming it into a form that unauthorised parties cannot read. This chapter builds from the earliest historical ciphers to the ideas that motivate modern cryptographic design.
+
+2.1 The Caesar and Substitution Ciphers
+
+The Caesar cipher, attributed to Julius Caesar, replaces each letter of the plaintext with the letter a fixed number of positions later in the alphabet. With a shift of 3, the plaintext SECURITY becomes VHFXULWB. Because the alphabet has 26 letters, only 25 distinct non-trivial shifts exist, so an attacker can simply try them all — a brute-force attack that succeeds in seconds even by hand.
+
+The general monoalphabetic substitution cipher improves on this by allowing ANY permutation of the alphabet as the key, giving 26! (about 4 x 10^26) possible keys. Despite this enormous keyspace, the cipher is weak, because each plaintext letter always maps to the same ciphertext letter.
+
+2.2 Frequency Analysis
+
+Every natural language has a characteristic distribution of letter frequencies. In English text, E is by far the most common letter (about 12.7%), followed by T (9.1%) and A (8.2%). Because a monoalphabetic substitution preserves these frequencies — merely relabelling the letters — an analyst can count ciphertext letter frequencies and match them against the known distribution, recovering the key without ever searching the keyspace. Al-Kindi described this technique in the 9th century, making it one of the oldest documented cryptanalytic methods.
+
+2.3 Transposition Techniques
+
+A transposition cipher rearranges the letters of the plaintext without replacing them. In the rail fence cipher of depth 2, the message is written alternately across two rows and then read off row by row: MEETMEATNOON becomes MEMANO ETETON read as MEMANOETETON. Transposition preserves letter frequencies exactly, so frequency analysis reveals that a transposition (rather than substitution) was used, and anagramming techniques can then restore the original order.
+
+2.4 The Lesson of Classical Ciphers
+
+Classical ciphers fail for two recurring reasons: their keyspaces are searchable, or their transformations leak statistical structure of the plaintext. Modern cipher design responds to both: keys are made astronomically large AND the transformation is engineered so that ciphertext is statistically indistinguishable from random noise. These two requirements — a large keyspace and the destruction of statistical structure — motivate everything that follows in modern symmetric cryptography.

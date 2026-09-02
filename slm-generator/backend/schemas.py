@@ -40,6 +40,32 @@ OUTLINE = {
     "required": ["sections", "example_style"],
 }
 
+# Textbook mode: same outline, but every subsection must ALSO name which
+# source headings (verbatim strings from the supplied list) it teaches, so
+# the generator can feed each subsection call ONLY its own source chunk.
+OUTLINE_TEXTBOOK = {
+    "type": "object",
+    "properties": {
+        "sections": _arr({
+            "type": "object",
+            "properties": {
+                "title": _STR,
+                "intro": _STR,
+                "subsections": _arr({
+                    "type": "object",
+                    "properties": {
+                        "title": _STR,
+                        "source_headings": _arr({"type": "string"}, 1, 4),
+                    },
+                    "required": ["title", "source_headings"]}, 2, 3),
+            },
+            "required": ["title", "intro", "subsections"],
+        }, 3, 3),
+        "example_style": {"type": "string", "enum": ["code", "problem"]},
+    },
+    "required": ["sections", "example_style"],
+}
+
 # --- front matter ----------------------------------------------------------
 INTRODUCTION = {
     "type": "object",

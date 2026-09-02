@@ -170,6 +170,56 @@ Notes on fields that moved since the original sketch:
 
 ## Current state
 
+**Phase 4 LIVE textbook-mode run passed, 2026-09-02**: a full unit
+generated from samples/source_chapter_example.txt in 265s — 28 calls, 0
+failures, 11 UK fixes, validation clean. Grounding fidelity verified: the
+source's specific facts (SECURITY→VHFXULWB, Al-Kindi/9th-century frequency
+analysis, the rail-fence MEETMEATNOON example, E=12.7%, the 26! keyspace)
+all survived into the output, and prose reads as a faithful rewrite of the
+source rather than free-styled model knowledge. Two lessons from this run:
+
+- **Runaway-generation fix (ai_engine)**: the FIRST attempt hung — one
+  prose call pegged the GPU at 98% for 8+ minutes. Under schema-constrained
+  decoding a small model can loop forever inside a JSON string. Every call
+  now carries `num_predict` (default 2048, env OLLAMA_NUM_PREDICT): a
+  runaway is cut off → parse failure → the normal single retry with fresh
+  sampling. Transport failures (timeouts) now share that same one-retry
+  budget. Request timeout dropped to 300s. Regression-tested (engine suite
+  16 checks).
+- **Syllabus broader than the source** (deliberate in the sample fixtures):
+  the outline blended syllabus topics the chapter doesn't cover (RSA,
+  hashing), producing subsections the matcher correctly could NOT map to
+  source sections — they fell back to the whole-source digest and the
+  report warned, naming them. Working as designed, but reviewers should
+  treat digest-fallback subsections as effectively ai-mode content. A
+  future refinement: in textbook mode, tell the outline call to prefer
+  source coverage and drop syllabus topics absent from the source.
+
+**Phase 4 (textbook mode) built, 2026-09-02.** `backend/ingest.py`:
+PDF (PyMuPDF) / DOCX / TXT extraction; a numbered-heading chunker
+("Chapter N", "2.1 Title", "2.1.1 Title" — short lines not ending in a
+full stop, so numbered list items in prose don't split the text); heading
+matching (exact-normalised then substring, numbering/case-insensitive);
+and `condense()` — a per-chunk-truncated whole-source digest for calls
+that must span the unit (back matter) when a full chapter would blow
+num_ctx. Generator wiring: mode precedence textbook > toc+ai > ai; in
+textbook mode the outline call gets the detected source headings and must
+return, per subsection, which verbatim headings it teaches
+(OUTLINE_TEXTBOOK schema) — each subsection's calls then carry ONLY its
+own mapped chunk(s) (capped 6000 chars) with the STRICT SOURCE RULES
+grounding block (from global_rules.txt: use only the source, never invent
+facts, preserve teaching sequence); unmatched subsections fall back to the
+condensed digest with a warning; back matter is grounded on the digest;
+the source textbook is placed FIRST in references (meta.textbook_citation
+if given, else a filename stub marked for the SME to complete). Report
+carries provenance (file/chars/chunks/unmatched headings). A source with
+no detectable numbered headings still works: whole document grounds every
+call, plain OUTLINE schema, split-failure warning. CLI: `--source
+chapter.pdf|.docx|.txt`. `tests/test_textbook_mode.py`: 22 offline checks
+(ingestion round-trips incl. a generated PDF/DOCX, chunker guards,
+matching, digest, full stubbed textbook-mode run, no-headings fallback),
+all passing — 91 offline checks across the four suites now.
+
 **Phase 3 LIVE end-to-end run passed, 2026-09-02**: a full unit
 ("Fundamentals of Cryptography", toc+ai mode, samples/meta_example.json +
 samples/toc_example.txt) generated in 300s — 30 AI calls, 0 failures, 9

@@ -25,6 +25,9 @@ def check(name, condition):
         print(f"  FAIL {name}")
 
 
+RAISE = object()   # sentinel: this scripted "reply" is a transport failure
+
+
 class StubEngine(OllamaEngine):
     """Feeds a scripted sequence of raw model replies to ask()."""
     def __init__(self, replies):
@@ -34,7 +37,10 @@ class StubEngine(OllamaEngine):
 
     def _chat(self, prompt, schema, system, temperature):
         self.prompts.append(prompt)
-        return self.replies.pop(0)
+        reply = self.replies.pop(0)
+        if reply is RAISE:
+            raise AIEngineError("stubbed timeout")
+        return reply
 
 
 MCQ_SCHEMA = {
@@ -109,6 +115,18 @@ e = StubEngine(['{"anything": 1}'])
 data = e.ask("free-form", schema=None)
 check("schema=None still parses JSON without validating",
       data == {"anything": 1})
+
+e = StubEngine([RAISE, GOOD])
+data = e.ask("write mcqs", schema=MCQ_SCHEMA)
+check("transport failure (timeout) -> ONE retry succeeds",
+      len(e.prompts) == 2 and data["mcq"][0]["answer"] == "d")
+
+e = StubEngine([RAISE, RAISE])
+try:
+    e.ask("write mcqs", schema=MCQ_SCHEMA)
+    check("two transport failures raise AIEngineError", False)
+except AIEngineError:
+    check("two transport failures raise AIEngineError", True)
 
 print(f"\n{passed} passed, {failed} failed")
 sys.exit(1 if failed else 0)

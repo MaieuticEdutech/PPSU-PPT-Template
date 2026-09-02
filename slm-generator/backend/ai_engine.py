@@ -40,8 +40,15 @@ DEFAULT_MODEL = "qwen2.5:7b-instruct"
 DEFAULT_HOST = "http://localhost:11434"
 DEFAULT_NUM_CTX = 16384
 DEFAULT_TEMPERATURE = 0.3
-REQUEST_TIMEOUT = 600     # local 7b models are fast, but long generations
-                          # (a full glossary) can take minutes on first load
+# Hard cap on tokens generated per call. Without one, schema-constrained
+# decoding can trap a small model in an endless JSON string (observed live
+# 2026-09-02: one prose call pegged the GPU at 98% for 8+ minutes). With
+# the cap, a looping generation is cut off, fails to parse, and the normal
+# one-retry with fresh sampling usually escapes the loop. 2048 tokens is
+# roomy for every call this tool makes (the longest, terminal-long answers,
+# measured ~48s/well under 2048 in healthy runs).
+DEFAULT_NUM_PREDICT = 2048
+REQUEST_TIMEOUT = 300     # generous for a capped call, even at first load
 
 _FENCE_RE = re.compile(r"```(?:json)?\s*(.*?)\s*```", re.S)
 
@@ -78,11 +85,15 @@ def strip_json_fences(text: str) -> str:
 
 
 class OllamaEngine:
-    def __init__(self, model=None, host=None, num_ctx=None):
+    def __init__(self, model=None, host=None, num_ctx=None,
+                 num_predict=None):
         self.model = model or os.environ.get("OLLAMA_MODEL", DEFAULT_MODEL)
         self.host = (host or os.environ.get("OLLAMA_HOST", DEFAULT_HOST)).rstrip("/")
         self.num_ctx = int(num_ctx or os.environ.get("OLLAMA_NUM_CTX",
                                                      DEFAULT_NUM_CTX))
+        self.num_predict = int(num_predict
+                               or os.environ.get("OLLAMA_NUM_PREDICT",
+                                                 DEFAULT_NUM_PREDICT))
 
     # -- transport (separated so tests can stub it without a server) --------
 
@@ -134,7 +145,14 @@ class OllamaEngine:
         for attempt in (1, 2):
             if attempt == 2:
                 prompt = task_prompt + RETRY_REMINDER.format(why=last_why)
-            content = self._chat(prompt, schema, system, temperature)
+            try:
+                content = self._chat(prompt, schema, system, temperature)
+            except AIEngineError as e:
+                # transport-level failure (timeout of a runaway generation,
+                # momentary server hiccup) gets the same single-retry budget
+                # as a bad reply — fresh sampling usually escapes a loop
+                last_why = f"the request failed: {e}"
+                continue
             try:
                 data = json.loads(strip_json_fences(content))
             except json.JSONDecodeError as e:
@@ -170,6 +188,7 @@ class OllamaEngine:
             "options": {
                 "temperature": temperature,
                 "num_ctx": self.num_ctx,
+                "num_predict": self.num_predict,
             },
         }
         reply = self._post("/api/chat", payload)

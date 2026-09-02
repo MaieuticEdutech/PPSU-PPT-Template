@@ -26,11 +26,16 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent))
 
+import ingest
 import prompts
 import schemas
 from ai_engine import AIEngineError, get_engine
 from uk_style import apply_to_unit
 from validate_unit import validate_unit
+
+# how much source text one subsection call may carry (chars); ~1500-2000
+# tokens, comfortable inside num_ctx=16384 with prompt + reply headroom
+SUB_SOURCE_CAP = 6000
 
 
 class GenerationError(Exception):
@@ -91,31 +96,78 @@ class _Caller:
             return None
 
 
-def generate_unit(meta, syllabus_topics=None, toc_text=None, engine=None,
+def generate_unit(meta, syllabus_topics=None, toc_text=None,
+                  source_path=None, engine=None,
                   progress=_default_progress):
     """Returns (unit_dict, report_dict). Raises GenerationError only when
-    generation cannot even start (no outline)."""
+    generation cannot even start (no outline).
+
+    Mode precedence (CLAUDE.md): source_path -> "textbook";
+    else toc_text -> "toc+ai"; else "ai"."""
     engine = engine or get_engine()
     meta = dict(meta)
-    meta["source_mode"] = "toc+ai" if toc_text else "ai"
 
+    # ---- ingest the source, if any ---------------------------------------
+    chunks, source_headings, condensed = [], None, None
+    source_warnings = []
+    if source_path:
+        meta["source_mode"] = "textbook"
+        text = ingest.extract_text(source_path)
+        chunks = ingest.chunk_by_headings(text)
+        real = [c for c in chunks if c["heading"] != "(preamble)"]
+        if len(real) >= 3:
+            source_headings = [c["heading"] for c in real]
+        else:
+            source_warnings.append(
+                "source did not split into sections (no numbered headings "
+                "detected) — the whole document grounds every call instead "
+                "of per-subsection chunks")
+        condensed = ingest.condense(chunks)
+    else:
+        meta["source_mode"] = "toc+ai" if toc_text else "ai"
+
+    review = {"textbook": "Content is rewritten from the uploaded source — "
+                          "SMEs verify fidelity to it before issue.",
+              "toc+ai": "Content is AI-generated (structure follows the "
+                        "supplied TOC) — SMEs must review facts, worked "
+                        "examples and references before issue.",
+              "ai": "Content is AI-generated — SMEs must review facts, "
+                    "worked examples and references before issue."}
     report = {"source_mode": meta["source_mode"], "model": engine.model,
               "calls": 0, "failures": [], "uk_spelling_fixes": 0,
-              "review_note": ("Content is AI-generated"
-                              + (" (structure follows the supplied TOC)"
-                                 if toc_text else "")
-                              + " — SMEs must review facts, worked examples "
-                                "and references before issue.")}
+              "review_note": review[meta["source_mode"]]}
+    if source_path:
+        report["source"] = {"file": str(source_path),
+                            "chars": len(text), "chunks": len(chunks),
+                            "unmatched_headings": []}
+        report.setdefault("warnings_extra", []).extend(source_warnings)
     call = _Caller(engine, report, progress)
     n = meta["unit_number"]
 
     # ---- outline (the one call that must succeed) -------------------------
     out = call("outline",
-               prompts.outline(meta, syllabus_topics, toc_text),
-               schemas.OUTLINE)
+               prompts.outline(meta, syllabus_topics, toc_text,
+                               source_headings=source_headings),
+               schemas.OUTLINE_TEXTBOOK if source_headings
+               else schemas.OUTLINE)
     if out is None:
         raise GenerationError("outline generation failed twice — cannot "
                               "build a unit without one")
+
+    def source_for(sub):
+        """The grounding text for one subsection: its mapped chunks, else
+        the condensed whole-source digest. None outside textbook mode."""
+        if not source_path:
+            return None
+        wanted = sub.get("source_headings") or []
+        matched, unmatched = ingest.match_chunks(wanted, chunks)
+        if unmatched:
+            report["source"]["unmatched_headings"].extend(unmatched)
+        if matched:
+            joined = "\n\n".join(f"## {c['heading']}\n{c['text']}"
+                                 for c in matched)
+            return joined[:SUB_SOURCE_CAP]
+        return condensed
     example_style = out["example_style"]
     for sec in out["sections"]:
         sec["title"] = clean_title(sec["title"])
@@ -137,7 +189,8 @@ def generate_unit(meta, syllabus_topics=None, toc_text=None, engine=None,
         sec_no = f"{n}.{si}"
         sub_titles = "; ".join(s["title"] for s in sec["subsections"])
         extras = call(f"section {sec_no} extras",
-                      prompts.section_extras(meta, sec["title"], sub_titles),
+                      prompts.section_extras(meta, sec["title"], sub_titles,
+                                             source=condensed),
                       schemas.SECTION_EXTRAS)
         problem_seq = 0
         subsections = []
@@ -145,9 +198,11 @@ def generate_unit(meta, syllabus_topics=None, toc_text=None, engine=None,
             sub_no = f"{sec_no}.{ki + 1}"
             label = f"{sub_no} {sub['title']}"
             blocks = []
+            src = source_for(sub)
 
             p = call(f"{label}: prose",
-                     prompts.prose(meta, sec["title"], sub["title"]),
+                     prompts.prose(meta, sec["title"], sub["title"],
+                                   source=src),
                      schemas.PROSE)
             if p:
                 blocks += [{"type": "prose", "text": t}
@@ -158,7 +213,8 @@ def generate_unit(meta, syllabus_topics=None, toc_text=None, engine=None,
             # 3rd a did-you-know — mirrors the reference sample's rhythm
             if ki == 0:
                 t = call(f"{label}: table",
-                         prompts.table(meta, sec["title"], sub["title"]),
+                         prompts.table(meta, sec["title"], sub["title"],
+                                       source=src),
                          schemas.TABLE)
                 if t:
                     blocks.append({"type": "table",
@@ -169,7 +225,8 @@ def generate_unit(meta, syllabus_topics=None, toc_text=None, engine=None,
             elif ki == 1:
                 if example_style == "code":
                     c = call(f"{label}: code example",
-                             prompts.code(meta, sec["title"], sub["title"]),
+                             prompts.code(meta, sec["title"], sub["title"],
+                                          source=src),
                              schemas.CODE)
                     if c:
                         blocks.append({"type": "code", "text": c["code"]})
@@ -179,7 +236,7 @@ def generate_unit(meta, syllabus_topics=None, toc_text=None, engine=None,
                     problem_seq += 1
                     pr = call(f"{label}: worked problem",
                               prompts.problem(meta, sec["title"],
-                                              sub["title"]),
+                                              sub["title"], source=src),
                               schemas.PROBLEM)
                     if pr:
                         blocks.append({"type": "problem",
@@ -190,7 +247,7 @@ def generate_unit(meta, syllabus_topics=None, toc_text=None, engine=None,
             else:
                 d = call(f"{label}: did-you-know",
                          prompts.did_you_know(meta, sec["title"],
-                                              sub["title"]),
+                                              sub["title"], source=src),
                          schemas.DID_YOU_KNOW)
                 if d:
                     blocks.append({"type": "did_you_know", "text": d["text"]})
@@ -214,20 +271,35 @@ def generate_unit(meta, syllabus_topics=None, toc_text=None, engine=None,
                          "intro": sec.get("intro", ""),
                          "subsections": subsections})
 
-    # ---- back matter ------------------------------------------------------
-    summ = call("summary", prompts.summary(meta, titles), schemas.SUMMARY)
-    glos = call("glossary", prompts.glossary(meta, titles), schemas.GLOSSARY)
-    case = call("case study", prompts.case_study(meta, titles),
+    # ---- back matter (grounded on the condensed source in textbook mode) --
+    summ = call("summary", prompts.summary(meta, titles, source=condensed),
+                schemas.SUMMARY)
+    glos = call("glossary", prompts.glossary(meta, titles, source=condensed),
+                schemas.GLOSSARY)
+    case = call("case study",
+                prompts.case_study(meta, titles, source=condensed),
                 schemas.CASE_STUDY)
-    mcq = call("MCQs", prompts.mcqs(meta, titles), schemas.MCQS)
-    blanks = call("fill-in-the-blanks", prompts.fill_blanks(meta, titles),
+    mcq = call("MCQs", prompts.mcqs(meta, titles, source=condensed),
+               schemas.MCQS)
+    blanks = call("fill-in-the-blanks",
+                  prompts.fill_blanks(meta, titles, source=condensed),
                   schemas.FILL_BLANKS)
-    tshort = call("terminal short", prompts.terminal_short(meta, titles),
+    tshort = call("terminal short",
+                  prompts.terminal_short(meta, titles, source=condensed),
                   schemas.TERMINAL_SHORT)
-    tlong = call("terminal long", prompts.terminal_long(meta, titles),
+    tlong = call("terminal long",
+                 prompts.terminal_long(meta, titles, source=condensed),
                  schemas.TERMINAL_LONG)
     refs = call("references", prompts.references(meta, titles),
                 schemas.REFERENCES, temperature=0.1)
+
+    ref_list = (refs or {}).get("references", [])
+    if source_path:
+        # spec: in textbook mode the source textbook comes first
+        citation = meta.get("textbook_citation") or (
+            f"[Source textbook: {Path(source_path).name} — complete "
+            f"citation to be added by the SME.]")
+        ref_list = [citation] + [r for r in ref_list if r != citation]
 
     unit = {
         "meta": meta,
@@ -245,11 +317,17 @@ def generate_unit(meta, syllabus_topics=None, toc_text=None, engine=None,
                                                               [])},
         "terminal": {"short": (tshort or {}).get("short", []),
                      "long": (tlong or {}).get("long", [])},
-        "references": (refs or {}).get("references", []),
+        "references": ref_list,
     }
 
     report["uk_spelling_fixes"] = apply_to_unit(unit)
     errors, warnings = validate_unit(unit)
+    warnings.extend(report.pop("warnings_extra", []))
+    if source_path and report["source"]["unmatched_headings"]:
+        warnings.append(
+            "some outline subsections could not be matched to source "
+            "sections and fell back to the whole-source digest: "
+            + "; ".join(report["source"]["unmatched_headings"]))
     report["validation"] = {"errors": errors, "warnings": warnings}
     return unit, report
 
@@ -262,6 +340,10 @@ def main():
     ap.add_argument("--toc", type=Path,
                     help="optional textbook table-of-contents text file "
                          "(activates toc+ai mode)")
+    ap.add_argument("--source", type=Path,
+                    help="optional textbook chapter (.pdf/.docx/.txt) — "
+                         "activates textbook mode (overrides --toc for "
+                         "mode selection; both still inform the outline)")
     ap.add_argument("--out", required=True, type=Path, help=".docx path")
     ap.add_argument("--report", type=Path)
     ap.add_argument("--json-out", type=Path,
@@ -274,7 +356,7 @@ def main():
 
     t0 = time.time()
     unit, report = generate_unit(meta, syllabus_topics=syllabus,
-                                 toc_text=toc_text)
+                                 toc_text=toc_text, source_path=args.source)
     report["seconds"] = round(time.time() - t0, 1)
 
     report_path = args.report or args.out.with_suffix(".report.json")

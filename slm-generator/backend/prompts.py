@@ -33,6 +33,20 @@ BLOOMS_VERBS = ("Define, Identify, List, Recall, State, Explain, Describe, "
                 "Recommend, Design, Develop, Construct, Create, Formulate")
 BANNED_VERBS = "Understand, Know, Learn, Be familiar with, Appreciate"
 
+# Textbook-mode grounding — from global_rules.txt GENERAL RULES 2/3/5.
+GROUNDING_RULES = (
+    "STRICT SOURCE RULES: use ONLY the supplied source material below. "
+    "Never invent facts beyond it. Never change its academic meaning. "
+    "Preserve its logical teaching sequence. You may rephrase and "
+    "restructure, but every fact must come from the source.")
+
+
+def _with_source(prompt, source):
+    if not source:
+        return prompt
+    return (f"{prompt}\n\n{GROUNDING_RULES}\n"
+            f"--- SOURCE MATERIAL ---\n{source}\n--- END SOURCE ---")
+
 
 def _unit_context(meta, syllabus_topics=None, toc_text=None):
     lines = [f"Programme: {meta['programme']}",
@@ -49,9 +63,20 @@ def _unit_context(meta, syllabus_topics=None, toc_text=None):
     return "\n".join(lines)
 
 
-def outline(meta, syllabus_topics=None, toc_text=None):
+def outline(meta, syllabus_topics=None, toc_text=None,
+            source_headings=None):
+    if source_headings:
+        headings_block = (
+            "\nThe uploaded source material contains these sections:\n"
+            + "\n".join(f"- {h}" for h in source_headings)
+            + "\nBuild the outline FROM these source sections (preserving "
+            "their teaching sequence), and for every subsection return "
+            "'source_headings': the exact heading strings (copied verbatim "
+            "from the list above) whose content that subsection teaches.")
+    else:
+        headings_block = ""
     return (
-        f"{_unit_context(meta, syllabus_topics, toc_text)}\n\n"
+        f"{_unit_context(meta, syllabus_topics, toc_text)}{headings_block}\n\n"
         "Design this unit's teaching outline: exactly 3 major sections, "
         "each with 2-3 subsections. Section titles mirror the syllabus "
         "topics"
@@ -86,133 +111,134 @@ def learning_objectives(meta, outline_titles):
         f"{BANNED_VERBS}.")
 
 
-def prose(meta, section_title, subsection_title):
-    return (
+def prose(meta, section_title, subsection_title, source=None):
+    return _with_source((
         f"{_unit_context(meta)}\n"
         f"Section: {section_title}\nSubsection: {subsection_title}\n\n"
         "Write this subsection's teaching prose: 2-3 substantial "
         "paragraphs. Define every new concept precisely, then ground it "
-        "with one short realistic example.")
+        "with one short realistic example."), source)
 
 
-def table(meta, section_title, subsection_title):
-    return (
+def table(meta, section_title, subsection_title, source=None):
+    return _with_source((
         f"{_unit_context(meta)}\n"
         f"Section: {section_title}\nSubsection: {subsection_title}\n\n"
         "Create one comparison/reference table for this subsection "
         "(concept -> meaning -> application style, 2-4 columns, 3-6 rows). "
         "'caption_title' is the caption text only (no 'Table N:' prefix — "
-        "numbering is added automatically).")
+        "numbering is added automatically)."), source)
 
 
-def code(meta, section_title, subsection_title):
-    return (
+def code(meta, section_title, subsection_title, source=None):
+    return _with_source((
         f"{_unit_context(meta)}\n"
         f"Section: {section_title}\nSubsection: {subsection_title}\n\n"
         "Write one short, correct, runnable code example (python or sql) "
         "demonstrating this subsection's concept, with inline # comments "
         "showing expected output, plus a one-paragraph 'explanation' of "
-        "what it shows. Keep it under 15 lines.")
+        "what it shows. Keep it under 15 lines."), source)
 
 
-def problem(meta, section_title, subsection_title):
-    return (
+def problem(meta, section_title, subsection_title, source=None):
+    return _with_source((
         f"{_unit_context(meta)}\n"
         f"Section: {section_title}\nSubsection: {subsection_title}\n\n"
         "Write one worked problem for this subsection: a precise "
         "'statement' with concrete numbers, and a fully worked step-by-step "
         "'solution' that ends with a verification line where possible "
-        "(e.g. 'Verify: 23+12+16+9=60 ✓').")
+        "(e.g. 'Verify: 23+12+16+9=60 ✓')."), source)
 
 
-def did_you_know(meta, section_title, subsection_title):
-    return (
+def did_you_know(meta, section_title, subsection_title, source=None):
+    return _with_source((
         f"{_unit_context(meta)}\n"
         f"Section: {section_title}\nSubsection: {subsection_title}\n\n"
         "Write one 'Did you know?' aside for this subsection: a single "
         "paragraph of genuine historical or contextual interest. Only "
-        "well-established facts — nothing invented.")
+        "well-established facts — nothing invented."), source)
 
 
-def section_extras(meta, section_title, subsection_titles):
-    return (
+def section_extras(meta, section_title, subsection_titles, source=None):
+    return _with_source((
         f"{_unit_context(meta)}\n"
         f"Section: {section_title} (subsections: {subsection_titles})\n\n"
         "Write (1) 'think_and_apply': one open-ended applied scenario "
         "prompt for this section — realistic business/data context, asks "
         "the learner to apply the section's ideas, gives NO solution; and "
         "(2) 'figure_caption': a caption for one illustrative figure the "
-        "design team will draw (caption text only, no 'Figure N:' prefix).")
+        "design team will draw (caption text only, no 'Figure N:' "
+        "prefix)."), source)
 
 
-def summary(meta, outline_titles):
-    return (
+def summary(meta, outline_titles, source=None):
+    return _with_source((
         f"{_unit_context(meta)}\n"
         f"The unit's sections are: {outline_titles}.\n\n"
         "Write the unit summary: 6-10 bullets, one per major concept, in "
-        "section order. Key takeaways only — no new information.")
+        "section order. Key takeaways only — no new information."), source)
 
 
-def glossary(meta, outline_titles):
-    return (
+def glossary(meta, outline_titles, source=None):
+    return _with_source((
         f"{_unit_context(meta)}\n"
         f"The unit's sections are: {outline_titles}.\n\n"
         "Write the unit glossary: 12-20 term/definition pairs covering the "
         "unit's key vocabulary. One-sentence definitions preserving full "
         "academic meaning. (They are alphabetised automatically — any "
-        "order is fine.)")
+        "order is fine.)"), source)
 
 
-def case_study(meta, outline_titles):
-    return (
+def case_study(meta, outline_titles, source=None):
+    return _with_source((
         f"{_unit_context(meta)}\n"
         f"The unit's sections are: {outline_titles}.\n\n"
         "Write one applied case study: a 'title' naming a fictional "
         "organisation and its problem, 3-5 'background' paragraphs telling "
         "how a named practitioner applied this unit's concepts (with "
         "concrete given data), and exactly 3 open 'questions' for the "
-        "learner (no answers).")
+        "learner (no answers)."), source)
 
 
-def mcqs(meta, outline_titles):
-    return (
+def mcqs(meta, outline_titles, source=None):
+    return _with_source((
         f"{_unit_context(meta)}\n"
         f"The unit's sections are: {outline_titles}.\n\n"
         "Write exactly 8 multiple-choice questions spanning the whole "
         "unit, easier first. 4 options each; 'answer' is the correct "
-        "letter a-d. Wrong options must be plausible, not silly.")
+        "letter a-d. Wrong options must be plausible, not silly."), source)
 
 
-def fill_blanks(meta, outline_titles):
-    return (
+def fill_blanks(meta, outline_titles, source=None):
+    return _with_source((
         f"{_unit_context(meta)}\n"
         f"The unit's sections are: {outline_titles}.\n\n"
         "Write exactly 5 fill-in-the-blank items: each 'q' is a sentence "
         "with one blank written as ______, and 'answer' is the missing "
-        "word or phrase.")
+        "word or phrase."), source)
 
 
-def terminal_short(meta, outline_titles):
-    return (
+def terminal_short(meta, outline_titles, source=None):
+    return _with_source((
         f"{_unit_context(meta)}\n"
         f"The unit's sections are: {outline_titles}.\n\n"
         "Write exactly 5 short terminal questions (each answerable in 3-5 "
         "sentences, computational or definitional), each with its model "
-        "'answer'.")
+        "'answer'."), source)
 
 
-def terminal_long(meta, outline_titles):
-    return (
+def terminal_long(meta, outline_titles, source=None):
+    return _with_source((
         f"{_unit_context(meta)}\n"
         f"The unit's sections are: {outline_titles}.\n\n"
         "Write exactly 5 long terminal questions (essay/derivation depth), "
-        "each with a thorough multi-paragraph model 'answer'.")
+        "each with a thorough multi-paragraph model 'answer'."), source)
 
 
-def references(meta, outline_titles):
-    return (
+def references(meta, outline_titles, source=None):
+    return _with_source((
         f"{_unit_context(meta)}\n"
         f"The unit's sections are: {outline_titles}.\n\n"
         "List 6-8 real, well-known textbooks/resources for this subject in "
         "APA style (author, year, title, edition, publisher). Only books "
-        "you are certain actually exist — standard, widely-cited texts.")
+        "you are certain actually exist — standard, widely-cited texts."), source)
