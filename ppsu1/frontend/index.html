@@ -1412,28 +1412,63 @@
       }
 
       // Poll the server for real per-deck build progress and show it in the
-      // loader ("Deck 2 of 3 — rendering previews"). Returns a stop function.
+      // loader ("Deck 2 of 3 — rendering previews"). ONE poll loop serves
+      // both the UI text AND completion detection — a second independent
+      // loop here (there used to be one, in waitForResult) doubles request
+      // volume for no benefit and was enough on its own to trip a hosted
+      // free-tier rate limit (429) while the backend was already struggling.
+      // Returns { stop, waitUntilDone }: waitUntilDone() resolves once
+      // /progress reports phase "done" (or rejects if the build never even
+      // started, or after 30 minutes) — used by the gateway-recovery path
+      // below instead of starting a second poller.
       function startProgress(token) {
         loaderModal.classList.add('active');
         const sub = document.getElementById('loader-subtext');
         loaderStatusText.textContent = 'Starting…';
+        const t0 = Date.now();
+        let started = false;
+        let settled = false;
+        let resolveDone, rejectDone;
+        const donePromise = new Promise((res, rej) => { resolveDone = res; rejectDone = rej; });
+        donePromise.catch(() => {}); // never unhandled if the caller doesn't await it
+
         const timer = setInterval(async () => {
+          let p = null;
           try {
-            const p = await (await fetch(`${API_BASE}/progress/${token}`)).json();
-            if (!p || !p.deck_total) return;
+            p = await (await fetch(`${API_BASE}/progress/${token}`)).json();
+          } catch (e) { /* transient (incl. 429/502/503) — skip this tick */ }
+
+          if (p && p.phase && p.phase !== 'starting') started = true;
+          if (p && p.deck_total) {
             if (p.phase === 'done') {
               loaderStatusText.textContent = 'Finishing up…';
-              return;
+            } else {
+              const phase = p.phase === 'rendering' ? 'rendering previews' : 'building slides';
+              loaderStatusText.textContent =
+                `Deck ${p.deck_index} of ${p.deck_total} — ${phase}`;
+              if (p.deck_name) sub.textContent = p.deck_name;
             }
-            const phase = p.phase === 'rendering' ? 'rendering previews' : 'building slides';
-            loaderStatusText.textContent =
-              `Deck ${p.deck_index} of ${p.deck_total} — ${phase}`;
-            if (p.deck_name) sub.textContent = p.deck_name;
-          } catch (e) { /* ignore transient poll errors */ }
-        }, 700);
-        return () => {
-          clearInterval(timer);
-          sub.textContent = 'Executing intelligent slide engine pipeline. Please hold.';
+          }
+
+          if (settled) return;
+          if (p && p.phase === 'done') {
+            settled = true;
+            resolveDone();
+          } else if (!started && Date.now() - t0 > 90 * 1000) {
+            settled = true;
+            rejectDone(new Error('Lost contact with the server while building. Please try again.'));
+          } else if (Date.now() - t0 > 30 * 60 * 1000) {
+            settled = true;
+            rejectDone(new Error('Timed out waiting for the build to finish.'));
+          }
+        }, 2000);
+
+        return {
+          stop() {
+            clearInterval(timer);
+            sub.textContent = 'Executing intelligent slide engine pipeline. Please hold.';
+          },
+          waitUntilDone() { return donePromise; },
         };
       }
 
@@ -1477,7 +1512,7 @@
       // ---- redesign: same files, fresh non-repeating layouts ----
       document.getElementById('redesign-btn').addEventListener('click', async () => {
         if (!currentPayload) return;
-        const stopProgress = startProgress(currentPayload.token);
+        const progress = startProgress(currentPayload.token);
         try {
           const response = await fetch(`${API_BASE}/redesign/${currentPayload.token}`, { method: 'POST' });
           if (!response.ok) {
@@ -1489,7 +1524,7 @@
           console.error(error);
           alert(`Could not redesign: ${error.message}`);
         } finally {
-          stopProgress();
+          progress.stop();
           loaderModal.classList.remove('active');
         }
       });
@@ -1548,32 +1583,10 @@
         window.scrollTo({ top: 0, behavior: 'smooth' });
       });
 
-      // A hosted free-tier proxy may drop the long /build request while the
-      // server keeps working. Recover by polling /progress until the build is
-      // done, then fetching the finished payload from /result. Gives up early
-      // if the build never even started (the POST really failed).
-      async function waitForResult(token) {
-        const t0 = Date.now();
-        let started = false;
-        while (Date.now() - t0 < 30 * 60 * 1000) {
-          await new Promise(r => setTimeout(r, 4000));
-          try {
-            const p = await (await fetch(`${API_BASE}/progress/${token}`)).json();
-            if (p && p.phase && p.phase !== 'starting') started = true;
-            if (p && p.phase === 'done') {
-              const r = await fetch(`${API_BASE}/result/${token}`);
-              if (r.ok) return await r.json();
-            }
-          } catch (e) { /* transient — keep waiting */ }
-          if (!started && Date.now() - t0 > 90 * 1000) break;
-        }
-        throw new Error('Lost contact with the server while building. Please try again.');
-      }
-
       // Phase 2: the slow half — build the decks and render the previews.
       document.getElementById('preflight-go').addEventListener('click', async () => {
         if (!preflightToken) return;
-        const stopProgress = startProgress(preflightToken);
+        const progress = startProgress(preflightToken);
         try {
           const response = await fetch(`${API_BASE}/build/${preflightToken}`,
                                        { method: 'POST' });
@@ -1596,10 +1609,15 @@
           // A TypeError means the request itself died (proxy timeout /
           // connection drop); isGateway means the proxy answered FOR the
           // backend with 502/503/504. Neither means the server rejected the
-          // build — it is very likely still running, so wait for its result.
+          // build — it is very likely still running, so wait for its result
+          // via the SAME poll loop already running (progress.waitUntilDone),
+          // rather than starting a second one.
           if (error instanceof TypeError || error.isGateway) {
             try {
-              showPreview(await waitForResult(preflightToken));
+              await progress.waitUntilDone();
+              const r = await fetch(`${API_BASE}/result/${preflightToken}`);
+              if (!r.ok) throw new Error(`HTTP ${r.status}`);
+              showPreview(await r.json());
               return;
             } catch (e2) {
               console.error(e2);
@@ -1610,7 +1628,7 @@
           console.error(error);
           alert(`Error building slides: ${error.message}`);
         } finally {
-          stopProgress();
+          progress.stop();
           loaderModal.classList.remove('active');
         }
       });
