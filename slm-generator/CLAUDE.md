@@ -10,12 +10,13 @@ A tool for **Maieutic Edutech** that generates complete, PPSU-branded **Self-Lea
 
 **The output is a document (.docx), NOT slides.** This is the opposite direction from the existing PPT designer (`../ppsu1`), which consumes finished content. Eventually: SLM generator → SLM doc → (existing pipeline) raw PPT → designed PPT. Do not conflate the two tools; this one only produces the SLM document.
 
-### Input modes (both must work)
+### Input modes (all must work)
 
 1. **Textbook mode** — user uploads source material (PDF/DOCX textbook chapter(s)) plus unit metadata (programme, course code/name, unit number/title, syllabus topics). The AI **restructures and rewrites only what the source contains** — it must never invent facts beyond the source.
-2. **No-textbook mode** — user provides only the metadata + syllabus topics. The AI generates the teaching content itself from its own knowledge. Mark generated-from-AI units clearly in the tool's report (SMEs must review harder).
+2. **TOC mode (`toc+ai`)** — no textbook content, but the textbook's **table of contents** is supplied (pasted text). The TOC is the authoritative outline skeleton: it pins the unit's structure, topic ordering and coverage; the AI generates the teaching content for each entry from its own knowledge. When syllabus topics are ALSO given, both feed the outline (the TOC fixes ordering/coverage, the syllabus fills gaps). A TOC pins structure, not facts — this is still AI-generated content and is flagged for the same harder SME review as mode 3.
+3. **No-textbook mode (`ai`)** — user provides only the metadata + syllabus topics. The AI generates outline and content entirely from its own knowledge. Mark generated-from-AI units clearly in the tool's report (SMEs must review harder).
 
-The mode is chosen automatically: textbook present → textbook mode, else AI mode.
+The mode is chosen automatically: textbook present → textbook mode; else TOC present → `toc+ai`; else `ai`. `meta.source_mode` records which.
 
 ---
 
@@ -168,6 +169,48 @@ Notes on fields that moved since the original sketch:
 6. **Polish** — PDF export, figure placeholders list for the DTP team, multi-unit batch.
 
 ## Current state
+
+**Phase 3 LIVE end-to-end run passed, 2026-09-02**: a full unit
+("Fundamentals of Cryptography", toc+ai mode, samples/meta_example.json +
+samples/toc_example.txt) generated in 300s — 30 AI calls, 0 failures, 9
+automatic UK-spelling fixes, validation clean, real docx rendered. The TOC
+demonstrably steered the outline (Caesar → Feistel → stream → modes → RSA
+→ Diffie-Hellman, straight from the supplied TOC), and the model correctly
+chose problem-style worked examples for a crypto unit (a correct
+step-by-step Caesar worked problem with mod-26 arithmetic). Two 7b quirks
+found in that run and fixed deterministically in code (plus prompt
+tightening): TOC bookkeeping leaking into outline titles ("... (2.1.1 in
+the textbook TOC)") — `clean_title()`; and option letters embedded inside
+MCQ option text ("a) AES", which would double-prefix in the docx) —
+`clean_mcq_options()`. Both regression-tested; the committed
+output/-excluded sample docx predates the title fix.
+
+**Phase 3 (AI-mode generation, incl. the new TOC modes) built, 2026-09-02.**
+`backend/unit_generator.py` orchestrates the full pipeline: outline (the one
+call that MUST succeed — anything else failing twice is recorded in the
+report and skipped, the unit still completes) → front matter → per-
+subsection content → back matter → UK-spelling pass → validation gate →
+render via the Phase 1 builder. Numbering (N.1/N.1.1, Table/Figure/Problem
+numbers) is assigned in code, never trusted from the model. Enrichment
+blocks rotate deterministically per subsection (1st: table, 2nd: worked
+example — `code` or `problem` per the outline call's `example_style`
+decision for the subject, 3rd: did-you-know; figure on the first, think-
+and-apply closing the last), mirroring the reference sample's rhythm
+without fragile oneOf schemas. Supporting modules: `schemas.py` (per-call
++ full-unit schemas), `prompts.py` (house voice adapted from
+`prompts/global_rules.txt`, copied verbatim from REVA-AI-PPT-Creator —
+only that file; the temp clone with its leaked .env was deleted),
+`uk_style.py` (conservative US→UK respelling, code blocks exempt,
+ambiguous pairs like program/programme untouched), `validate_unit.py`
+(errors block rendering; warnings surface to the reviewer — references
+always warned as needing SME verification since local models can cite
+non-existent editions). CLI: `unit_generator.py --meta m.json [--toc
+toc.txt] --out unit.docx [--json-out unit.json] [--report r.json]`;
+sample inputs in `samples/meta_example.json` + `samples/toc_example.txt`.
+`tests/test_unit_generator.py`: 24 offline checks (stub engine dispatched
+by schema identity), all passing — mode detection, TOC-in-outline-prompt,
+numbering, rotation placement, UK pass (incl. code exemption), failure
+containment, validator gate, end-to-end render.
 
 **Phase 2 (Ollama engine) done and live-tested, 2026-09-02.** Ollama 0.33.2
 installed (winget, per-user, server auto-runs from the tray);

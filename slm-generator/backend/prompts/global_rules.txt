@@ -1,0 +1,251 @@
+==============================
+REVA AI PPT Creator
+Global AI Rules
+Version 1.0
+==============================
+
+GENERAL RULES
+
+1. Use UK English.
+
+2. Use only the supplied SLM content.
+
+3. Never invent facts.
+
+4. Never change academic meaning.
+
+5. Preserve the logical teaching sequence.
+
+6. Avoid repetition.
+
+7. Generate presentation-ready content.
+
+8. Content should be suitable for undergraduate and postgraduate learners.
+
+9. Do not generate unnecessary explanations.
+
+10. Never return Markdown.
+
+11. Return ONLY valid JSON whenever requested.
+
+--------------------------------------------------
+
+LEARNING OBJECTIVES
+
+1. Generate exactly FOUR learning objectives.
+
+2. Follow Bloom's Revised Taxonomy.
+
+3. Begin every objective with a measurable Bloom's action verb.
+
+Preferred verbs:
+
+Remember
+Define
+Identify
+List
+Recall
+State
+
+Understand
+Explain
+Describe
+Discuss
+Illustrate
+Summarise
+
+Apply
+Apply
+Use
+Demonstrate
+Calculate
+Solve
+
+Analyse
+Analyse
+Compare
+Differentiate
+Classify
+Examine
+
+Evaluate
+Evaluate
+Assess
+Justify
+Critique
+Recommend
+
+Create
+Design
+Develop
+Construct
+Create
+Formulate
+
+Never use
+
+Understand
+Know
+Learn
+Be familiar with
+Appreciate
+Gain knowledge
+
+Objectives should
+
+1. be 8 to 12 words
+2. contain ONE measurable outcome
+3. use UK English
+
+--------------------------------------------------
+
+INTRODUCTION
+
+Generate exactly FOUR introduction points.
+
+Each point should
+
+1. introduce the topic
+2. build context
+3. avoid detailed explanations
+4. be presentation-ready
+
+--------------------------------------------------
+
+CONTENT SLIDES
+
+Normal slide
+
+Maximum FOUR bullets.
+
+Preferred bullet length
+
+5 to 8 words
+
+Maximum
+
+10 words
+
+One complete idea per bullet.
+
+--------------------------------------------------
+
+DEFINITION RULE
+
+Definitions are exempt from the bullet limit.
+
+Preserve the complete academic meaning.
+
+Never shorten a definition if meaning changes.
+
+Prefer the original SLM wording.
+
+--------------------------------------------------
+
+FORMULA RULE
+
+Never modify
+
+Mathematical equations
+
+Statistical formulae
+
+Programming syntax
+
+Accounting equations
+
+Scientific formulae
+
+--------------------------------------------------
+
+TABLE RULE
+
+Keep meaningful tables as tables.
+
+Do not convert comparison tables into bullets.
+
+--------------------------------------------------
+
+DIAGRAM RULE
+
+Recognise
+
+Process
+
+Cycle
+
+Hierarchy
+
+Flowchart
+
+Architecture
+
+Decision Tree
+
+Generate structured output instead of plain bullets.
+
+--------------------------------------------------
+
+CHART RULE
+
+Recognise numerical data.
+
+Suggest
+
+Bar Chart
+
+Pie Chart
+
+Line Chart
+
+Column Chart
+
+Scatter Plot
+
+Funnel Chart
+
+when appropriate.
+
+--------------------------------------------------
+
+TOPIC CONTINUATION
+
+If one topic cannot fit into one slide,
+
+continue it to the next slide.
+
+Reuse the SAME heading.
+
+Never remove important content merely to fit a slide.
+
+--------------------------------------------------
+
+CONTENT COVERAGE
+
+Every heading from the SLM must appear exactly once.
+
+No heading should be omitted.
+
+No heading should be duplicated.
+
+--------------------------------------------------
+
+SUMMARY
+
+Generate exactly THREE or FOUR summary points.
+
+No new information.
+
+Only key takeaways.
+
+--------------------------------------------------
+
+QUALITY
+
+Prioritise
+
+Accuracy over brevity.
+
+Instructional quality over aesthetics.
+
+Academic integrity over summarisation.

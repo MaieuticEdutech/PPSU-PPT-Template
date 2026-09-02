@@ -1,0 +1,13 @@
+{
+  "programme": "MSc SEMESTER (I)",
+  "course_code": "ICCS7010",
+  "course_name": "Information Security and Applications",
+  "unit_number": 2,
+  "unit_title": "Fundamentals of Cryptography",
+  "syllabus_topics": [
+    "Classical ciphers: substitution and transposition",
+    "Symmetric key cryptography; block and stream ciphers",
+    "Public key cryptography; RSA; key exchange",
+    "Hash functions and message integrity"
+  ]
+}
