@@ -636,10 +636,13 @@ def swap_slide(token, idx, raw_slide):
             assignment[key] = KEEP_ORIGINAL
         assign_path.write_text(json.dumps(assignment))
 
-        # re-render ONLY the changed slide (its position in the deck is fixed)
+        # re-render ONLY the changed slide (its position in the deck is fixed).
+        # No renderer available (or DISABLE_PREVIEW_RENDER) -> img is never
+        # written; report that as no image rather than a URL to a 404, same
+        # as the main build path already does for a whole deck.
         out_slide = raw_slide - 1        # deck is built in raw-slide order
         img = work / "images" / str(idx) / f"slide_{out_slide}.png"
-        render_one_slide(out_path, out_slide, img)
+        rendered = render_one_slide(out_path, out_slide, img)
 
         # refresh this deck's report + a cache-busting image url
         deck["report"] = report
@@ -649,7 +652,7 @@ def swap_slide(token, idx, raw_slide):
         row = next((s for s in report["slides"] if s["raw_slide"] == raw_slide), {})
         return jsonify({
             "raw_slide": raw_slide,
-            "image": f"{base}?v={uuid.uuid4().hex[:8]}",
+            "image": f"{base}?v={uuid.uuid4().hex[:8]}" if rendered else None,
             "status": row.get("status"),
             "reason": row.get("reason"),
             "warning": row.get("warning"),

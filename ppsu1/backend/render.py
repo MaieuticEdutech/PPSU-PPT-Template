@@ -12,6 +12,10 @@ Two rendering engines are tried, in order:
 
 If neither engine is available the functions return an empty list; callers
 should treat that as "preview unavailable" and still allow the download.
+
+Set DISABLE_PREVIEW_RENDER=1 to skip rendering entirely (both engines) and
+always report "unavailable" — see the note above _DISABLE_RENDER below for
+why a memory-capped host needs this.
 """
 import os
 import re
@@ -23,6 +27,22 @@ import threading
 import time
 import traceback
 from pathlib import Path
+
+# A single headless LibreOffice conversion has real, largely FIXED memory
+# overhead of its own (its UNO framework, font subsystem, etc.) that is
+# mostly independent of the document being converted — confirmed 2026-09-02:
+# on Render's 512 MB free instance, engine.build() alone (python-pptx, no
+# rendering) peaked at ~61 MB even for a 23-slide deck, yet a single, solo
+# /build request still silently OOM-killed the whole container within ~2
+# minutes of calling render_deck_to_images. There is no template-size or
+# concurrency fix for that; LibreOffice itself doesn't fit in the budget
+# alongside the app. DISABLE_PREVIEW_RENDER trades live previews for the
+# service actually staying up: /build still produces a real, downloadable
+# .pptx (that path never touches this module), only the PNG previews and
+# the "Change design" thumbnails go through the codebase's existing, already
+# error-handled "renderer unavailable" path (every caller already treats an
+# empty image list / a False return as normal, not a crash).
+_DISABLE_RENDER = os.environ.get("DISABLE_PREVIEW_RENDER") == "1"
 
 # PowerPoint automation is single-instance and stateful: two conversions
 # running at once (two decks of one batch, or a redesign while a batch is
@@ -241,6 +261,8 @@ def render_deck_to_images(pptx_path, out_dir):
     Returns the list of image Paths in slide order (empty if no engine could
     render — the caller should then fall back to a download-only experience).
     """
+    if _DISABLE_RENDER:
+        return []
     pptx_path = Path(pptx_path)
     out_dir = Path(out_dir)
     out_dir.mkdir(parents=True, exist_ok=True)
@@ -265,6 +287,8 @@ def render_one_slide(pptx_path, index, out_path):
     fast; LibreOffice can only convert the whole deck, so there we fall back to
     rendering everything and copying out the one page. Returns True on success.
     """
+    if _DISABLE_RENDER:
+        return False
     pptx_path, out_path = Path(pptx_path), Path(out_path)
     out_path.parent.mkdir(parents=True, exist_ok=True)
 
@@ -287,6 +311,8 @@ def render_one_slide(pptx_path, index, out_path):
 
 def renderer_available():
     """True if any rendering engine is present on this machine."""
+    if _DISABLE_RENDER:
+        return False
     if _find_soffice() and _HAVE_FITZ:
         return True
     if sys.platform == "win32":

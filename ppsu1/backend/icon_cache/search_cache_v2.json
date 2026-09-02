@@ -21025,5 +21025,229 @@
 "material-symbols:install-desktop-rounded"
 ],
 "reassignment": [],
-"returning": []
+"returning": [],
+"declaration": [],
+"zen": [
+"mdi:zend",
+"arcticons:zen",
+"cbi:zen",
+"token:zen",
+"token-branded:zen",
+"token-branded:zen-background",
+"cryptocurrency:zen",
+"cryptocurrency-color:zen"
+],
+"semicolon": [
+"picon:semicolon"
+],
+"def": [
+"material-symbols:car-defrost-left",
+"material-symbols:disabled-by-default",
+"material-symbols:disabled-by-default-outline",
+"material-symbols:disabled-by-default-outline-rounded",
+"material-symbols:disabled-by-default-outline-sharp",
+"material-symbols:disabled-by-default-rounded",
+"material-symbols:disabled-by-default-sharp",
+"mdi:defibrillator"
+],
+"identifier": [
+"mdi:identifier",
+"arcticons:rock-identifier",
+"streamline-sharp:user-identifier-card",
+"streamline-sharp:user-identifier-card-remix",
+"streamline-sharp:user-identifier-card-solid",
+"streamline:user-identifier-card",
+"streamline:user-identifier-card-remix",
+"streamline:user-identifier-card-solid"
+],
+"snake": [
+"mdi:snake",
+"mdi:chart-snakey",
+"mdi:chart-snakey-variant",
+"pixelarticons:snake",
+"dinkie-icons:snake",
+"codicon:snake",
+"openmoji:snake",
+"twemoji:snake"
+],
+"inconsistent": [],
+"docstring": [],
+"typing": [
+"mdi:chat-typing",
+"mdi:chat-typing-outline",
+"carbon:feature-typing",
+"eos-icons:typing",
+"streamline-ultimate-color:typing",
+"entypo:typing",
+"teenyicons:chat-typing-outline",
+"teenyicons:chat-typing-solid"
+],
+"float": [
+"material-symbols:float-portrait-2",
+"material-symbols:float-portrait-2-outline",
+"material-symbols:float-portrait-2-outline-rounded",
+"material-symbols:float-portrait-2-outline-sharp",
+"material-symbols:float-portrait-2-rounded",
+"material-symbols:float-portrait-2-sharp",
+"material-symbols:float-landscape-2",
+"material-symbols:float-landscape-2-outline"
+],
+"enclosed": [
+"selfhst:enclosed",
+"selfhst:enclosed-dark",
+"selfhst:enclosed-light"
+],
+"upper": [
+"material-symbols:uppercase",
+"material-symbols:uppercase-rounded",
+"mdi:format-letter-case-upper",
+"fluent:text-case-uppercase-16-filled",
+"fluent:text-case-uppercase-16-regular",
+"fluent:text-case-uppercase-20-filled",
+"fluent:text-case-uppercase-20-regular",
+"fluent:text-case-uppercase-24-filled"
+],
+"reorder": [
+"material-symbols:reorder",
+"material-symbols:reorder-rounded",
+"material-symbols:quick-reorder",
+"material-symbols:quick-reorder-outline",
+"material-symbols:quick-reorder-outline-rounded",
+"material-symbols:quick-reorder-rounded",
+"fluent:reorder-20-filled",
+"fluent:reorder-20-regular"
+],
+"shorthand": [],
+"casting": [
+"simple-icons:backstage-casting",
+"arcticons:twitcasting"
+],
+"truncation": [
+"icon-park-outline:text-wrap-truncation",
+"icon-park:text-wrap-truncation"
+],
+"pause": [
+"material-symbols:pause",
+"material-symbols:pause-outline",
+"material-symbols:pause-outline-rounded",
+"material-symbols:pause-rounded",
+"mdi:pause",
+"material-symbols-light:pause",
+"material-symbols-light:pause-outline",
+"material-symbols-light:pause-outline-rounded"
+],
+"currency": [
+"material-symbols:currency-yen",
+"material-symbols:currency-yen-rounded",
+"mdi:currency-bdt",
+"mdi:currency-brl",
+"mdi:currency-btc",
+"mdi:currency-cny",
+"mdi:currency-eth",
+"mdi:currency-eur"
+],
+"amount": [
+"lsicon:amount-up-filled",
+"lsicon:amount-up-outline",
+"lsicon:amount-down-filled",
+"lsicon:amount-down-outline",
+"lsicon:amount-yuan-filled",
+"lsicon:amount-yuan-outline",
+"lsicon:amount-dollar-filled",
+"lsicon:amount-dollar-outline"
+],
+"sep": [
+"fluent:panel-separate-window-20-filled",
+"fluent:panel-separate-window-20-regular",
+"tabler:separator",
+"tabler:separator-vertical",
+"tabler:separator-horizontal",
+"simple-icons:sepa",
+"thesvg:sepa",
+"thesvg-color:sepa"
+],
+"valueerror": [],
+"invalid": [
+"icon-park-outline:invalid-files",
+"icon-park-solid:invalid-files",
+"icon-park-twotone:invalid-files",
+"icon-park:invalid-files",
+"healthicons:rdt-result-invalid",
+"healthicons:rdt-result-invalid-outline",
+"healthicons:rdt-result-pf-invalid",
+"healthicons:rdt-result-pf-invalid-outline"
+],
+"typeerror": [],
+"expecting": [],
+"junior": [
+"arcticons:junior",
+"arcticons:revolut-junior",
+"cbi:boca-juniors"
+],
+"ten": [
+"mdi:timer-ten",
+"mdi:clock-time-ten",
+"mdi:clock-time-ten-outline",
+"mdi:tent",
+"tabler:tent",
+"cryptocurrency:ten",
+"cryptocurrency-color:ten",
+"fxemoji:ten"
+],
+"modulus": [],
+"leftover": [],
+"chained": [
+"game-icons:chained-heart",
+"game-icons:chained-arrow-heads",
+"arcticons:unchained"
+],
+"circuiting": [],
+"parenthese": [
+"mdi:code-parentheses",
+"mdi:code-parentheses-box",
+"mdi:code-block-parentheses",
+"mdi:application-parentheses",
+"mdi:application-parentheses-outline",
+"fluent:subtract-parentheses-16-filled",
+"fluent:subtract-parentheses-16-regular",
+"fluent:subtract-parentheses-20-filled"
+],
+"associate": [
+"arcticons:associated-bank"
+],
+"remembering": [],
+"silent": [
+"mingcute:silent-fill",
+"mingcute:silent-line",
+"streamline-cyber:phone-silent",
+"streamline-cyber-color:phone-silent",
+"uil:silent-squint",
+"arcticons:silentnotes"
+],
+"relational": [
+"icon-park-outline:relational-graph",
+"icon-park-solid:relational-graph",
+"icon-park-twotone:relational-graph",
+"icon-park:relational-graph"
+],
+"unexpected": [],
+"relying": [],
+"bodma": [],
+"pemda": [],
+"coercion": [],
+"happen": [
+"arcticons:happening",
+"vscode-icons:file-type-pddl-happenings"
+],
+"programmer": [],
+"surface": [
+"mdi:surface-area",
+"fluent:surface-hub-20-filled",
+"fluent:surface-hub-20-regular",
+"fluent:surface-hub-24-filled",
+"fluent:surface-hub-24-regular",
+"fluent:globe-surface-20-filled",
+"fluent:globe-surface-20-regular",
+"fluent:globe-surface-24-filled"
+]
 }

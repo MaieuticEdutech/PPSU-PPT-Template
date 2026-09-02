@@ -24,6 +24,10 @@ Everything code-side is already prepared in this repo:
   (the catalog build alone peaks at ~840 MB of RAM).
 - `/result/<token>` endpoint: the finished payload for a session, so the page
   can recover a build the proxy dropped instead of re-uploading.
+- `render.yaml` sets `DISABLE_PREVIEW_RENDER=1`: on the free instance, live
+  slide previews and "Change design" thumbnails are off. Not a bug — see the
+  table below. Downloads work fully; the frontend already shows a dedicated
+  "Visual preview isn't available on this server" panel for this state.
 
 ## Manual steps (one-time, ~15 minutes)
 
@@ -66,8 +70,10 @@ wait, preview, download.
 | Fact | Consequence |
 |---|---|
 | 512 MB RAM, 0.1 vCPU | A build that takes ~40 s locally takes much longer here. |
-| The 50 MB / 302-slide default template OOMs the instance | **Confirmed 2026-09-01**: parsing that much XML plus spawning LibreOffice to render previews exceeds 512 MB — the build died ~19s in, right as LibreOffice launched, and the service briefly 503'd while Render restarted the container. `render.yaml` now defaults to the small 0.46 MB / 22-design template (`DEFAULT_TEMPLATE_PATH`) instead — noticeably less design variety, but it fits. Restoring the full 285-design library needs either an instance upgrade or caching the parsed template across requests instead of re-parsing it on every build (not yet done). |
-| `/build` still shows a proxy error in the browser console on a genuinely slow build | Render's edge times out around 100s regardless of app config; the frontend now recovers via `/progress` + `/result` instead of surfacing it, but the console entry is cosmetic noise, not a bug to chase. |
+| **LibreOffice itself doesn't fit alongside the app** | **Confirmed 2026-09-02**, by isolating each cost: `engine.build()` alone (python-pptx, no rendering) peaked at ~61 MB even for a 23-slide deck — nowhere near the ceiling. Yet a single, solo `/build` request (no concurrency, small template) still silently killed the container within ~2 minutes of calling the renderer — Render's log shows gunicorn's master restarting with zero warning, no traceback, no shutdown message: a kernel OOM-kill signature, not a Python error. A single headless LibreOffice conversion carries large, mostly fixed memory overhead of its own that this instance cannot absorb, regardless of template size or how many renders run at once. `DISABLE_PREVIEW_RENDER=1` skips rendering entirely: `/build` still produces a real, downloadable `.pptx`; only the PNG previews and "Change design" thumbnails are unavailable, a state the app already handles gracefully. Remove the flag once the instance is upgraded off the free plan. |
+| The 50 MB / 302-slide default template also doesn't fit | Separately from the above: its COLD catalog build alone peaks at ~840 MB (confirmed 2026-09-01). `render.yaml` defaults to the small 0.46 MB / 22-design template (`DEFAULT_TEMPLATE_PATH`) instead — noticeably less design variety, but it fits comfortably. |
+| `/build` may still show a proxy error in the browser console on a genuinely slow build | Render's edge times out around 100s regardless of app config; the frontend recovers via `/progress` + `/result` instead of surfacing it, but the console entry is cosmetic noise, not a bug to chase. |
+| Concurrent LibreOffice launches compound the memory problem | Not the root cause (a *single* build already doesn't fit), but still fixed as defense in depth: `render.py`'s `_LO_LOCK` serializes every render so a second `/build`, the background thumbnail warm-up, or a second user can never launch `soffice` twice at once. |
 | Spins down after 15 min idle | First request after a pause takes ~1 min to answer. |
 | No persistent disk | Sessions (uploads/previews) vanish on restart — users just re-upload. The bundled template's caches are safe because they ship in the image. |
-| Cold catalog build peaks ~840 MB | Only happens if a user **uploads their own large template** — that request will be killed (OOM) on the free tier. Small uploaded templates are fine (~seconds). |
+| Cold catalog build peaks ~840 MB | Also happens if a user **uploads their own large template** — that request will be killed (OOM) on the free tier. Small uploaded templates are fine (~seconds). |
