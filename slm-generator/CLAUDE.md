@@ -170,6 +170,36 @@ Notes on fields that moved since the original sketch:
 
 ## Current state
 
+**Branding & reference-format feature added, 2026-09-03** (user request).
+Set-once institution branding in `assets/` (gitignored — per-installation
+uploads, not source), applied to every generated unit until replaced:
+
+- **Logo upload** (.png/.jpg): embedded on the cover and in every page
+  header (logo left, unit label pushed right via a tab stop — the real
+  issued sample's running-header layout).
+- **Reference SLM PDF upload**: `branding.extract_profile` (PyMuPDF) reads
+  its STYLE SIGNALS — dominant font family (subset-prefix/style-suffix
+  cleaned), body/heading point sizes, heading colour (most common
+  non-black colour among larger-than-body text), page size and margins
+  (clamped 8-40 mm; the cover page is skipped so display sizes don't skew
+  stats) — and overrides the builder defaults. HONEST scope, stated to the
+  user: style adaptation, not pixel-cloning; the document structure always
+  follows the decoded PPSU format. The PDF is kept for side-by-side review.
+
+Plumbing worth knowing: `docx_builder` was converted from frozen
+`from styles import CONSTANTS` to live `st.<NAME>` attribute access so
+`styles.apply_profile()` overrides are visible; apply_profile ALWAYS
+resets to `_DEFAULTS` first so unbranded builds are never polluted by a
+previous branded one; `set_run`/`add_paragraph` defaults resolve at call
+time (def-time defaults would freeze the originals).
+`build(data, use_branding=False)` bypasses assets (tests assert the
+default look with it). Endpoints: GET/POST `/api/branding`; frontend has
+a "Branding & reference format" card showing current state.
+`tests/test_branding.py`: 14 checks (synthetic reference PDF with known
+font/sizes/colours round-trips through extraction; logo embeds into
+word/media; geometry applied; defaults restored; API validation) — 126
+offline checks across six suites.
+
 **Phases 5+6 (web UI + run.bat; PDF export, DTP figure list, batch) built,
 2026-09-02.** `backend/app.py`: FastAPI on ONE port (8010) serving the
 frontend AND the API — a deliberate deviation from ppsu1's two-server

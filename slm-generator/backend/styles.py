@@ -37,8 +37,45 @@ BODY_PT = 11
 CAPTION_PT = 10
 
 
-def set_run(run, *, size=BODY_PT, bold=False, italic=False, color=None,
-            font=BRAND_FONT):
+_DEFAULTS = dict(BRAND_FONT=BRAND_FONT, BODY_PT=BODY_PT,
+                 CAPTION_PT=CAPTION_PT, H1_PT=H1_PT, H2_PT=H2_PT,
+                 NAVY=NAVY)
+
+
+def apply_profile(profile):
+    """Override the module's style values from a reference-PDF profile
+    (see branding.extract_profile). Every field is optional; anything
+    missing keeps the decoded-PPSU default. ALWAYS resets to the defaults
+    first, so build() calls without a profile are never polluted by a
+    previous build's overrides. Mutates THIS module — the builder reads
+    styles via module attributes, so changes take effect immediately."""
+    import sys
+    mod = sys.modules[__name__]
+    for k, v in _DEFAULTS.items():
+        setattr(mod, k, v)
+    if not profile:
+        return
+    if profile.get("font_name"):
+        mod.BRAND_FONT = profile["font_name"]
+    if profile.get("body_pt"):
+        mod.BODY_PT = int(profile["body_pt"])
+        mod.CAPTION_PT = max(8, int(profile["body_pt"]) - 1)
+    if profile.get("h1_pt"):
+        mod.H1_PT = int(profile["h1_pt"])
+        mod.H2_PT = max(11, int(profile["h1_pt"]) - 5)
+    if profile.get("heading_color"):
+        try:
+            mod.NAVY = RGBColor.from_string(profile["heading_color"])
+        except Exception:
+            pass
+
+
+def set_run(run, *, size=None, bold=False, italic=False, color=None,
+            font=None):
+    # defaults resolve at CALL time so apply_profile() overrides are seen
+    # (a def-time default would freeze the original constants)
+    font = font or BRAND_FONT
+    size = size if size is not None else BODY_PT
     run.font.name = font
     run.font.size = Pt(size)
     run.font.bold = bold
@@ -56,8 +93,8 @@ def set_run(run, *, size=BODY_PT, bold=False, italic=False, color=None,
     return run
 
 
-def add_paragraph(doc_or_cell, text="", *, size=BODY_PT, bold=False,
-                   italic=False, color=None, font=BRAND_FONT,
+def add_paragraph(doc_or_cell, text="", *, size=None, bold=False,
+                   italic=False, color=None, font=None,
                    align=None, space_after=6):
     p = doc_or_cell.add_paragraph()
     if align is not None:

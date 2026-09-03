@@ -107,6 +107,44 @@ def status():
             "busy": _RUN_LOCK.locked()}
 
 
+@app.get("/api/branding")
+def get_branding():
+    import branding
+    return {"logo": branding.logo_path() is not None,
+            "profile": branding.load_profile()}
+
+
+@app.post("/api/branding")
+async def set_branding(logo: UploadFile | None = None,
+                       reference: UploadFile | None = None):
+    """Institution branding, set once and applied to every future unit:
+    a logo image (cover + page headers) and/or a reference SLM PDF whose
+    style signals (font, sizes, heading colour, page geometry) override
+    the builder defaults."""
+    import branding
+    out = {}
+    if logo is not None and logo.filename:
+        suffix = Path(logo.filename).suffix.lower()
+        if suffix not in (".png", ".jpg", ".jpeg"):
+            raise HTTPException(400, "logo must be .png or .jpg")
+        data = await logo.read()
+        if len(data) > 5_000_000:
+            raise HTTPException(400, "logo larger than 5 MB")
+        branding.save_logo(data, suffix)
+        out["logo"] = "saved"
+    if reference is not None and reference.filename:
+        if not reference.filename.lower().endswith(".pdf"):
+            raise HTTPException(400, "reference must be a .pdf")
+        data = await reference.read()
+        try:
+            out["profile"] = branding.save_reference_pdf(data)
+        except ValueError as e:
+            raise HTTPException(400, str(e))
+    if not out:
+        raise HTTPException(400, "upload a logo and/or a reference PDF")
+    return out
+
+
 @app.post("/api/generate")
 async def generate(programme: str = Form(""), course_code: str = Form(""),
                    course_name: str = Form(""),

@@ -49,39 +49,38 @@ from docx.enum.text import WD_ALIGN_PARAGRAPH
 from docx.oxml.ns import qn
 from docx.shared import Inches, Pt, RGBColor
 
-from styles import (
-    BODY_PT, BRAND_FONT, CAPTION_PT, FILL_CODE, FILL_DID_YOU_KNOW,
-    FILL_PROBLEM, FILL_THINK_AND_APPLY, GOLD, GREY_TEXT, H1_PT, H2_PT,
-    MONO_FONT, NAVY, ORANGE, RED, TITLE_PT, WHITE, add_box,
-    add_page_number_field, add_paragraph, add_toc_field, set_run,
-    shade_cell,
-)
+import styles as st
+from styles import (add_box, add_page_number_field, add_paragraph,
+                    add_toc_field, set_run, shade_cell)
 
 
 # ---------------------------------------------------------------------------
 # cover page + running headers/footers
 # ---------------------------------------------------------------------------
 
-def _build_cover(doc, meta):
-    for _ in range(3):
+def _build_cover(doc, meta, logo=None):
+    if logo:
+        doc.add_picture(str(logo), height=Inches(0.7))
+        doc.add_paragraph()
+    for _ in range(2 if logo else 3):
         doc.add_paragraph()
 
     p = add_paragraph(doc, meta.get("course_code", ""), size=12, bold=True,
-                       color=NAVY, align=WD_ALIGN_PARAGRAPH.CENTER)
+                       color=st.NAVY, align=WD_ALIGN_PARAGRAPH.CENTER)
     add_paragraph(doc, meta.get("programme", ""), size=16, bold=True,
-                  color=NAVY, align=WD_ALIGN_PARAGRAPH.CENTER)
+                  color=st.NAVY, align=WD_ALIGN_PARAGRAPH.CENTER)
     add_paragraph(doc, meta.get("course_name", ""), size=16, bold=True,
-                  color=NAVY, align=WD_ALIGN_PARAGRAPH.CENTER)
+                  color=st.NAVY, align=WD_ALIGN_PARAGRAPH.CENTER)
 
     banner_cell = add_box(doc, fill="D8181F")
     add_paragraph(banner_cell, "SELF-LEARNING MATERIAL", size=14, bold=True,
-                  color=WHITE, align=WD_ALIGN_PARAGRAPH.CENTER, space_after=4)
+                  color=st.WHITE, align=WD_ALIGN_PARAGRAPH.CENTER, space_after=4)
 
     for _ in range(2):
         doc.add_paragraph()
 
     add_paragraph(doc, meta.get("programme", ""), size=28, bold=True,
-                  color=GOLD, align=WD_ALIGN_PARAGRAPH.CENTER)
+                  color=st.GOLD, align=WD_ALIGN_PARAGRAPH.CENTER)
     add_paragraph(doc, meta.get("course_name", ""), size=20, bold=True,
                   color=RGBColor(0, 0, 0), align=WD_ALIGN_PARAGRAPH.CENTER)
 
@@ -94,29 +93,41 @@ def _build_cover(doc, meta):
     photo_cell = add_box(doc, fill="E7E6E6")
     add_paragraph(photo_cell, "[ COVER PHOTOGRAPHY PLACEHOLDER — DTP team to "
                   "insert PPSU stock imagery ]", size=10, italic=True,
-                  color=GREY_TEXT, align=WD_ALIGN_PARAGRAPH.CENTER)
+                  color=st.GREY_TEXT, align=WD_ALIGN_PARAGRAPH.CENTER)
 
     doc.add_page_break()
 
 
-def _add_running_header_footer(doc, meta):
+def _add_running_header_footer(doc, meta, logo=None):
     section = doc.sections[0]
     section.header.is_linked_to_previous = False
     section.footer.is_linked_to_previous = False
 
+    unit_no = meta.get("unit_number", "")
+    unit_text = (f"Unit {unit_no:02d}" if isinstance(unit_no, int)
+                 else f"Unit {unit_no}")
     hp = section.header.paragraphs[0]
-    hp.alignment = WD_ALIGN_PARAGRAPH.RIGHT
-    set_run(hp.add_run(f"Unit {meta.get('unit_number', ''):02d}"
-                        if isinstance(meta.get("unit_number"), int)
-                        else f"Unit {meta.get('unit_number', '')}"),
-            size=11, bold=True, color=NAVY)
+    if logo:
+        # logo left, unit label pushed to the right edge — matches the
+        # real issued sample's running header
+        from docx.enum.text import WD_TAB_ALIGNMENT
+        hp.alignment = WD_ALIGN_PARAGRAPH.LEFT
+        usable = (section.page_width - section.left_margin
+                  - section.right_margin)
+        hp.paragraph_format.tab_stops.add_tab_stop(usable,
+                                                   WD_TAB_ALIGNMENT.RIGHT)
+        hp.add_run().add_picture(str(logo), height=Inches(0.32))
+        hp.add_run("\t")
+    else:
+        hp.alignment = WD_ALIGN_PARAGRAPH.RIGHT
+    set_run(hp.add_run(unit_text), size=11, bold=True, color=st.NAVY)
 
     fp = section.footer.paragraphs[0]
     fp.alignment = WD_ALIGN_PARAGRAPH.LEFT
     code = meta.get("course_code", "")
     name = meta.get("course_name", "")
     set_run(fp.add_run(f"{code}: {name.upper()}" if code or name else ""),
-            size=9, bold=True, color=NAVY)
+            size=9, bold=True, color=st.NAVY)
     fp.add_run("\t\t")
     add_page_number_field(fp)
 
@@ -131,10 +142,10 @@ def _build_unit_heading_and_toc(doc, meta):
     unit_no = meta.get("unit_number", "")
     unit_label = f"{unit_no:02d}" if isinstance(unit_no, int) else str(unit_no)
     set_run(h.add_run(f"Unit {unit_label}: {meta.get('unit_title', '')}"),
-            size=TITLE_PT, bold=True, color=NAVY)
+            size=st.TITLE_PT, bold=True, color=st.NAVY)
 
     toc_title = add_paragraph(doc, "Table of Contents", size=14, bold=True,
-                              color=NAVY, align=WD_ALIGN_PARAGRAPH.CENTER)
+                              color=st.NAVY, align=WD_ALIGN_PARAGRAPH.CENTER)
     toc_para = doc.add_paragraph()
     add_toc_field(toc_para)
     doc.add_page_break()
@@ -143,17 +154,17 @@ def _build_unit_heading_and_toc(doc, meta):
 def _build_introduction(doc, intro_paragraphs):
     _heading(doc, "Introduction", level=1)
     for para in intro_paragraphs:
-        add_paragraph(doc, para, size=BODY_PT, space_after=8)
+        add_paragraph(doc, para, size=st.BODY_PT, space_after=8)
 
 
 def _build_learning_objectives(doc, objectives):
     _heading(doc, "Learning Objectives", level=1)
     add_paragraph(doc, "By the end of this unit, you will be able to:",
-                  size=BODY_PT, space_after=6)
+                  size=st.BODY_PT, space_after=6)
     for obj in objectives:
         p = doc.add_paragraph(style="List Bullet")
-        set_run(p.add_run(obj.get("verb", "")), bold=True, size=BODY_PT)
-        set_run(p.add_run(" " + obj.get("rest", "")), size=BODY_PT)
+        set_run(p.add_run(obj.get("verb", "")), bold=True, size=st.BODY_PT)
+        set_run(p.add_run(" " + obj.get("rest", "")), size=st.BODY_PT)
 
 
 # ---------------------------------------------------------------------------
@@ -162,8 +173,8 @@ def _build_learning_objectives(doc, objectives):
 
 def _heading(doc, text, level):
     h = doc.add_heading(level=level)
-    size = {1: H1_PT, 2: H2_PT, 3: H2_PT - 2}.get(level, H2_PT - 2)
-    set_run(h.add_run(text), size=size, bold=True, color=NAVY)
+    size = {1: st.H1_PT, 2: st.H2_PT, 3: st.H2_PT - 2}.get(level, st.H2_PT - 2)
+    set_run(h.add_run(text), size=size, bold=True, color=st.NAVY)
     return h
 
 
@@ -173,7 +184,7 @@ def _heading(doc, text, level):
 
 def _render_table(doc, block):
     if block.get("caption"):
-        add_paragraph(doc, block["caption"], size=CAPTION_PT, bold=True,
+        add_paragraph(doc, block["caption"], size=st.CAPTION_PT, bold=True,
                       space_after=4)
     columns = block.get("columns", [])
     rows = block.get("rows", [])
@@ -183,71 +194,71 @@ def _render_table(doc, block):
         cell = table.rows[0].cells[i]
         shade_cell(cell, "0E2841")
         p = cell.paragraphs[0]
-        set_run(p.add_run(col), bold=True, size=BODY_PT - 1, color=WHITE)
+        set_run(p.add_run(col), bold=True, size=st.BODY_PT - 1, color=st.WHITE)
     for r, row in enumerate(rows, start=1):
         for c, val in enumerate(row):
             if c >= len(table.rows[r].cells):
                 continue
             p = table.rows[r].cells[c].paragraphs[0]
-            set_run(p.add_run(str(val)), size=BODY_PT - 1)
+            set_run(p.add_run(str(val)), size=st.BODY_PT - 1)
     doc.add_paragraph().paragraph_format.space_after = Pt(4)
 
 
-def _render_box(doc, text, *, fill, label=None, label_color=NAVY):
+def _render_box(doc, text, *, fill, label=None, label_color=st.NAVY):
     cell = add_box(doc, fill=fill)
     if label:
-        add_paragraph(cell, label, size=BODY_PT, bold=True,
+        add_paragraph(cell, label, size=st.BODY_PT, bold=True,
                       color=label_color, space_after=4)
-    add_paragraph(cell, text, size=BODY_PT, space_after=2)
+    add_paragraph(cell, text, size=st.BODY_PT, space_after=2)
     doc.add_paragraph().paragraph_format.space_after = Pt(4)
 
 
 def _render_code(doc, text):
-    cell = add_box(doc, fill=FILL_CODE)
+    cell = add_box(doc, fill=st.FILL_CODE)
     lines = text.split("\n")
     p = cell.paragraphs[0]
     p.paragraph_format.space_after = Pt(0)
     for i, line in enumerate(lines):
         if i > 0:
             p.add_run().add_break()
-        set_run(p.add_run(line if line else " "), size=BODY_PT - 1,
-                font=MONO_FONT)
+        set_run(p.add_run(line if line else " "), size=st.BODY_PT - 1,
+                font=st.MONO_FONT)
     doc.add_paragraph().paragraph_format.space_after = Pt(4)
 
 
 def _render_figure(doc, block):
     cell = add_box(doc, fill="F2F2F2")
     add_paragraph(cell, "[ FIGURE PLACEHOLDER — DTP team to insert artwork ]",
-                  size=BODY_PT, italic=True, color=GREY_TEXT,
+                  size=st.BODY_PT, italic=True, color=st.GREY_TEXT,
                   align=WD_ALIGN_PARAGRAPH.CENTER)
     if block.get("caption"):
-        add_paragraph(doc, block["caption"], size=CAPTION_PT, bold=True,
+        add_paragraph(doc, block["caption"], size=st.CAPTION_PT, bold=True,
                       align=WD_ALIGN_PARAGRAPH.CENTER, space_after=8)
 
 
 def _render_block(doc, block):
     t = block.get("type")
     if t == "prose":
-        add_paragraph(doc, block.get("text", ""), size=BODY_PT, space_after=8)
+        add_paragraph(doc, block.get("text", ""), size=st.BODY_PT, space_after=8)
     elif t == "table":
         _render_table(doc, block)
     elif t == "did_you_know":
-        _render_box(doc, block.get("text", ""), fill=FILL_DID_YOU_KNOW,
+        _render_box(doc, block.get("text", ""), fill=st.FILL_DID_YOU_KNOW,
                     label="Did you know?")
     elif t == "code":
         _render_code(doc, block.get("text", ""))
     elif t == "problem":
-        _render_box(doc, block.get("statement", ""), fill=FILL_PROBLEM,
+        _render_box(doc, block.get("statement", ""), fill=st.FILL_PROBLEM,
                     label=block.get("label", "Problem"))
-        _render_box(doc, block.get("solution", ""), fill=FILL_PROBLEM,
+        _render_box(doc, block.get("solution", ""), fill=st.FILL_PROBLEM,
                     label="Solution")
     elif t == "key_takeaway":
         p = doc.add_paragraph()
         p.paragraph_format.space_after = Pt(8)
-        set_run(p.add_run("Key Takeaway: "), bold=True, size=BODY_PT)
-        set_run(p.add_run(block.get("text", "")), size=BODY_PT)
+        set_run(p.add_run("Key Takeaway: "), bold=True, size=st.BODY_PT)
+        set_run(p.add_run(block.get("text", "")), size=st.BODY_PT)
     elif t == "think_and_apply":
-        _render_box(doc, block.get("text", ""), fill=FILL_THINK_AND_APPLY,
+        _render_box(doc, block.get("text", ""), fill=st.FILL_THINK_AND_APPLY,
                     label=block.get("title", "Think and Apply"))
     elif t == "figure":
         _render_figure(doc, block)
@@ -263,7 +274,7 @@ def _build_sections(doc, sections):
     for sec in sections:
         _heading(doc, f'{sec["number"]} {sec["title"]}', level=1)
         if sec.get("intro"):
-            add_paragraph(doc, sec["intro"], size=BODY_PT, space_after=8)
+            add_paragraph(doc, sec["intro"], size=st.BODY_PT, space_after=8)
         for sub in sec.get("subsections", []):
             _heading(doc, f'{sub["number"]} {sub["title"]}', level=2)
             for block in sub.get("blocks", []):
@@ -278,7 +289,7 @@ def _build_summary(doc, summary_number, bullets):
     _heading(doc, f"{summary_number} Summary", level=1)
     for b in bullets:
         p = doc.add_paragraph(style="List Bullet")
-        set_run(p.add_run(b), size=BODY_PT)
+        set_run(p.add_run(b), size=st.BODY_PT)
 
 
 def _build_glossary(doc, number, terms):
@@ -288,60 +299,60 @@ def _build_glossary(doc, number, terms):
     for i, hdr in enumerate(("Term", "Definition")):
         cell = table.rows[0].cells[i]
         shade_cell(cell, "0E2841")
-        set_run(cell.paragraphs[0].add_run(hdr), bold=True, color=WHITE,
-                size=BODY_PT - 1)
+        set_run(cell.paragraphs[0].add_run(hdr), bold=True, color=st.WHITE,
+                size=st.BODY_PT - 1)
     for r, entry in enumerate(sorted(terms, key=lambda e: e["term"].lower()),
                               start=1):
         set_run(table.rows[r].cells[0].paragraphs[0].add_run(entry["term"]),
-                bold=True, size=BODY_PT - 1)
+                bold=True, size=st.BODY_PT - 1)
         set_run(table.rows[r].cells[1].paragraphs[0]
-                .add_run(entry["definition"]), size=BODY_PT - 1)
+                .add_run(entry["definition"]), size=st.BODY_PT - 1)
 
 
 def _build_case_study(doc, number, case):
     _heading(doc, f"{number} Case Study", level=1)
     if case.get("title"):
-        add_paragraph(doc, case["title"], size=BODY_PT + 1, bold=True,
+        add_paragraph(doc, case["title"], size=st.BODY_PT + 1, bold=True,
                       space_after=6)
     bg = case.get("background", "")
     paras = bg if isinstance(bg, list) else [bg]
     for para in paras:
         if para:
-            add_paragraph(doc, para, size=BODY_PT, space_after=8)
+            add_paragraph(doc, para, size=st.BODY_PT, space_after=8)
     if case.get("questions"):
-        add_paragraph(doc, "Case Study Questions:", size=BODY_PT, bold=True,
+        add_paragraph(doc, "Case Study Questions:", size=st.BODY_PT, bold=True,
                       space_after=4)
         for q in case["questions"]:
             p = doc.add_paragraph(style="List Bullet")
-            set_run(p.add_run(q), size=BODY_PT)
+            set_run(p.add_run(q), size=st.BODY_PT)
 
 
 def _build_self_assessment(doc, number, sa):
     _heading(doc, f"{number} Self-Assessment Questions", level=1)
     mcqs = sa.get("mcq", [])
     if mcqs:
-        add_paragraph(doc, "A. Multiple Choice Questions", size=BODY_PT,
+        add_paragraph(doc, "A. Multiple Choice Questions", size=st.BODY_PT,
                       bold=True, space_after=6)
         letters = "abcd"
         for i, item in enumerate(mcqs, start=1):
             p = doc.add_paragraph()
             p.paragraph_format.space_after = Pt(2)
-            set_run(p.add_run(f'{i}. {item["q"]}'), bold=True, size=BODY_PT)
+            set_run(p.add_run(f'{i}. {item["q"]}'), bold=True, size=st.BODY_PT)
             for letter, opt in zip(letters, item.get("options", [])):
                 op = doc.add_paragraph()
                 op.paragraph_format.left_indent = Inches(0.3)
                 op.paragraph_format.space_after = Pt(0)
-                set_run(op.add_run(f"{letter}) {opt}"), size=BODY_PT)
+                set_run(op.add_run(f"{letter}) {opt}"), size=st.BODY_PT)
             doc.add_paragraph().paragraph_format.space_after = Pt(2)
 
     blanks = sa.get("fill_blanks", [])
     if blanks:
-        add_paragraph(doc, "B. Fill in the Blanks", size=BODY_PT, bold=True,
+        add_paragraph(doc, "B. Fill in the Blanks", size=st.BODY_PT, bold=True,
                       space_after=6)
         for i, item in enumerate(blanks, start=1):
             p = doc.add_paragraph()
             p.paragraph_format.space_after = Pt(2)
-            set_run(p.add_run(f'{i}. {item["q"]}'), size=BODY_PT)
+            set_run(p.add_run(f'{i}. {item["q"]}'), size=st.BODY_PT)
 
 
 def _build_terminal(doc, number, terminal):
@@ -350,11 +361,11 @@ def _build_terminal(doc, number, terminal):
         items = terminal.get(key, [])
         if not items:
             continue
-        add_paragraph(doc, label, size=BODY_PT, bold=True, space_after=6)
+        add_paragraph(doc, label, size=st.BODY_PT, bold=True, space_after=6)
         for i, item in enumerate(items, start=1):
             p = doc.add_paragraph()
             p.paragraph_format.space_after = Pt(4)
-            set_run(p.add_run(f'{i}. {item["q"]}'), size=BODY_PT)
+            set_run(p.add_run(f'{i}. {item["q"]}'), size=st.BODY_PT)
 
 
 def _mcq_answer_line(item):
@@ -375,20 +386,20 @@ def _build_answers(doc, number, sa, terminal):
     if mcqs or blanks:
         _heading(doc, f"{number}.1 Self-Assessment Answers", level=2)
         if mcqs:
-            add_paragraph(doc, "A. Multiple Choice Questions", size=BODY_PT,
+            add_paragraph(doc, "A. Multiple Choice Questions", size=st.BODY_PT,
                           bold=True, space_after=4)
             for i, item in enumerate(mcqs, start=1):
                 p = doc.add_paragraph()
                 p.paragraph_format.space_after = Pt(2)
                 set_run(p.add_run(f'{i}. {_mcq_answer_line(item)}'),
-                        size=BODY_PT)
+                        size=st.BODY_PT)
         if blanks:
-            add_paragraph(doc, "B. Fill in the Blanks", size=BODY_PT,
+            add_paragraph(doc, "B. Fill in the Blanks", size=st.BODY_PT,
                           bold=True, space_after=4)
             for i, item in enumerate(blanks, start=1):
                 p = doc.add_paragraph()
                 p.paragraph_format.space_after = Pt(2)
-                set_run(p.add_run(f'{i}. {item["answer"]}'), size=BODY_PT)
+                set_run(p.add_run(f'{i}. {item["answer"]}'), size=st.BODY_PT)
 
     short_items = terminal.get("short", [])
     long_items = terminal.get("long", [])
@@ -398,29 +409,59 @@ def _build_answers(doc, number, sa, terminal):
                              ("Long Answers", long_items)):
             if not items:
                 continue
-            add_paragraph(doc, label, size=BODY_PT, bold=True, space_after=4)
+            add_paragraph(doc, label, size=st.BODY_PT, bold=True, space_after=4)
             for i, item in enumerate(items, start=1):
                 p = doc.add_paragraph()
                 p.paragraph_format.space_after = Pt(8)
-                set_run(p.add_run(f'{i}. '), bold=True, size=BODY_PT)
-                set_run(p.add_run(item.get("answer", "")), size=BODY_PT)
+                set_run(p.add_run(f'{i}. '), bold=True, size=st.BODY_PT)
+                set_run(p.add_run(item.get("answer", "")), size=st.BODY_PT)
 
 
 def _build_references(doc, number, refs):
     _heading(doc, f"{number} References", level=1)
     for ref in refs:
         p = doc.add_paragraph(style="List Bullet")
-        set_run(p.add_run(ref), size=BODY_PT)
+        set_run(p.add_run(ref), size=st.BODY_PT)
 
 
 # ---------------------------------------------------------------------------
 # entry point
 # ---------------------------------------------------------------------------
 
-def build(data: dict) -> Document:
+def _apply_page_geometry(doc, profile):
+    """Page size + margins from the reference-PDF profile (mm), when set."""
+    if not profile or not profile.get("page_width_mm"):
+        return
+    from docx.shared import Mm
+    section = doc.sections[0]
+    section.page_width = Mm(profile["page_width_mm"])
+    section.page_height = Mm(profile["page_height_mm"])
+    for attr, key in (("left_margin", "margin_left_mm"),
+                      ("right_margin", "margin_right_mm"),
+                      ("top_margin", "margin_top_mm"),
+                      ("bottom_margin", "margin_bottom_mm")):
+        val = profile.get(key)
+        # a reference PDF's text can start absurdly close to the edge
+        # (headers/footers count as text) — clamp to sane print margins
+        if val and 8 <= val <= 40:
+            setattr(section, attr, Mm(val))
+
+
+def build(data: dict, *, use_branding=True) -> Document:
+    """Render a unit. Branding assets (logo + reference-PDF style profile,
+    see branding.py) are applied when present; use_branding=False builds
+    with the decoded-PPSU defaults regardless (used by tests that assert
+    the default look)."""
+    logo = profile = None
+    if use_branding:
+        import branding
+        logo = branding.logo_path()
+        profile = branding.load_profile()
+    st.apply_profile(profile)          # always called: resets defaults too
     doc = Document()
-    _add_running_header_footer(doc, data.get("meta", {}))
-    _build_cover(doc, data.get("meta", {}))
+    _apply_page_geometry(doc, profile)
+    _add_running_header_footer(doc, data.get("meta", {}), logo=logo)
+    _build_cover(doc, data.get("meta", {}), logo=logo)
     _build_unit_heading_and_toc(doc, data.get("meta", {}))
     _build_introduction(doc, data.get("introduction", []))
     _build_learning_objectives(doc, data.get("learning_objectives", []))

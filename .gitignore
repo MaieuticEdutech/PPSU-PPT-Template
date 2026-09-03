@@ -34,3 +34,6 @@ reva1/raw ppts/
 .env
 slm-generator/uploads/
 slm-generator/output/
+
+# slm-generator branding assets are per-installation uploads, not source
+slm-generator/assets/

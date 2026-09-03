@@ -49,6 +49,22 @@
 </header>
 <main>
   <div class="card">
+    <h2>Branding &amp; reference format <span style="font-weight:400;font-size:.8rem;color:var(--muted)">(set once — applies to every generated unit)</span></h2>
+    <div class="row">
+      <div>
+        <label>Institution logo <span style="font-weight:400">(.png/.jpg — cover + page headers)</span></label>
+        <input type="file" id="brand_logo" accept=".png,.jpg,.jpeg">
+      </div>
+      <div>
+        <label>Reference SLM PDF <span style="font-weight:400">(font, sizes, colours &amp; page layout are matched to it)</span></label>
+        <input type="file" id="brand_ref" accept=".pdf">
+      </div>
+    </div>
+    <button class="primary" id="saveBranding" style="background:var(--navy)">Save branding</button>
+    <div class="hint" id="brandingStatus" style="margin-top:.6rem">checking…</div>
+  </div>
+
+  <div class="card">
     <h2>Unit details</h2>
     <div class="row3">
       <div><label>Programme</label><input type="text" id="programme" placeholder="MSc SEMESTER (I)"></div>
@@ -98,6 +114,37 @@
   let pdfAvailable = false;
 
   fetch('api/status').then(r => r.json()).then(s => { pdfAvailable = s.pdf_export; }).catch(() => {});
+
+  function refreshBranding() {
+    fetch('api/branding').then(r => r.json()).then(b => {
+      const bits = [];
+      bits.push(b.logo ? 'logo: set ✓' : 'logo: not set');
+      if (b.profile) {
+        const p = b.profile;
+        bits.push(`reference style: ${p.font_name || 'default font'}, body ${p.body_pt}pt, heading #${p.heading_color || '0E2841'}${p.page_width_mm ? `, page ${p.page_width_mm}×${p.page_height_mm}mm` : ''}`);
+      } else {
+        bits.push('reference style: PPSU defaults (no PDF uploaded)');
+      }
+      $('brandingStatus').textContent = bits.join('  ·  ');
+    }).catch(() => { $('brandingStatus').textContent = 'branding status unavailable'; });
+  }
+  refreshBranding();
+
+  $('saveBranding').addEventListener('click', async () => {
+    const fd = new FormData();
+    if ($('brand_logo').files.length) fd.append('logo', $('brand_logo').files[0]);
+    if ($('brand_ref').files.length) fd.append('reference', $('brand_ref').files[0]);
+    if (![...fd.keys()].length) { alert('Choose a logo and/or a reference PDF first.'); return; }
+    $('saveBranding').disabled = true;
+    try {
+      const r = await fetch('api/branding', { method: 'POST', body: fd });
+      const data = await r.json();
+      if (!r.ok) throw new Error(data.detail || `HTTP ${r.status}`);
+      $('brand_logo').value = ''; $('brand_ref').value = '';
+      refreshBranding();
+    } catch (e) { alert(e.message); }
+    finally { $('saveBranding').disabled = false; }
+  });
 
   $('go').addEventListener('click', async () => {
     const fd = new FormData();
