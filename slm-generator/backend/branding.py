@@ -30,7 +30,38 @@ def logo_path():
     return None
 
 
+def _docx_can_parse(data: bytes) -> bool:
+    from io import BytesIO
+    from docx.image.image import Image as DocxImage
+    try:
+        DocxImage.from_blob(data)
+        return True
+    except Exception:
+        return False
+
+
 def save_logo(data: bytes, suffix: str) -> Path:
+    """Store the logo, guaranteeing python-docx can embed it. A file that
+    docx parses as-is is kept byte-identical (preserves PNG transparency);
+    otherwise it is re-encoded to a clean PNG via PyMuPDF — a real logo
+    JPEG whose header carried an XMP-only APP1 segment (no JFIF/EXIF
+    marker) raised UnrecognizedImageError at render time and killed the
+    whole generation. Raises ValueError when the bytes aren't a readable
+    image at all."""
+    if not _docx_can_parse(data):
+        import fitz
+        try:
+            img = fitz.open(stream=data, filetype="image")
+            data = img[0].get_pixmap().tobytes("png")
+            img.close()
+        except Exception:
+            raise ValueError(
+                "the logo file could not be read as an image — please "
+                "export it as a standard PNG or JPG and upload again")
+        if not _docx_can_parse(data):
+            raise ValueError("the logo could not be converted to a "
+                             "Word-embeddable image")
+        suffix = ".png"
     ASSETS.mkdir(exist_ok=True)
     for name in LOGO_STEMS:          # replace whatever format was there
         (ASSETS / name).unlink(missing_ok=True)

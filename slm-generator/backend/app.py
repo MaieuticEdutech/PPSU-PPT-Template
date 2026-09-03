@@ -130,7 +130,10 @@ async def set_branding(logo: UploadFile | None = None,
         data = await logo.read()
         if len(data) > 5_000_000:
             raise HTTPException(400, "logo larger than 5 MB")
-        branding.save_logo(data, suffix)
+        try:
+            branding.save_logo(data, suffix)
+        except ValueError as e:
+            raise HTTPException(400, str(e))
         out["logo"] = "saved"
     if reference is not None and reference.filename:
         if not reference.filename.lower().endswith(".pdf"):

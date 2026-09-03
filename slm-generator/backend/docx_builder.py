@@ -57,6 +57,18 @@ from styles import (add_box, add_page_number_field, add_paragraph,
                     shade_paragraph)
 
 
+def _try_logo(target, logo, height):
+    """Embed the logo into a run/document, never letting an unreadable
+    image kill the whole build (upload-time validation should prevent it,
+    but a decorative image is never worth failing a unit over). Returns
+    True when embedded."""
+    try:
+        target.add_picture(str(logo), height=height)
+        return True
+    except Exception:
+        return False
+
+
 def _brand_caption(caption):
     """Captions are generated as 'Figure N: ...' — REVA's convention is
     'Fig. N: ...' (style guide caption examples). Transformed at render
@@ -72,8 +84,7 @@ def _brand_caption(caption):
 # ---------------------------------------------------------------------------
 
 def _build_cover(doc, meta, logo=None):
-    if logo:
-        doc.add_picture(str(logo), height=Inches(0.7))
+    if logo and _try_logo(doc, logo, Inches(0.7)):
         doc.add_paragraph()
     for _ in range(2 if logo else 3):
         doc.add_paragraph()
@@ -136,13 +147,13 @@ def _add_running_header_footer(doc, meta, logo=None):
         hp.paragraph_format.tab_stops.add_tab_stop(usable,
                                                    WD_TAB_ALIGNMENT.RIGHT)
         set_run(hp.add_run(unit_text), size=11, bold=True, color=st.NAVY)
-        hp.add_run("\t").add_picture(str(logo), height=Inches(0.32))
+        _try_logo(hp.add_run("\t"), logo, Inches(0.32))
     elif logo:
         # PPSU: logo left, unit label right
         hp.alignment = WD_ALIGN_PARAGRAPH.LEFT
         hp.paragraph_format.tab_stops.add_tab_stop(usable,
                                                    WD_TAB_ALIGNMENT.RIGHT)
-        hp.add_run().add_picture(str(logo), height=Inches(0.32))
+        _try_logo(hp.add_run(), logo, Inches(0.32))
         hp.add_run("\t")
         set_run(hp.add_run(unit_text), size=11, bold=True, color=st.NAVY)
     else:

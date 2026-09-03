@@ -13,9 +13,21 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent.parent / "backend"))
 
+import tempfile
+
 import fitz
 
 import branding
+
+# ISOLATION: redirect the branding store to a throwaway dir BEFORE anything
+# touches it. An earlier version of this suite ran against the real
+# slm-generator/assets/ and its cleanup deleted the user's actually-uploaded
+# logo and reference PDF. Never again.
+_TMP_ASSETS = Path(tempfile.mkdtemp(prefix="slm_test_assets_"))
+branding.ASSETS = _TMP_ASSETS
+branding.PROFILE_PATH = _TMP_ASSETS / "style_profile.json"
+branding.REFERENCE_PDF = _TMP_ASSETS / "reference.pdf"
+
 import styles
 from docx_builder import build
 
@@ -107,6 +119,39 @@ try:
     check("apply_profile(None) resets font/colour defaults",
           styles.BRAND_FONT == "Calibri"
           and styles.NAVY == styles._DEFAULTS["NAVY"])
+
+    print("\n=== logo normalisation (the UnrecognizedImageError incident) ===")
+    # a REAL, valid JPEG whose only APP1 segment is XMP (no JFIF/EXIF
+    # marker) — python-docx cannot parse this header shape and killed a
+    # live generation with UnrecognizedImageError
+    plain_jpeg = fitz.open(stream=make_logo_png(),
+                           filetype="image")[0].get_pixmap().tobytes("jpeg")
+    assert plain_jpeg[:2] == b"\xff\xd8"
+    xmp_payload = b"http://ns.adobe.com/xap/1.0/\x00<x:xmpmeta/>"
+    app1 = (b"\xff\xe1" + (len(xmp_payload) + 2).to_bytes(2, "big")
+            + xmp_payload)
+    xmp_jpeg = plain_jpeg[:2] + app1 + plain_jpeg[2:]
+    check("repro: docx cannot parse an XMP-only-APP1 jpeg",
+          not branding._docx_can_parse(xmp_jpeg))
+    saved = branding.save_logo(xmp_jpeg, ".jpeg")
+    check("save_logo re-encodes it to a docx-embeddable PNG",
+          saved.name == "logo.png"
+          and branding._docx_can_parse(saved.read_bytes()))
+    try:
+        branding.save_logo(b"this is not an image at all", ".png")
+        check("garbage bytes rejected with a readable error", False)
+    except ValueError as e:
+        check("garbage bytes rejected with a readable error",
+              "could not be read" in str(e))
+
+    print("\n=== builder belt: a bad on-disk logo never kills a build ===")
+    branding.clear()
+    branding.ASSETS.mkdir(exist_ok=True)
+    (branding.ASSETS / "logo.png").write_bytes(b"corrupted-not-an-image")
+    doc = build(GOLDEN)                     # must not raise
+    check("build survives an unreadable logo (skips it)",
+          docx_media(doc) == [])
+    branding.clear()
 
     print("\n=== API endpoints ===")
     from fastapi.testclient import TestClient
