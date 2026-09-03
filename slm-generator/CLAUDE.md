@@ -170,6 +170,44 @@ Notes on fields that moved since the original sketch:
 
 ## Current state
 
+**Phases 5+6 (web UI + run.bat; PDF export, DTP figure list, batch) built,
+2026-09-02.** `backend/app.py`: FastAPI on ONE port (8010) serving the
+frontend AND the API — a deliberate deviation from ppsu1's two-server
+BACKEND_HOST pattern, because that pattern's separate origin caused a full
+afternoon of CORS/IP-drift debugging during the PPT designer's deployment
+(../DEPLOYMENT.md); single-origin + relative fetch paths makes the whole
+failure class impossible while LAN sharing still works. Jobs run in a
+background thread ONE at a time (`_RUN_LOCK` — a single 8 GB GPU
+serialises generation anyway; a second submit gets 409 and the page says
+so). Endpoints: `/` (frontend), `/api/status` (incl. pdf_export
+availability), `/api/generate` (multipart: meta fields + syllabus/TOC
+textareas + optional source file; FastAPI gotcha fixed — form fields need
+`Form()` annotations or they silently become query params),
+`/api/progress/{job}` (the generator's own per-call labels + a result
+summary), `/api/download/{job}/{docx|pdf|figures|report}`. A unit failing
+validation is never rendered: the job fails naming the errors, the report
+stays downloadable for diagnosis. `frontend/index.html`: single static
+page, PPSU-styled, mode auto-detection explained inline, live progress,
+download buttons (PDF button only when the export engine exists), review
+note + warnings surfaced. `run.bat`: one server; creates the venv +
+installs on first run; checks Ollama and pulls the model if missing;
+prints/refreshes the LAN link + "Open SLM Generator.url".
+
+Phase 6 pieces: `backend/docx2pdf.py` (Word COM first — office machine has
+Office — LibreOffice fallback, serialised behind a lock, gracefully
+"unavailable" otherwise: the docx alone is offered); `backend/figures.py`
+(flat DTP handoff list: every figure placeholder with section/subsection
+location + caption, saved per job and via CLI as *.figures.txt);
+multi-unit batch: `unit_generator.py --batch samples/batch_example.json
+--out-dir DIR` — sequential (one GPU), one unit's failure never stops the
+rest, per-unit docx/json/report/figures + a summary table.
+
+`tests/test_app.py`: 18 checks (TestClient, generator faked — routes,
+job lifecycle, busy-409 + lock release, validation-failure path, all
+downloads). 111 offline checks across five suites. NOTE: test_app's
+busy-lock section is timing-sensitive and can flake under heavy machine
+load; rerun it solo before trusting a failure.
+
 **Phase 4 LIVE textbook-mode run passed, 2026-09-02**: a full unit
 generated from samples/source_chapter_example.txt in 265s — 28 calls, 0
 failures, 11 UK fixes, validation clean. Grounding fidelity verified: the

@@ -1,0 +1,26 @@
+[
+  {
+    "meta": {
+      "programme": "MSc SEMESTER (I)",
+      "course_code": "ICCS7010",
+      "course_name": "Information Security and Applications",
+      "unit_number": 2,
+      "unit_title": "Fundamentals of Cryptography",
+      "syllabus_topics": ["Classical ciphers", "Frequency analysis",
+                           "Transposition techniques"]
+    },
+    "source": "slm-generator/samples/source_chapter_example.txt"
+  },
+  {
+    "meta": {
+      "programme": "MSc SEMESTER (I)",
+      "course_code": "ICCS7010",
+      "course_name": "Information Security and Applications",
+      "unit_number": 3,
+      "unit_title": "Symmetric Key Cryptography",
+      "syllabus_topics": ["Block and stream ciphers", "Feistel networks",
+                           "Modes of operation"]
+    },
+    "toc": "slm-generator/samples/toc_example.txt"
+  }
+]

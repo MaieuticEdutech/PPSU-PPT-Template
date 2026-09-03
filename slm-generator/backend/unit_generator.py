@@ -332,9 +332,71 @@ def generate_unit(meta, syllabus_topics=None, toc_text=None,
     return unit, report
 
 
+def _finish_outputs(unit, report, out_docx, json_out=None, report_path=None):
+    """Shared tail for single and batch runs: write report/json/figure list,
+    render only if validation passed. Returns True when rendered."""
+    import figures
+    report_path = report_path or out_docx.with_suffix(".report.json")
+    report_path.write_text(json.dumps(report, indent=2), encoding="utf-8")
+    if json_out:
+        json_out.write_text(json.dumps(unit, indent=2), encoding="utf-8")
+    out_docx.with_suffix(".figures.txt").write_text(
+        figures.figure_list_text(unit), encoding="utf-8")
+
+    if report["validation"]["errors"]:
+        print(f"\nNOT RENDERED — validation errors (report: {report_path}):")
+        for e in report["validation"]["errors"]:
+            print(f"  - {e}")
+        return False
+    from docx_builder import build
+    build(unit).save(str(out_docx))
+    print(f"\nwrote {out_docx}  ({report['calls']} AI calls, "
+          f"{len(report['failures'])} failed, "
+          f"{report['uk_spelling_fixes']} UK-spelling fixes)")
+    for w in report["validation"]["warnings"]:
+        print(f"  warning: {w}")
+    return True
+
+
+def run_batch(batch_path: Path, out_dir: Path):
+    """Phase 6 multi-unit batch: batch.json is a list of
+    {"meta": {...with syllabus_topics}, "toc": path|null,
+     "source": path|null}. Units generate sequentially (one GPU); one
+    unit's failure never stops the rest."""
+    entries = json.loads(batch_path.read_text(encoding="utf-8"))
+    out_dir.mkdir(parents=True, exist_ok=True)
+    results = []
+    for i, entry in enumerate(entries, 1):
+        meta = dict(entry["meta"])
+        syllabus = meta.pop("syllabus_topics", None)
+        toc_text = (Path(entry["toc"]).read_text(encoding="utf-8")
+                    if entry.get("toc") else None)
+        source = Path(entry["source"]) if entry.get("source") else None
+        stem = f'unit{meta.get("unit_number", i):02d}'
+        print(f"\n===== batch {i}/{len(entries)}: {stem} "
+              f'{meta.get("unit_title", "")} =====')
+        try:
+            unit, report = generate_unit(meta, syllabus_topics=syllabus,
+                                         toc_text=toc_text,
+                                         source_path=source)
+            ok = _finish_outputs(unit, report, out_dir / f"{stem}.docx",
+                                 json_out=out_dir / f"{stem}.json")
+            results.append((stem, "ok" if ok else "validation failed"))
+        except Exception as e:                          # noqa: BLE001
+            print(f"  {stem} FAILED: {e}")
+            results.append((stem, f"failed: {e}"))
+    print("\n===== batch summary =====")
+    for stem, status in results:
+        print(f"  {stem}: {status}")
+
+
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("--meta", required=True, type=Path,
+    ap.add_argument("--batch", type=Path,
+                    help="batch JSON (list of {meta, toc?, source?}) — "
+                         "generates every unit into --out-dir")
+    ap.add_argument("--out-dir", type=Path, default=Path("output"))
+    ap.add_argument("--meta", type=Path,
                     help="JSON: programme, course_code, course_name, "
                          "unit_number, unit_title, syllabus_topics[]")
     ap.add_argument("--toc", type=Path,
@@ -344,11 +406,17 @@ def main():
                     help="optional textbook chapter (.pdf/.docx/.txt) — "
                          "activates textbook mode (overrides --toc for "
                          "mode selection; both still inform the outline)")
-    ap.add_argument("--out", required=True, type=Path, help=".docx path")
+    ap.add_argument("--out", type=Path, help=".docx path (single-unit mode)")
     ap.add_argument("--report", type=Path)
     ap.add_argument("--json-out", type=Path,
                     help="also save the intermediate unit JSON")
     args = ap.parse_args()
+
+    if args.batch:
+        run_batch(args.batch, args.out_dir)
+        return
+    if not args.meta or not args.out:
+        ap.error("--meta and --out are required (or use --batch)")
 
     meta = json.loads(args.meta.read_text(encoding="utf-8"))
     syllabus = meta.pop("syllabus_topics", None)
@@ -358,30 +426,10 @@ def main():
     unit, report = generate_unit(meta, syllabus_topics=syllabus,
                                  toc_text=toc_text, source_path=args.source)
     report["seconds"] = round(time.time() - t0, 1)
-
-    report_path = args.report or args.out.with_suffix(".report.json")
-    report_path.write_text(json.dumps(report, indent=2), encoding="utf-8")
-    if args.json_out:
-        args.json_out.write_text(json.dumps(unit, indent=2),
-                                 encoding="utf-8")
-
-    errors = report["validation"]["errors"]
-    if errors:
-        # a failing unit never reaches the builder (CLAUDE.md convention)
-        print(f"\nNOT RENDERED — validation errors "
-              f"(report: {report_path}):")
-        for e in errors:
-            print(f"  - {e}")
+    ok = _finish_outputs(unit, report, args.out, json_out=args.json_out,
+                         report_path=args.report)
+    if not ok:
         sys.exit(1)
-
-    from docx_builder import build
-    build(unit).save(str(args.out))
-    print(f"\nwrote {args.out}  ({report['calls']} AI calls, "
-          f"{len(report['failures'])} failed, "
-          f"{report['uk_spelling_fixes']} UK-spelling fixes, "
-          f"{report['seconds']}s)")
-    for w in report["validation"]["warnings"]:
-        print(f"  warning: {w}")
 
 
 if __name__ == "__main__":

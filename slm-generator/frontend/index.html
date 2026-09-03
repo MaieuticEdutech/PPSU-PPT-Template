@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PPSU SLM Generator</title>
+<style>
+  :root { --navy:#0E2841; --red:#D8181F; --orange:#F47820; --gold:#FBB217;
+          --bg:#f5f6f8; --muted:#5a6570; }
+  * { box-sizing:border-box; }
+  body { margin:0; font-family:Calibri,'Segoe UI',sans-serif; background:var(--bg); color:#1b2733; }
+  header { background:var(--navy); color:#fff; padding:1.1rem 2rem; display:flex; align-items:center; gap:1rem; }
+  header .badge { background:var(--red); color:#fff; font-weight:bold; padding:.3rem .8rem; border-radius:6px; font-size:.8rem; letter-spacing:.06em; }
+  header h1 { font-size:1.25rem; margin:0; font-weight:600; }
+  header .accent { width:14px; height:28px; background:var(--orange); border-radius:4px; }
+  main { max-width:880px; margin:1.5rem auto 4rem; padding:0 1rem; }
+  .card { background:#fff; border:1px solid #e2e6ea; border-radius:12px; padding:1.5rem; margin-bottom:1.25rem; box-shadow:0 1px 3px rgba(14,40,65,.06); }
+  h2 { margin:0 0 .75rem; font-size:1.05rem; color:var(--navy); }
+  label { display:block; font-size:.85rem; font-weight:600; color:var(--navy); margin:.7rem 0 .25rem; }
+  input[type=text], input[type=number], textarea { width:100%; padding:.5rem .65rem; border:1px solid #c9d2dd; border-radius:8px; font:inherit; font-size:.92rem; }
+  textarea { min-height:88px; resize:vertical; }
+  .row { display:grid; grid-template-columns:1fr 1fr; gap:0 1rem; }
+  .row3 { display:grid; grid-template-columns:2fr 1fr 2fr; gap:0 1rem; }
+  .hint { font-size:.78rem; color:var(--muted); margin-top:.2rem; }
+  .modes { font-size:.82rem; color:var(--muted); background:#f0f3f7; border-radius:8px; padding:.6rem .8rem; margin-top: .9rem; line-height:1.5; }
+  .modes b { color:var(--navy); }
+  button.primary { margin-top:1.1rem; background:var(--red); color:#fff; border:0; border-radius:9px; padding:.7rem 1.6rem; font:inherit; font-weight:700; cursor:pointer; }
+  button.primary:disabled { background:#b9bec5; cursor:default; }
+  #progress { display:none; }
+  .spin { display:inline-block; width:14px; height:14px; border:3px solid #dfe4ea; border-top-color:var(--orange); border-radius:50%; animation:s 1s linear infinite; vertical-align:-2px; margin-right:.5rem; }
+  @keyframes s { to { transform:rotate(360deg); } }
+  #currentCall { color:var(--muted); font-size:.85rem; }
+  #result { display:none; }
+  .dl { display:inline-block; margin:.35rem .5rem .35rem 0; padding:.55rem 1.1rem; border-radius:8px; text-decoration:none; font-weight:700; font-size:.9rem; }
+  .dl.docx { background:var(--navy); color:#fff; }
+  .dl.pdf { background:var(--red); color:#fff; }
+  .dl.aux { background:#eef1f5; color:var(--navy); border:1px solid #d4dbe3; }
+  .warn { background:#fdf6e7; border:1px solid #ecd9ad; color:#8a6116; border-radius:8px; padding:.6rem .8rem; font-size:.85rem; margin-top:.6rem; }
+  .err { background:#fdeaea; border:1px solid #efb9b9; color:#8f1d1d; border-radius:8px; padding:.6rem .8rem; font-size:.9rem; margin-top:.6rem; }
+  .note { background:#eef4fb; border:1px solid #c8daf0; color:#274b73; border-radius:8px; padding:.6rem .8rem; font-size:.85rem; margin-top:.6rem; }
+</style>
+</head>
+<body>
+<header>
+  <span class="badge">PPSU</span>
+  <h1>Self-Learning Material Generator</h1>
+  <span class="accent"></span>
+</header>
+<main>
+  <div class="card">
+    <h2>Unit details</h2>
+    <div class="row3">
+      <div><label>Programme</label><input type="text" id="programme" placeholder="MSc SEMESTER (I)"></div>
+      <div><label>Course code</label><input type="text" id="course_code" placeholder="ICCS7010"></div>
+      <div><label>Course name</label><input type="text" id="course_name" placeholder="Information Security and Applications"></div>
+    </div>
+    <div class="row">
+      <div><label>Unit number</label><input type="number" id="unit_number" value="1" min="1" max="20"></div>
+      <div><label>Unit title</label><input type="text" id="unit_title" placeholder="Foundations of Discrete Mathematics"></div>
+    </div>
+    <label>Syllabus topics <span style="font-weight:400">(one per line, optional)</span></label>
+    <textarea id="syllabus_topics" placeholder="Classical ciphers: substitution and transposition&#10;Symmetric key cryptography"></textarea>
+  </div>
+
+  <div class="card">
+    <h2>Content source</h2>
+    <label>Textbook chapter file <span style="font-weight:400">(.pdf / .docx / .txt — optional)</span></label>
+    <input type="file" id="source" accept=".pdf,.docx,.txt,.md">
+    <label>Textbook citation <span style="font-weight:400">(optional — listed first in References when a chapter is uploaded)</span></label>
+    <input type="text" id="textbook_citation" placeholder="Stallings, W. (2017). Cryptography and Network Security (7th ed.). Pearson.">
+    <label>Textbook table of contents <span style="font-weight:400">(paste text — optional)</span></label>
+    <textarea id="toc_text" placeholder="2.1 Classical Encryption Techniques&#10;  2.1.1 The Caesar cipher&#10;..."></textarea>
+    <div class="modes">
+      The mode is chosen automatically: <b>chapter file uploaded</b> → content is rewritten from the source only ·
+      <b>only a TOC pasted</b> → the TOC fixes the structure, the AI writes the content ·
+      <b>neither</b> → the AI generates everything from the syllabus. All AI-generated content must be SME-reviewed before issue.
+    </div>
+    <button class="primary" id="go">Generate SLM unit</button>
+  </div>
+
+  <div class="card" id="progress">
+    <h2><span class="spin"></span>Generating…</h2>
+    <div><span id="callCount">0</span> AI calls completed &nbsp;·&nbsp; <span id="currentCall"></span></div>
+    <div class="hint">A full unit takes around 5 minutes on this machine's GPU.</div>
+  </div>
+
+  <div class="card" id="result">
+    <h2 id="resultTitle">Unit ready</h2>
+    <div id="downloads"></div>
+    <div id="reviewNote" class="note" style="display:none"></div>
+    <div id="warnings"></div>
+    <div id="errorBox" class="err" style="display:none"></div>
+  </div>
+</main>
+<script>
+  const $ = id => document.getElementById(id);
+  let pdfAvailable = false;
+
+  fetch('api/status').then(r => r.json()).then(s => { pdfAvailable = s.pdf_export; }).catch(() => {});
+
+  $('go').addEventListener('click', async () => {
+    const fd = new FormData();
+    for (const f of ['programme','course_code','course_name','unit_number','unit_title','syllabus_topics','toc_text','textbook_citation'])
+      fd.append(f, $(f).value);
+    if ($('source').files.length) fd.append('source', $('source').files[0]);
+
+    $('go').disabled = true;
+    $('result').style.display = 'none';
+    try {
+      const r = await fetch('api/generate', { method: 'POST', body: fd });
+      const data = await r.json();
+      if (!r.ok) throw new Error(data.detail || `HTTP ${r.status}`);
+      $('progress').style.display = 'block';
+      poll(data.job_id);
+    } catch (e) {
+      alert(e.message);
+      $('go').disabled = false;
+    }
+  });
+
+  function poll(jobId) {
+    const timer = setInterval(async () => {
+      let p;
+      try { p = await (await fetch(`api/progress/${jobId}`)).json(); }
+      catch (e) { return; }            /* transient — keep polling */
+      $('callCount').textContent = p.calls_done;
+      $('currentCall').textContent = p.current || '';
+      if (p.state === 'running') return;
+      clearInterval(timer);
+      $('progress').style.display = 'none';
+      $('go').disabled = false;
+      showResult(jobId, p);
+    }, 1500);
+  }
+
+  function showResult(jobId, p) {
+    $('result').style.display = 'block';
+    $('downloads').innerHTML = '';
+    $('warnings').innerHTML = '';
+    $('errorBox').style.display = 'none';
+    $('reviewNote').style.display = 'none';
+
+    if (p.state === 'failed') {
+      $('resultTitle').textContent = 'Generation failed';
+      $('errorBox').style.display = 'block';
+      $('errorBox').textContent = p.error || 'unknown error';
+    } else {
+      $('resultTitle').textContent = 'Unit ready';
+      const links = [[`api/download/${jobId}/docx`, 'Download .docx', 'docx']];
+      if (p.pdf) links.push([`api/download/${jobId}/pdf`, 'Download PDF', 'pdf']);
+      links.push([`api/download/${jobId}/figures`, 'Figure list (DTP team)', 'aux']);
+      links.push([`api/download/${jobId}/report`, 'Generation report', 'aux']);
+      for (const [href, text, cls] of links) {
+        const a = document.createElement('a');
+        a.href = href; a.textContent = text; a.className = 'dl ' + cls;
+        $('downloads').appendChild(a);
+      }
+    }
+    const s = p.summary || {};
+    if (s.review_note) {
+      $('reviewNote').style.display = 'block';
+      $('reviewNote').textContent = s.review_note;
+    }
+    for (const w of (s.warnings || [])) {
+      const d = document.createElement('div');
+      d.className = 'warn'; d.textContent = w;
+      $('warnings').appendChild(d);
+    }
+  }
+</script>
+</body>
+</html>
