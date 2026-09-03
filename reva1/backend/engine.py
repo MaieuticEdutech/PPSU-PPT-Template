@@ -204,6 +204,95 @@ def _is_point_column(items, min_items=3):
     return True
 
 
+def _label_desc_pairs(content):
+    """Type H raw slide: N "card" points, each a single-line LABEL box with
+    a smaller-font DESCRIPTION box directly beneath it, laid out in one or
+    two aligned columns (a 2x2 grid of four cards is common). Detected only
+    when every label pairs up cleanly with its own description and every
+    other text shape reads as heading/subheading above the cards or a small
+    footer below them — diagrams with scattered labels stay untouched.
+
+    Returns (heading, subheading, bullets, pairs) or None.
+    """
+    if any(not _is_plain_text_shape(s) for s in content):
+        return None
+    by_font = {}
+    for s in content:
+        if len(_para_texts(s)) == 1:
+            by_font.setdefault(round(_shape_font(s)), []).append(s)
+
+    for label_font in sorted(by_font, reverse=True):
+        labels = by_font[label_font]
+        if len(labels) < 3:
+            continue
+        used, pairs = set(), []
+        ok = True
+        for lab in sorted(labels, key=lambda s: (s.top or 0, s.left or 0)):
+            desc = None
+            for d in content:
+                if d is lab or id(d) in used:
+                    continue
+                if round(_shape_font(d)) >= label_font:
+                    continue
+                if abs((d.left or 0) - (lab.left or 0)) > 150000:
+                    continue
+                gap = (d.top or 0) - ((lab.top or 0) + (lab.height or 0))
+                if -100000 <= gap <= 900000:   # directly beneath the label
+                    desc = d
+                    break
+            if desc is None:
+                ok = False
+                break
+            used.add(id(desc))
+            pairs.append((lab, desc))
+        if not ok:
+            continue
+
+        # cards sit in at most two aligned columns
+        col_lefts = []
+        for lab, _d in pairs:
+            left = lab.left or 0
+            if not any(abs(left - x) <= 150000 for x in col_lefts):
+                col_lefts.append(left)
+        if len(col_lefts) > 2:
+            continue
+
+        # everything not consumed must be heading/subheading above the
+        # cards or a small footer below them
+        consumed = {id(lab) for lab, _ in pairs} | used
+        cards_top = min((lab.top or 0) for lab, _ in pairs)
+        cards_bottom = max(((d.top or 0) + (d.height or 0))
+                           for _, d in pairs)
+        heading_pool = []
+        for s in content:
+            if id(s) in consumed:
+                continue
+            f = round(_shape_font(s))
+            top = s.top or 0
+            if top < cards_top and len(_para_texts(s)) == 1:
+                heading_pool.append(s)
+            elif top >= cards_bottom and f < label_font:
+                continue                       # footer
+            else:
+                heading_pool = None
+                break
+        if not heading_pool:
+            continue
+
+        heading_pool.sort(key=lambda s: (-_shape_font(s), s.top or 0))
+        heading = heading_pool[0].text_frame.text.strip()
+        subheading = (heading_pool[1].text_frame.text.strip()
+                      if len(heading_pool) > 1 else None)
+        out_pairs, bullets = [], []
+        for lab, d in pairs:                   # (top, left) order: row-major
+            label_text = lab.text_frame.text.strip()
+            desc_text = " ".join(_para_texts(d))
+            out_pairs.append((label_text, desc_text))
+            bullets.append(f"{label_text}: {desc_text}")
+        return heading, subheading, bullets, out_pairs
+    return None
+
+
 def _single_body_box(content, slide_shapes, decor):
     """Type E raw slide: a title (+ optional subtitle) and ONE text box that
     holds every point as its own paragraph.
@@ -237,12 +326,12 @@ def _single_body_box(content, slide_shapes, decor):
     for s in others:
         f = round(_shape_font(s))
         top = s.top or 0
-        # title/subtitle above the points: larger font, OR a single-line
-        # box sharing the body font (some decks set subheading and bullets
-        # at the same size — same font, but one line above the box)
+        # title/subtitle above the points: larger font, OR any single-line
+        # box above the body (real decks set subheadings at the SAME size
+        # as the bullets, and one even SMALLER — a lone line above a full
+        # points box reads as a subtitle whatever its size)
         if top <= body_top and (f > body_font
-                                 or (f == body_font
-                                     and len(_para_texts(s)) == 1)):
+                                 or len(_para_texts(s)) == 1):
             continue
         if top >= body_bottom and f < body_font:
             continue  # small footer underneath
@@ -581,6 +670,10 @@ def extract_raw_slides(raw_path: Path, reasons=None):
                 if item_shapes is not None:
                     heading, subheading, bullets, pairs = _extract_named_items(
                         item_shapes, other_shapes)
+                elif (ph := _label_desc_pairs(content)) is not None:
+                    # Type H: card-style label + description pairs in one
+                    # or two aligned columns (see _label_desc_pairs)
+                    heading, subheading, bullets, pairs = ph
                 else:
                     # Type E: no repeating boxes at all — the points live as
                     # separate paragraphs inside ONE text box, under generic
