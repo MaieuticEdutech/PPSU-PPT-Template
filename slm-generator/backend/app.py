@@ -53,7 +53,7 @@ def _job_dir(job_id: str) -> Path:
     return d
 
 
-def _run_job(job_id, meta, syllabus, toc_text, source_path):
+def _run_job(job_id, meta, syllabus, toc_text, source_path, brand="ppsu"):
     job = JOBS[job_id]
     work = JOB_ROOT / job_id
 
@@ -78,7 +78,7 @@ def _run_job(job_id, meta, syllabus, toc_text, source_path):
                             "not rendered: "
                             + "; ".join(report["validation"]["errors"]))
             return
-        build_docx(unit).save(str(work / "unit.docx"))
+        build_docx(unit, brand=brand).save(str(work / "unit.docx"))
         job["pdf"] = False
         if docx2pdf.available():
             job["current"] = "exporting PDF…"
@@ -153,7 +153,10 @@ async def generate(programme: str = Form(""), course_code: str = Form(""),
                    syllabus_topics: str = Form(""),
                    toc_text: str = Form(""),
                    textbook_citation: str = Form(""),
+                   brand: str = Form("ppsu"),
                    source: UploadFile | None = None):
+    if brand not in ("ppsu", "reva"):
+        raise HTTPException(400, "brand must be 'ppsu' or 'reva'")
     for name, val in (("programme", programme),
                       ("course code", course_code),
                       ("course name", course_name),
@@ -191,9 +194,11 @@ async def generate(programme: str = Form(""), course_code: str = Form(""),
 
         JOBS[job_id] = {"state": "running", "calls_done": 0,
                         "current": "starting…", "error": None,
-                        "report": None, "pdf": False}
+                        "report": None, "pdf": False, "brand": brand,
+                        "meta": meta}
         threading.Thread(target=_run_job,
-                         args=(job_id, meta, syllabus, toc, source_path),
+                         args=(job_id, meta, syllabus, toc, source_path,
+                               brand),
                          daemon=True).start()
         return {"job_id": job_id}
     except HTTPException:
@@ -233,16 +238,27 @@ def _serve(job_id, filename, download_name, media_type):
                         media_type=media_type)
 
 
+def _download_name(job_id, ext):
+    """REVA's file-naming convention (CourseName_UnitNN_Title) when that
+    brand generated the job; a plain name otherwise."""
+    job = JOBS.get(job_id) or {}
+    if job.get("brand") == "reva" and job.get("meta"):
+        import brands
+        return brands.reva_filename(job["meta"], ext)
+    return f"slm_unit{ext}"
+
+
 @app.get("/api/download/{job_id}/docx")
 def download_docx(job_id: str):
-    return _serve(job_id, "unit.docx", "slm_unit.docx",
+    return _serve(job_id, "unit.docx", _download_name(job_id, ".docx"),
                   "application/vnd.openxmlformats-officedocument"
                   ".wordprocessingml.document")
 
 
 @app.get("/api/download/{job_id}/pdf")
 def download_pdf(job_id: str):
-    return _serve(job_id, "unit.pdf", "slm_unit.pdf", "application/pdf")
+    return _serve(job_id, "unit.pdf", _download_name(job_id, ".pdf"),
+                  "application/pdf")
 
 
 @app.get("/api/download/{job_id}/figures")

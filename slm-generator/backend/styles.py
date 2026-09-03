@@ -37,22 +37,42 @@ BODY_PT = 11
 CAPTION_PT = 10
 
 
-_DEFAULTS = dict(BRAND_FONT=BRAND_FONT, BODY_PT=BODY_PT,
-                 CAPTION_PT=CAPTION_PT, H1_PT=H1_PT, H2_PT=H2_PT,
-                 NAVY=NAVY)
+import brands
+
+# the active brand profile (see brands.py). set_brand() swaps it and syncs
+# the legacy module attributes the builder reads.
+BRAND = brands.PPSU
+_DEFAULTS = dict(NAVY=NAVY)
 
 
-def apply_profile(profile):
-    """Override the module's style values from a reference-PDF profile
-    (see branding.extract_profile). Every field is optional; anything
-    missing keeps the decoded-PPSU default. ALWAYS resets to the defaults
-    first, so build() calls without a profile are never polluted by a
-    previous build's overrides. Mutates THIS module — the builder reads
-    styles via module attributes, so changes take effect immediately."""
+def set_brand(key):
+    """Activate a built-in brand profile ('ppsu' | 'reva'): loads its
+    values into this module's attributes. Called by build() before every
+    render, so brands never leak between builds."""
     import sys
     mod = sys.modules[__name__]
-    for k, v in _DEFAULTS.items():
-        setattr(mod, k, v)
+    brand = brands.PROFILES[key]
+    mod.BRAND = brand
+    mod.BRAND_FONT = brand["font"]
+    mod.TITLE_PT = brand["title_pt"]
+    mod.H1_PT = brand["h1_pt"]
+    mod.H2_PT = brand["h2_pt"]
+    mod.BODY_PT = brand["body_pt"]
+    mod.CAPTION_PT = brand["caption_pt"]
+    mod.NAVY = RGBColor.from_string(brand["heading_color"])
+    mod.FILL_DID_YOU_KNOW = brand["fill_did_you_know"]
+    mod.FILL_THINK_AND_APPLY = brand["fill_think_apply"]
+    mod.FILL_PROBLEM = brand["fill_problem"]
+    mod.FILL_CODE = brand["fill_code"]
+
+
+def apply_profile(profile, brand_key="ppsu"):
+    """Layering order for every build: brand base theme first (reset), then
+    the optional uploaded reference-PDF overrides on top. Mutates THIS
+    module — the builder reads styles via module attributes."""
+    import sys
+    mod = sys.modules[__name__]
+    set_brand(brand_key)
     if not profile:
         return
     if profile.get("font_name"):
@@ -141,6 +161,59 @@ def add_box(doc, *, fill):
     shade_cell(cell, fill)
     remove_table_borders(table)
     return cell
+
+
+def body_para(doc_or_cell, text, *, space_after=8):
+    """A body-text paragraph obeying the active brand: colour, justification
+    and line spacing (REVA: #333333, justified, 1.5; PPSU: plain)."""
+    from docx.enum.text import WD_ALIGN_PARAGRAPH as _AL
+    color = (RGBColor.from_string(BRAND["body_color"])
+             if BRAND.get("body_color") else None)
+    p = add_paragraph(doc_or_cell, text, color=color, space_after=space_after)
+    if BRAND.get("justify_body"):
+        p.alignment = _AL.JUSTIFY
+    if BRAND.get("line_spacing"):
+        p.paragraph_format.line_spacing = BRAND["line_spacing"]
+    return p
+
+
+def shade_paragraph(paragraph, hex_fill):
+    """Paragraph background shading (the REVA heading bars)."""
+    pPr = paragraph._p.get_or_add_pPr()
+    shd = OxmlElement('w:shd')
+    shd.set(qn('w:val'), 'clear')
+    shd.set(qn('w:color'), 'auto')
+    shd.set(qn('w:fill'), hex_fill)
+    pPr.append(shd)
+
+
+def paragraph_border(paragraph, edge, hex_color, size=12):
+    """A single border line on a paragraph (REVA's orange header/footer
+    rules). edge: 'top' or 'bottom'."""
+    pPr = paragraph._p.get_or_add_pPr()
+    pBdr = pPr.find(qn('w:pBdr'))
+    if pBdr is None:
+        pBdr = OxmlElement('w:pBdr')
+        pPr.append(pBdr)
+    el = OxmlElement(f'w:{edge}')
+    el.set(qn('w:val'), 'single')
+    el.set(qn('w:sz'), str(size))
+    el.set(qn('w:space'), '4')
+    el.set(qn('w:color'), hex_color)
+    pBdr.append(el)
+
+
+def set_table_border_color(table, hex_color):
+    """Recolour a table's grid borders (REVA: #CCCCCC)."""
+    tblPr = table._tbl.tblPr
+    borders = OxmlElement('w:tblBorders')
+    for edge in ('top', 'left', 'bottom', 'right', 'insideH', 'insideV'):
+        el = OxmlElement(f'w:{edge}')
+        el.set(qn('w:val'), 'single')
+        el.set(qn('w:sz'), '4')
+        el.set(qn('w:color'), hex_color)
+        borders.append(el)
+    tblPr.append(borders)
 
 
 def add_page_number_field(paragraph):

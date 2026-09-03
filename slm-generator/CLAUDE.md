@@ -170,6 +170,34 @@ Notes on fields that moved since the original sketch:
 
 ## Current state
 
+**Brand profiles (PPSU | REVA) added, 2026-09-03** (user request, with the
+official "REVA University Online – SLM Style Guide" PDF as the source).
+`backend/brands.py` holds both profiles; every REVA value traces to a line
+of that guide (cited in comments): Plus Jakarta Sans everywhere (must be
+installed or Word substitutes); Topic Name 30 / Topic 18 / Subtopic 16 /
+Sub-of-subtopic 14 / body 12 at 1.5 justified; heading BARS with fills
+(#F7A35B+white / #FEF0E6+#4A4C55 / #F2F2F2+#4A4C55) and UPPERCASE text;
+body #333333; did_you_know renders as "Study Note" (#FFD966), think_and_
+apply as "Activity" (#A9D18E); tables: orange header/white text, #CCCCCC
+borders, #F2F2F2 alternate rows; captions "Fig. N:" centred 11pt (the
+builder transforms the generated "Figure N:" prefix at render time, so
+one unit JSON targets either brand); summary box #FEF0E6, glossary rows /
+case study / terminal boxes #F2F2F2; header "Unit Name | Unit N" left +
+logo right with an orange rule, footer "Course Code | Course Name" + page
+no., 10pt bold #4A4C55, orange rule above; references retitled "Suggested
+Books and References"; strict download naming CourseName_UnitNN_Title
+(brands.reva_filename). Layering: brand base → uploaded reference-PDF
+profile → uploaded logo. UI: two brand buttons above the form; `brand`
+form field; CLI `--brand`. Guide ambiguities resolved & documented in
+brands.py: header text size unstated (using 10pt-ish 11), the guide's
+"Header: Heading Size 30/20/15" block read as page typography (the
+Typography Hierarchy table treated as authoritative), and the styled
+glossary/case/terminal elements kept between Summary and References even
+though the 6-item structure list doesn't name them (their box styles are
+specified, so they exist). `tests/test_brands.py`: 19 checks (REVA build
+XML carries every mandated fill/font/uppercase/caption/naming rule; PPSU
+build provably unchanged) — 145 offline checks across seven suites.
+
 **Branding & reference-format feature added, 2026-09-03** (user request).
 Set-once institution branding in `assets/` (gitignored — per-installation
 uploads, not source), applied to every generated unit until replaced:

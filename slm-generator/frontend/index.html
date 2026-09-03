@@ -49,6 +49,21 @@
 </header>
 <main>
   <div class="card">
+    <h2>University brand</h2>
+    <div style="display:flex; gap:.75rem">
+      <button type="button" class="brandbtn selected" id="brand_ppsu" data-brand="ppsu"
+        style="flex:1; padding:.8rem; border-radius:10px; border:2px solid var(--navy); background:var(--navy); color:#fff; font:inherit; font-weight:700; cursor:pointer">
+        PPSU<br><span style="font-weight:400; font-size:.75rem">P P Savani University format</span>
+      </button>
+      <button type="button" class="brandbtn" id="brand_reva" data-brand="reva"
+        style="flex:1; padding:.8rem; border-radius:10px; border:2px solid #F7A35B; background:#fff; color:#4A4C55; font:inherit; font-weight:700; cursor:pointer">
+        REVA<br><span style="font-weight:400; font-size:.75rem">REVA University Online style guide</span>
+      </button>
+    </div>
+    <div class="hint" id="brandHint" style="margin-top:.5rem">PPSU: Calibri, navy headings, full assessment structure. REVA: Plus Jakarta Sans, orange heading bars, Study Note/Activity boxes, strict file naming — per the official REVA SLM Style Guide.</div>
+  </div>
+
+  <div class="card">
     <h2>Branding &amp; reference format <span style="font-weight:400;font-size:.8rem;color:var(--muted)">(set once — applies to every generated unit)</span></h2>
     <div class="row">
       <div>
@@ -112,6 +127,19 @@
 <script>
   const $ = id => document.getElementById(id);
   let pdfAvailable = false;
+  let selectedBrand = 'ppsu';
+
+  for (const btn of document.querySelectorAll('.brandbtn')) {
+    btn.addEventListener('click', () => {
+      selectedBrand = btn.dataset.brand;
+      const ppsu = $('brand_ppsu'), reva = $('brand_reva');
+      const on = selectedBrand === 'ppsu';
+      ppsu.style.background = on ? 'var(--navy)' : '#fff';
+      ppsu.style.color = on ? '#fff' : 'var(--navy)';
+      reva.style.background = on ? '#fff' : '#F7A35B';
+      reva.style.color = on ? '#4A4C55' : '#fff';
+    });
+  }
 
   fetch('api/status').then(r => r.json()).then(s => { pdfAvailable = s.pdf_export; }).catch(() => {});
 
@@ -150,6 +178,7 @@
     const fd = new FormData();
     for (const f of ['programme','course_code','course_name','unit_number','unit_title','syllabus_topics','toc_text','textbook_citation'])
       fd.append(f, $(f).value);
+    fd.append('brand', selectedBrand);
     if ($('source').files.length) fd.append('source', $('source').files[0]);
 
     $('go').disabled = true;

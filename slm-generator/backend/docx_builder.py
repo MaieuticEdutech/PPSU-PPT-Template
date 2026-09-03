@@ -49,9 +49,22 @@ from docx.enum.text import WD_ALIGN_PARAGRAPH
 from docx.oxml.ns import qn
 from docx.shared import Inches, Pt, RGBColor
 
+import brands
 import styles as st
 from styles import (add_box, add_page_number_field, add_paragraph,
-                    add_toc_field, set_run, shade_cell)
+                    add_toc_field, body_para, paragraph_border,
+                    set_run, set_table_border_color, shade_cell,
+                    shade_paragraph)
+
+
+def _brand_caption(caption):
+    """Captions are generated as 'Figure N: ...' — REVA's convention is
+    'Fig. N: ...' (style guide caption examples). Transformed at render
+    time so the SAME unit JSON can target either brand."""
+    prefix = st.BRAND["fig_prefix"]
+    if prefix != "Figure" and caption.startswith("Figure "):
+        return prefix + caption[len("Figure"):]
+    return caption
 
 
 # ---------------------------------------------------------------------------
@@ -103,33 +116,59 @@ def _add_running_header_footer(doc, meta, logo=None):
     section.header.is_linked_to_previous = False
     section.footer.is_linked_to_previous = False
 
+    brand = st.BRAND
     unit_no = meta.get("unit_number", "")
-    unit_text = (f"Unit {unit_no:02d}" if isinstance(unit_no, int)
-                 else f"Unit {unit_no}")
+    n_label = f"{unit_no:02d}" if isinstance(unit_no, int) else str(unit_no)
+    if brand.get("header_text") == "unit_name":
+        # REVA header content: "Unit Name | Unit Number" (+ logo right)
+        unit_text = f'{meta.get("unit_title", "")} | Unit {n_label}'
+    else:
+        unit_text = f"Unit {n_label}"
+
+    from docx.enum.text import WD_TAB_ALIGNMENT
     hp = section.header.paragraphs[0]
-    if logo:
-        # logo left, unit label pushed to the right edge — matches the
-        # real issued sample's running header
-        from docx.enum.text import WD_TAB_ALIGNMENT
+    usable = (section.page_width - section.left_margin
+              - section.right_margin)
+    hf_color = brand.get("hf_border_color")
+    if logo and brand.get("header_layout") == "logo_right":
+        # REVA: text left, logo right
         hp.alignment = WD_ALIGN_PARAGRAPH.LEFT
-        usable = (section.page_width - section.left_margin
-                  - section.right_margin)
+        hp.paragraph_format.tab_stops.add_tab_stop(usable,
+                                                   WD_TAB_ALIGNMENT.RIGHT)
+        set_run(hp.add_run(unit_text), size=11, bold=True, color=st.NAVY)
+        hp.add_run("\t").add_picture(str(logo), height=Inches(0.32))
+    elif logo:
+        # PPSU: logo left, unit label right
+        hp.alignment = WD_ALIGN_PARAGRAPH.LEFT
         hp.paragraph_format.tab_stops.add_tab_stop(usable,
                                                    WD_TAB_ALIGNMENT.RIGHT)
         hp.add_run().add_picture(str(logo), height=Inches(0.32))
         hp.add_run("\t")
+        set_run(hp.add_run(unit_text), size=11, bold=True, color=st.NAVY)
     else:
-        hp.alignment = WD_ALIGN_PARAGRAPH.RIGHT
-    set_run(hp.add_run(unit_text), size=11, bold=True, color=st.NAVY)
+        hp.alignment = (WD_ALIGN_PARAGRAPH.LEFT
+                        if brand.get("header_text") == "unit_name"
+                        else WD_ALIGN_PARAGRAPH.RIGHT)
+        set_run(hp.add_run(unit_text), size=11, bold=True, color=st.NAVY)
+    if hf_color:                          # REVA: orange rule under header
+        paragraph_border(hp, "bottom", hf_color)
 
     fp = section.footer.paragraphs[0]
     fp.alignment = WD_ALIGN_PARAGRAPH.LEFT
     code = meta.get("course_code", "")
     name = meta.get("course_name", "")
-    set_run(fp.add_run(f"{code}: {name.upper()}" if code or name else ""),
-            size=9, bold=True, color=st.NAVY)
+    footer_color = RGBColor.from_string(brand.get("footer_color", "0E2841"))
+    if brand.get("header_text") == "unit_name":
+        # REVA footer content: "Course Code | Course Name" + page (right)
+        footer_text = f"{code} | {name}" if code or name else ""
+    else:
+        footer_text = f"{code}: {name.upper()}" if code or name else ""
+    set_run(fp.add_run(footer_text), size=brand.get("footer_pt", 9),
+            bold=brand.get("footer_bold", True), color=footer_color)
     fp.add_run("\t\t")
     add_page_number_field(fp)
+    if hf_color:                          # REVA: orange rule above footer
+        paragraph_border(fp, "top", hf_color)
 
 
 # ---------------------------------------------------------------------------
@@ -154,7 +193,7 @@ def _build_unit_heading_and_toc(doc, meta):
 def _build_introduction(doc, intro_paragraphs):
     _heading(doc, "Introduction", level=1)
     for para in intro_paragraphs:
-        add_paragraph(doc, para, size=st.BODY_PT, space_after=8)
+        body_para(doc, para)
 
 
 def _build_learning_objectives(doc, objectives):
@@ -173,8 +212,17 @@ def _build_learning_objectives(doc, objectives):
 
 def _heading(doc, text, level):
     h = doc.add_heading(level=level)
-    size = {1: st.H1_PT, 2: st.H2_PT, 3: st.H2_PT - 2}.get(level, st.H2_PT - 2)
-    set_run(h.add_run(text), size=size, bold=True, color=st.NAVY)
+    brand = st.BRAND
+    size = {1: st.H1_PT, 2: st.H2_PT,
+            3: brand.get("h3_pt", st.H2_PT - 2)}.get(level, st.H2_PT - 2)
+    if brand.get("heading_upper"):        # REVA: Bold, Uppercase headings
+        text = text.upper()
+    fill = brand.get("h_fills", {}).get(level)
+    text_hex = brand.get("h_text_colors", {}).get(level)
+    color = (RGBColor.from_string(text_hex) if text_hex else st.NAVY)
+    set_run(h.add_run(text), size=size, bold=True, color=color)
+    if fill:                               # REVA: coloured heading bars
+        shade_paragraph(h, fill)
     return h
 
 
@@ -183,33 +231,51 @@ def _heading(doc, text, level):
 # ---------------------------------------------------------------------------
 
 def _render_table(doc, block):
+    brand = st.BRAND
     if block.get("caption"):
         add_paragraph(doc, block["caption"], size=st.CAPTION_PT, bold=True,
+                      align=(WD_ALIGN_PARAGRAPH.CENTER
+                             if brand.get("caption_center") else None),
                       space_after=4)
     columns = block.get("columns", [])
     rows = block.get("rows", [])
     table = doc.add_table(rows=1 + len(rows), cols=max(len(columns), 1))
     table.style = "Table Grid"
+    if brand.get("table_border"):          # REVA: #CCCCCC grid
+        set_table_border_color(table, brand["table_border"])
     for i, col in enumerate(columns):
         cell = table.rows[0].cells[i]
-        shade_cell(cell, "0E2841")
+        shade_cell(cell, brand["table_header_fill"])
         p = cell.paragraphs[0]
-        set_run(p.add_run(col), bold=True, size=st.BODY_PT - 1, color=st.WHITE)
+        set_run(p.add_run(col), bold=True, size=st.BODY_PT - 1,
+                color=RGBColor.from_string(brand["table_header_text"]))
+    body_color = (RGBColor.from_string(brand["body_color"])
+                  if brand.get("body_color") else None)
     for r, row in enumerate(rows, start=1):
+        # REVA: alternate row shading (#F2F2F2 on even data rows)
+        if brand.get("table_alt_row") and r % 2 == 0:
+            for cell in table.rows[r].cells:
+                shade_cell(cell, brand["table_alt_row"])
         for c, val in enumerate(row):
             if c >= len(table.rows[r].cells):
                 continue
             p = table.rows[r].cells[c].paragraphs[0]
-            set_run(p.add_run(str(val)), size=st.BODY_PT - 1)
+            set_run(p.add_run(str(val)), size=st.BODY_PT - 1,
+                    color=body_color)
     doc.add_paragraph().paragraph_format.space_after = Pt(4)
 
 
-def _render_box(doc, text, *, fill, label=None, label_color=st.NAVY):
+def _render_box(doc, text, *, fill, label=None, label_color=None):
+    if label_color is None:
+        # boxes carry body-coloured text where the brand defines one
+        # (REVA: #333333 on the yellow/green fills), else the heading tone
+        label_color = (RGBColor.from_string(st.BRAND["body_color"])
+                       if st.BRAND.get("body_color") else st.NAVY)
     cell = add_box(doc, fill=fill)
     if label:
         add_paragraph(cell, label, size=st.BODY_PT, bold=True,
                       color=label_color, space_after=4)
-    add_paragraph(cell, text, size=st.BODY_PT, space_after=2)
+    body_para(cell, text, space_after=2)
     doc.add_paragraph().paragraph_format.space_after = Pt(4)
 
 
@@ -232,19 +298,21 @@ def _render_figure(doc, block):
                   size=st.BODY_PT, italic=True, color=st.GREY_TEXT,
                   align=WD_ALIGN_PARAGRAPH.CENTER)
     if block.get("caption"):
-        add_paragraph(doc, block["caption"], size=st.CAPTION_PT, bold=True,
+        add_paragraph(doc, _brand_caption(block["caption"]),
+                      size=st.CAPTION_PT, bold=True,
                       align=WD_ALIGN_PARAGRAPH.CENTER, space_after=8)
 
 
 def _render_block(doc, block):
     t = block.get("type")
     if t == "prose":
-        add_paragraph(doc, block.get("text", ""), size=st.BODY_PT, space_after=8)
+        body_para(doc, block.get("text", ""))
     elif t == "table":
         _render_table(doc, block)
     elif t == "did_you_know":
+        # brand-labelled aside: "Did you know?" (PPSU) / "Study Note" (REVA)
         _render_box(doc, block.get("text", ""), fill=st.FILL_DID_YOU_KNOW,
-                    label="Did you know?")
+                    label=st.BRAND["did_you_know_label"])
     elif t == "code":
         _render_code(doc, block.get("text", ""))
     elif t == "problem":
@@ -258,8 +326,9 @@ def _render_block(doc, block):
         set_run(p.add_run("Key Takeaway: "), bold=True, size=st.BODY_PT)
         set_run(p.add_run(block.get("text", "")), size=st.BODY_PT)
     elif t == "think_and_apply":
+        # "Think and Apply" (PPSU) / "Activity" (REVA)
         _render_box(doc, block.get("text", ""), fill=st.FILL_THINK_AND_APPLY,
-                    label=block.get("title", "Think and Apply"))
+                    label=st.BRAND["think_apply_label"])
     elif t == "figure":
         _render_figure(doc, block)
     else:
@@ -274,7 +343,7 @@ def _build_sections(doc, sections):
     for sec in sections:
         _heading(doc, f'{sec["number"]} {sec["title"]}', level=1)
         if sec.get("intro"):
-            add_paragraph(doc, sec["intro"], size=st.BODY_PT, space_after=8)
+            body_para(doc, sec["intro"])
         for sub in sec.get("subsections", []):
             _heading(doc, f'{sub["number"]} {sub["title"]}', level=2)
             for block in sub.get("blocks", []):
@@ -285,24 +354,39 @@ def _build_sections(doc, sections):
 # back matter
 # ---------------------------------------------------------------------------
 
+def _boxed(doc, fill):
+    """Brand-conditional container: a shaded box cell when the brand
+    defines a fill for this element (REVA's summary/case/terminal boxes),
+    else the document itself."""
+    return add_box(doc, fill=fill) if fill else doc
+
+
 def _build_summary(doc, summary_number, bullets):
     _heading(doc, f"{summary_number} Summary", level=1)
+    target = _boxed(doc, st.BRAND.get("summary_box"))
     for b in bullets:
-        p = doc.add_paragraph(style="List Bullet")
+        p = target.add_paragraph(style="List Bullet")
         set_run(p.add_run(b), size=st.BODY_PT)
 
 
 def _build_glossary(doc, number, terms):
     _heading(doc, f"{number} Glossary", level=1)
+    brand = st.BRAND
     table = doc.add_table(rows=1 + len(terms), cols=2)
     table.style = "Table Grid"
+    if brand.get("table_border"):
+        set_table_border_color(table, brand["table_border"])
     for i, hdr in enumerate(("Term", "Definition")):
         cell = table.rows[0].cells[i]
-        shade_cell(cell, "0E2841")
-        set_run(cell.paragraphs[0].add_run(hdr), bold=True, color=st.WHITE,
+        shade_cell(cell, brand["table_header_fill"])
+        set_run(cell.paragraphs[0].add_run(hdr), bold=True,
+                color=RGBColor.from_string(brand["table_header_text"]),
                 size=st.BODY_PT - 1)
     for r, entry in enumerate(sorted(terms, key=lambda e: e["term"].lower()),
                               start=1):
+        if brand.get("glossary_fill"):     # REVA: light-grey glossary rows
+            for cell in table.rows[r].cells:
+                shade_cell(cell, brand["glossary_fill"])
         set_run(table.rows[r].cells[0].paragraphs[0].add_run(entry["term"]),
                 bold=True, size=st.BODY_PT - 1)
         set_run(table.rows[r].cells[1].paragraphs[0]
@@ -311,19 +395,20 @@ def _build_glossary(doc, number, terms):
 
 def _build_case_study(doc, number, case):
     _heading(doc, f"{number} Case Study", level=1)
+    target = _boxed(doc, st.BRAND.get("case_box"))
     if case.get("title"):
-        add_paragraph(doc, case["title"], size=st.BODY_PT + 1, bold=True,
+        add_paragraph(target, case["title"], size=st.BODY_PT + 1, bold=True,
                       space_after=6)
     bg = case.get("background", "")
     paras = bg if isinstance(bg, list) else [bg]
     for para in paras:
         if para:
-            add_paragraph(doc, para, size=st.BODY_PT, space_after=8)
+            body_para(target, para)
     if case.get("questions"):
-        add_paragraph(doc, "Case Study Questions:", size=st.BODY_PT, bold=True,
-                      space_after=4)
+        add_paragraph(target, "Case Study Questions:", size=st.BODY_PT,
+                      bold=True, space_after=4)
         for q in case["questions"]:
-            p = doc.add_paragraph(style="List Bullet")
+            p = target.add_paragraph(style="List Bullet")
             set_run(p.add_run(q), size=st.BODY_PT)
 
 
@@ -357,13 +442,15 @@ def _build_self_assessment(doc, number, sa):
 
 def _build_terminal(doc, number, terminal):
     _heading(doc, f"{number} Terminal Questions", level=1)
+    target = _boxed(doc, st.BRAND.get("terminal_box"))
     for label, key in (("Short Questions", "short"), ("Long Questions", "long")):
         items = terminal.get(key, [])
         if not items:
             continue
-        add_paragraph(doc, label, size=st.BODY_PT, bold=True, space_after=6)
+        add_paragraph(target, label, size=st.BODY_PT, bold=True,
+                      space_after=6)
         for i, item in enumerate(items, start=1):
-            p = doc.add_paragraph()
+            p = target.add_paragraph()
             p.paragraph_format.space_after = Pt(4)
             set_run(p.add_run(f'{i}. {item["q"]}'), size=st.BODY_PT)
 
@@ -418,7 +505,8 @@ def _build_answers(doc, number, sa, terminal):
 
 
 def _build_references(doc, number, refs):
-    _heading(doc, f"{number} References", level=1)
+    # "References" (PPSU) / "Suggested Books and References" (REVA structure)
+    _heading(doc, f'{number} {st.BRAND["references_title"]}', level=1)
     for ref in refs:
         p = doc.add_paragraph(style="List Bullet")
         set_run(p.add_run(ref), size=st.BODY_PT)
@@ -447,17 +535,17 @@ def _apply_page_geometry(doc, profile):
             setattr(section, attr, Mm(val))
 
 
-def build(data: dict, *, use_branding=True) -> Document:
-    """Render a unit. Branding assets (logo + reference-PDF style profile,
-    see branding.py) are applied when present; use_branding=False builds
-    with the decoded-PPSU defaults regardless (used by tests that assert
-    the default look)."""
+def build(data: dict, *, brand="ppsu", use_branding=True) -> Document:
+    """Render a unit for a brand ('ppsu' | 'reva', see brands.py).
+    Layering: brand base theme, then uploaded reference-PDF style profile,
+    then uploaded logo. use_branding=False skips the uploaded assets (used
+    by tests asserting a brand's base look)."""
     logo = profile = None
     if use_branding:
         import branding
         logo = branding.logo_path()
         profile = branding.load_profile()
-    st.apply_profile(profile)          # always called: resets defaults too
+    st.apply_profile(profile, brand_key=brand)   # resets + layers
     doc = Document()
     _apply_page_geometry(doc, profile)
     _add_running_header_footer(doc, data.get("meta", {}), logo=logo)

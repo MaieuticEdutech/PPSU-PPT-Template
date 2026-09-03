@@ -343,7 +343,8 @@ def generate_unit(meta, syllabus_topics=None, toc_text=None,
     return unit, report
 
 
-def _finish_outputs(unit, report, out_docx, json_out=None, report_path=None):
+def _finish_outputs(unit, report, out_docx, json_out=None, report_path=None,
+                    brand="ppsu"):
     """Shared tail for single and batch runs: write report/json/figure list,
     render only if validation passed. Returns True when rendered."""
     import figures
@@ -360,7 +361,7 @@ def _finish_outputs(unit, report, out_docx, json_out=None, report_path=None):
             print(f"  - {e}")
         return False
     from docx_builder import build
-    build(unit).save(str(out_docx))
+    build(unit, brand=brand).save(str(out_docx))
     print(f"\nwrote {out_docx}  ({report['calls']} AI calls, "
           f"{len(report['failures'])} failed, "
           f"{report['uk_spelling_fixes']} UK-spelling fixes)")
@@ -417,6 +418,8 @@ def main():
                     help="optional textbook chapter (.pdf/.docx/.txt) — "
                          "activates textbook mode (overrides --toc for "
                          "mode selection; both still inform the outline)")
+    ap.add_argument("--brand", choices=("ppsu", "reva"), default="ppsu",
+                    help="target brand format (see brands.py)")
     ap.add_argument("--out", type=Path, help=".docx path (single-unit mode)")
     ap.add_argument("--report", type=Path)
     ap.add_argument("--json-out", type=Path,
@@ -438,7 +441,7 @@ def main():
                                  toc_text=toc_text, source_path=args.source)
     report["seconds"] = round(time.time() - t0, 1)
     ok = _finish_outputs(unit, report, args.out, json_out=args.json_out,
-                         report_path=args.report)
+                         report_path=args.report, brand=args.brand)
     if not ok:
         sys.exit(1)
 
