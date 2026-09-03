@@ -258,8 +258,13 @@ def _single_body_box(content, slide_shapes, decor):
     for s in others:
         f = round(_shape_font(s))
         top = s.top or 0
-        if top <= body_top and f > body_font:
-            continue  # title / subtitle above the points
+        # title/subtitle above the points: larger font, OR a single-line
+        # box sharing the body font (a real deck set its subheading and
+        # bullets both at 16 pt — same size, but one line above the box)
+        if top <= body_top and (f > body_font
+                                 or (f == body_font
+                                     and len(_para_texts(s)) == 1)):
+            continue
         if top >= body_bottom and f < body_font:
             continue  # small footer underneath
         return None   # unexplained text -> keep the slide as it is
@@ -427,8 +432,15 @@ def _extract_single_body(body, others):
 
 
 def _shape_sig(s):
-    """Identity of a shape by kind + exact position/size on the slide."""
-    return (str(safe_shape_type(s)), s.top, s.left, s.width, s.height)
+    """Identity of a shape by kind + position/size on the slide, quantised
+    to 1000-EMU (~0.03 mm) buckets: exporters can drift chrome by an EMU or
+    two between slides — a real deck's logo sat at top=173735 on one slide
+    and 173736 on the rest, silently demoting it from decoration to content
+    and tripping the Type E graphics guard on that one slide."""
+    def q(v):
+        return round((v or 0) / 1000)
+    return (str(safe_shape_type(s)), q(s.top), q(s.left),
+            q(s.width), q(s.height))
 
 
 def _decoration_signatures(prs):
@@ -454,10 +466,18 @@ AUTO_SHAPE_TYPE = 1  # MSO_SHAPE_TYPE.AUTO_SHAPE
 def _is_plain_text_shape(s):
     """A plain text container: a text box, or an auto-shape with NO fill and NO
     border (so it reads as just text on the slide). A filled/outlined shape is
-    a styled card or callout, not a bare point."""
-    if safe_shape_type(s) == TEXT_BOX_TYPE:
+    a styled card or callout, not a bare point.
+
+    A type-None shape (one python-pptx cannot classify — see
+    safe_shape_type) that CARRIES text is judged exactly like the
+    auto-shape case: a real deck kept its bullet boxes in such shapes, and
+    when fill-less/border-less they read as plain text on the slide."""
+    st = safe_shape_type(s)
+    if st == TEXT_BOX_TYPE:
         return True
-    if safe_shape_type(s) != AUTO_SHAPE_TYPE:
+    if st is None and not getattr(s, "has_text_frame", False):
+        return False
+    if st not in (AUTO_SHAPE_TYPE, None):
         return False          # groups, pictures, tables, etc.
     try:                      # MSO_FILL_TYPE.BACKGROUND (5) == transparent
         ft = s.fill.type
