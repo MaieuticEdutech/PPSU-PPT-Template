@@ -1310,18 +1310,15 @@
 
   <script>
     // ==========================================================
-    //  BACKEND ADDRESS  --  the only thing you need to edit
+    //  BACKEND ADDRESS -- derived automatically, nothing to edit
     // ==========================================================
-    // Your machine's local network IPv4 address. Every device on the network
-    // (and this machine) sends its API calls here.
-    //
-    // Find it any time by running:  python show_ip.py
-    // If your IP changes (it is handed out by DHCP and can change after a
-    // reboot or reconnecting to Wi-Fi), update this ONE line.
-    const BACKEND_HOST = '192.168.20.75';
+    // The backend runs on the SAME machine as this static server, so
+    // whatever host the browser used to load this page is also where the
+    // backend lives -- only the port differs. No hard-coded IP: DHCP
+    // handing this machine a new address can never break the API calls.
     const BACKEND_PORT = 5000;
 
-    const API_BASE = `http://${BACKEND_HOST}:${BACKEND_PORT}`;
+    const API_BASE = `http://${location.hostname || 'localhost'}:${BACKEND_PORT}`;
 
     document.addEventListener('DOMContentLoaded', () => {
       // Drag and drop setup for files

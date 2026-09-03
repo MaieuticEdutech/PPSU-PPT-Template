@@ -1352,20 +1352,24 @@
     // Find it any time by running:  python show_ip.py
     // If your IP changes (it is handed out by DHCP and can change after a
     // reboot or reconnecting to Wi-Fi), update this ONE line.
-    const BACKEND_HOST = '192.168.3.106';
     const BACKEND_PORT = 5001;
 
     // Hosted deployment (Vercel frontend -> Render backend). When this page is
     // served from a real domain (not localhost / a LAN IP / a local file), API
-    // calls go to the hosted backend below instead of the LAN address above.
-    // If the Render service is named differently, update this ONE line.
+    // calls go to the hosted backend below. If the Render service is named
+    // differently, update this ONE line.
     const HOSTED_BACKEND = 'https://ppsu-ppt-designer.onrender.com';
     const IS_HOSTED = location.protocol !== 'file:'
       && !['localhost', '127.0.0.1', ''].includes(location.hostname)
       && !/^(192\.168\.|10\.|172\.(1[6-9]|2\d|3[01])\.)/.test(location.hostname);
 
+    // Local/LAN: the backend runs on the SAME machine as this static server,
+    // so whatever host the browser used to load this page is also where the
+    // backend lives — only the port differs. No hard-coded IP: DHCP moving
+    // this machine to a new address (it drifted .106 -> .103 on 2026-09-02
+    // and silently broke every API call) can never break this again.
     const API_BASE = IS_HOSTED ? HOSTED_BACKEND
-                               : `http://${BACKEND_HOST}:${BACKEND_PORT}`;
+      : `http://${location.hostname || 'localhost'}:${BACKEND_PORT}`;
 
     document.addEventListener('DOMContentLoaded', () => {
       // Drag and drop setup for files

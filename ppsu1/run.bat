@@ -44,18 +44,9 @@ set "SHORTCUT=Open PPSU PPT Designer.url"
 echo   Shareable shortcut refreshed: "%SHORTCUT%"
 echo.
 
-REM ---------- warn if the frontend is pointing at a different IP ----------
-REM The backend address is hard-coded in frontend\index.html. DHCP can change
-REM this machine's IP, which would silently break every API call.
-findstr /c:"const BACKEND_HOST = '%LAN_IP%';" "frontend\index.html" >nul 2>&1
-if errorlevel 1 (
-    echo  [!] WARNING - frontend\index.html is NOT pointing at %LAN_IP%
-    echo      People on the network will not be able to reach the backend.
-    echo      Fix it by editing frontend\index.html and setting:
-    echo.
-    echo          const BACKEND_HOST = '%LAN_IP%';
-    echo.
-)
+REM The frontend derives the backend address from the URL in the browser's
+REM address bar (same machine, different port), so a DHCP-changed IP can no
+REM longer break the API calls and no IP check is needed here any more.
 
 REM ---------- start the backend, from the backend folder ----------
 REM 'start' inherits this directory, so "cd backend" keeps paths space-safe.
