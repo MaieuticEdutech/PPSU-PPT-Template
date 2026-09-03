@@ -22,6 +22,18 @@ import sys
 from collections import Counter
 from pathlib import Path
 
+
+def safe_shape_type(shape):
+    """python-pptx raises NotImplementedError for shapes it cannot classify
+    (ink drawings, 3D models, some smart-art internals). One exotic shape in
+    an uploaded deck must not crash the whole analysis - treat it as type
+    None: inert decoration that no detector matches."""
+    try:
+        return shape.shape_type
+    except NotImplementedError:
+        return None
+
+
 from pptx import Presentation
 from pptx.enum.text import MSO_ANCHOR, MSO_AUTO_SIZE
 from pptx.opc.constants import RELATIONSHIP_TYPE as RT
@@ -208,7 +220,7 @@ def _single_body_box(content, slide_shapes, decor):
     if len(content) < 2:
         return None
     # text inside an auto-shape/group is a diagram or callout, not a point list
-    if any(s.shape_type != TEXT_BOX_TYPE for s in content):
+    if any(safe_shape_type(s) != TEXT_BOX_TYPE for s in content):
         return None
 
     multi = [s for s in content if len(_para_texts(s)) >= 2]
@@ -256,11 +268,11 @@ def _skip_reason(slide, content):
     if not content:
         return "no text content — image, video or title slide"
 
-    kinds = {str(s.shape_type).split()[0] for s in slide.shapes}
+    kinds = {str(safe_shape_type(s)).split()[0] for s in slide.shapes}
     if "TABLE" in kinds or "GRAPHIC" in kinds:
         return "contains a table"
 
-    if any(s.shape_type != TEXT_BOX_TYPE for s in content):
+    if any(safe_shape_type(s) != TEXT_BOX_TYPE for s in content):
         return "text sits inside shapes — looks like a diagram or callout"
 
     multi = [s for s in content if len(_para_texts(s)) >= 2]
@@ -300,7 +312,7 @@ def _extract_single_body(body, others):
 
 def _shape_sig(s):
     """Identity of a shape by kind + exact position/size on the slide."""
-    return (str(s.shape_type), s.top, s.left, s.width, s.height)
+    return (str(safe_shape_type(s)), s.top, s.left, s.width, s.height)
 
 
 def _decoration_signatures(prs):
@@ -327,9 +339,9 @@ def _is_plain_text_shape(s):
     """A plain text container: a text box, or an auto-shape with NO fill and NO
     border (so it reads as just text on the slide). A filled/outlined shape is
     a styled card or callout, not a bare point."""
-    if s.shape_type == TEXT_BOX_TYPE:
+    if safe_shape_type(s) == TEXT_BOX_TYPE:
         return True
-    if s.shape_type != AUTO_SHAPE_TYPE:
+    if safe_shape_type(s) != AUTO_SHAPE_TYPE:
         return False          # groups, pictures, tables, etc.
     try:                      # MSO_FILL_TYPE.BACKGROUND (5) == transparent
         ft = s.fill.type
@@ -398,7 +410,7 @@ def _items_by_font(content, slide_shapes, decor):
     #    layout), so auto-shape points are only trusted when there are 3+.
     if any(not _is_plain_text_shape(s) for s in items):
         return None
-    if len(items) < 3 and any(s.shape_type != TEXT_BOX_TYPE for s in items):
+    if len(items) < 3 and any(safe_shape_type(s) != TEXT_BOX_TYPE for s in items):
         return None
 
     # 2) points must be stacked vertically. Two boxes sharing a row are a
@@ -649,7 +661,7 @@ def find_by_id(shapes, sid):
     for shp in shapes:
         if shp.shape_id == sid:
             return shp
-        if shp.shape_type == 6:  # GROUP
+        if safe_shape_type(shp) == 6:  # GROUP
             found = find_by_id(shp.shapes, sid)
             if found is not None:
                 return found
@@ -1148,7 +1160,7 @@ def build(raw_path: Path, template_path: Path, catalog_path: Path, out_path: Pat
     # content and is always kept.
     drop_logo_sigs = frozenset()
     template_has_logo = any(
-        "PICTURE" in str(s.shape_type)
+        "PICTURE" in str(safe_shape_type(s))
         for master in prs.slide_masters for s in master.shapes)
     if template_has_logo:
         raw_decor = _decoration_signatures(raw_prs)

@@ -21,6 +21,18 @@ import sys
 from collections import defaultdict
 from pathlib import Path
 
+
+def safe_shape_type(shape):
+    """python-pptx raises NotImplementedError for shapes it cannot classify
+    (ink drawings, 3D models, some smart-art internals). One exotic shape in
+    an uploaded deck must not crash the whole analysis - treat it as type
+    None: inert decoration that no detector matches."""
+    try:
+        return shape.shape_type
+    except NotImplementedError:
+        return None
+
+
 from pptx import Presentation
 
 BADGE_RE = re.compile(r"^\d{1,3}$")
@@ -68,7 +80,7 @@ def max_font_size(shape):
                 for r in p.runs:
                     if r.font.size:
                         best = max(best, r.font.size.pt)
-        if s.shape_type == 6:
+        if safe_shape_type(s) == 6:
             for c in s.shapes:
                 walk(c)
     walk(shape)
@@ -82,7 +94,7 @@ def name_prefix(name):
 def shape_has_text(shape):
     if shape.has_text_frame and shape.text_frame.text.strip():
         return True
-    if shape.shape_type == 6:
+    if safe_shape_type(shape) == 6:
         return any(shape_has_text(c) for c in shape.shapes)
     return False
 
@@ -98,10 +110,10 @@ def collect_text_leaves(shape):
             leaves.append((s.shape_id, txt, max_font_size(s),
                            int(s.width or 0), int(s.height or 0)))
             return  # don't recurse into a shape that already has text
-        if s.shape_type == 6:
+        if safe_shape_type(s) == 6:
             for c in s.shapes:
                 walk(c)
-    if shape.shape_type == 6:
+    if safe_shape_type(shape) == 6:
         for c in shape.shapes:
             walk(c)
     else:
@@ -115,7 +127,7 @@ def find_badge_number(shape):
             t = s.text_frame.text.strip()
             if BADGE_RE.match(t):
                 return int(t)
-        if s.shape_type == 6:
+        if safe_shape_type(s) == 6:
             for c in s.shapes:
                 r = walk(c)
                 if r is not None:
@@ -132,7 +144,7 @@ def analyze_slide(slide, slide_num, slide_area):
 
     clusters = defaultdict(list)
     for s in text_top:
-        key = (s.shape_type, name_prefix(s.name), round(max_font_size(s)))
+        key = (safe_shape_type(s), name_prefix(s.name), round(max_font_size(s)))
         clusters[key].append(s)
     # >= 2 so a genuine 2-item design (e.g. a two-box "left / right" layout) is
     # detected too, not just 3+ item designs. A bare pair is weaker evidence, so
