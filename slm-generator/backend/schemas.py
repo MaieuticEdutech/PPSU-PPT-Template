@@ -203,14 +203,21 @@ TERMINAL_SHORT = {
     "required": ["short"],
 }
 
-TERMINAL_LONG = {
+# Long terminal questions are generated in SIX calls, not one: five
+# multi-paragraph model essays in a single generation regularly exceeds the
+# engine's num_predict cap (observed live 2026-09-03: the combined call was
+# truncated mid-JSON twice -> 0 long questions -> validation blocked the
+# unit). Questions first, then one essay per call — each well under the cap.
+TERMINAL_LONG_QS = {
     "type": "object",
-    "properties": {
-        "long": _arr({"type": "object",
-                      "properties": {"q": _STR, "answer": _STR},
-                      "required": ["q", "answer"]}, 5, 5),
-    },
-    "required": ["long"],
+    "properties": {"long_questions": _arr(_STR, 5, 5)},
+    "required": ["long_questions"],
+}
+
+LONG_ANSWER = {
+    "type": "object",
+    "properties": {"answer": {"type": "string", "minLength": 200}},
+    "required": ["answer"],
 }
 
 REFERENCES = {

@@ -136,8 +136,9 @@ CANNED_TB.update({
         {"q": f"The ______ {i}.", "answer": "x"} for i in range(5)]},
     id(schemas.TERMINAL_SHORT): {"short": [
         {"q": f"SQ{i}?", "answer": "A."} for i in range(5)]},
-    id(schemas.TERMINAL_LONG): {"long": [
-        {"q": f"LQ{i}?", "answer": "A."} for i in range(5)]},
+    id(schemas.TERMINAL_LONG_QS): {"long_questions": [
+        f"LQ{i}?" for i in range(5)]},
+    id(schemas.LONG_ANSWER): {"answer": "A model essay."},
     id(schemas.REFERENCES): {"references": [
         f"Ref {i}." for i in range(6)]},
 })

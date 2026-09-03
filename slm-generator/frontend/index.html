@@ -3,6 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 rx=%2218%22 fill=%22%230E2841%22/><text x=%2250%22 y=%2268%22 font-size=%2248%22 text-anchor=%22middle%22 fill=%22%23FBB217%22 font-family=%22Calibri%22 font-weight=%22bold%22>S</text></svg>">
 <title>PPSU SLM Generator</title>
 <style>
   :root { --navy:#0E2841; --red:#D8181F; --orange:#F47820; --gold:#FBB217;
@@ -144,6 +145,14 @@
       $('resultTitle').textContent = 'Generation failed';
       $('errorBox').style.display = 'block';
       $('errorBox').textContent = p.error || 'unknown error';
+      if (p.summary) {          /* validation failed AFTER generation ran —
+                                   the report exists and names the causes */
+        const a = document.createElement('a');
+        a.href = `api/download/${jobId}/report`;
+        a.textContent = 'Generation report (diagnosis)';
+        a.className = 'dl aux';
+        $('downloads').appendChild(a);
+      }
     } else {
       $('resultTitle').textContent = 'Unit ready';
       const links = [[`api/download/${jobId}/docx`, 'Download .docx', 'docx']];
@@ -160,6 +169,13 @@
     if (s.review_note) {
       $('reviewNote').style.display = 'block';
       $('reviewNote').textContent = s.review_note;
+    }
+    if ((s.failed_calls || []).length) {
+      const d = document.createElement('div');
+      d.className = 'warn';
+      d.textContent = 'AI calls that failed twice and were skipped: '
+                      + s.failed_calls.join('; ');
+      $('warnings').appendChild(d);
     }
     for (const w of (s.warnings || [])) {
       const d = document.createElement('div');

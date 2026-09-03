@@ -287,9 +287,20 @@ def generate_unit(meta, syllabus_topics=None, toc_text=None,
     tshort = call("terminal short",
                   prompts.terminal_short(meta, titles, source=condensed),
                   schemas.TERMINAL_SHORT)
-    tlong = call("terminal long",
-                 prompts.terminal_long(meta, titles, source=condensed),
-                 schemas.TERMINAL_LONG)
+    # long questions first, then ONE essay per call — a combined 5-essay
+    # generation regularly overruns the engine's token cap (see schemas)
+    tlong_qs = call("terminal long questions",
+                    prompts.terminal_long_questions(meta, titles,
+                                                    source=condensed),
+                    schemas.TERMINAL_LONG_QS)
+    long_items = []
+    for qi, q in enumerate((tlong_qs or {}).get("long_questions", []),
+                           start=1):
+        ans = call(f"terminal long answer {qi}",
+                   prompts.terminal_long_answer(meta, q, source=condensed),
+                   schemas.LONG_ANSWER)
+        if ans:
+            long_items.append({"q": q, "answer": ans["answer"]})
     refs = call("references", prompts.references(meta, titles),
                 schemas.REFERENCES, temperature=0.1)
 
@@ -316,7 +327,7 @@ def generate_unit(meta, syllabus_topics=None, toc_text=None,
                             "fill_blanks": (blanks or {}).get("fill_blanks",
                                                               [])},
         "terminal": {"short": (tshort or {}).get("short", []),
-                     "long": (tlong or {}).get("long", [])},
+                     "long": long_items},
         "references": ref_list,
     }
 

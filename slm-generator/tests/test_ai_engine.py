@@ -35,7 +35,7 @@ class StubEngine(OllamaEngine):
         self.replies = list(replies)
         self.prompts = []
 
-    def _chat(self, prompt, schema, system, temperature):
+    def _chat(self, prompt, schema, system, temperature, num_predict=None):
         self.prompts.append(prompt)
         reply = self.replies.pop(0)
         if reply is RAISE:

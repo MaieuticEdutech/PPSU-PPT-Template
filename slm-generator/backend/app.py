@@ -178,6 +178,7 @@ def progress(job_id: str):
         out["summary"] = {
             "source_mode": r.get("source_mode"),
             "failures": len(r.get("failures", [])),
+            "failed_calls": [f.get("call") for f in r.get("failures", [])],
             "uk_spelling_fixes": r.get("uk_spelling_fixes"),
             "warnings": r.get("validation", {}).get("warnings", []),
             "errors": r.get("validation", {}).get("errors", []),

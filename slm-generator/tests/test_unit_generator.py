@@ -80,8 +80,9 @@ CANNED = {
         for i in range(1, 6)]},
     id(schemas.TERMINAL_SHORT): {"short": [
         {"q": f"Short Q{i}?", "answer": f"Short A{i}."} for i in range(1, 6)]},
-    id(schemas.TERMINAL_LONG): {"long": [
-        {"q": f"Long Q{i}?", "answer": f"Long A{i}."} for i in range(1, 6)]},
+    id(schemas.TERMINAL_LONG_QS): {"long_questions": [
+        f"Long Q{i}?" for i in range(1, 6)]},
+    id(schemas.LONG_ANSWER): {"answer": "A thorough model essay answer."},
     id(schemas.REFERENCES): {"references": [
         f"Author {i}. (2020). Book {i}. Publisher." for i in range(1, 7)]},
 }
@@ -175,6 +176,10 @@ check("code blocks NOT UK-respelled ('analyze' survives in code)",
       all("analyze" in b["text"] for b in code_blocks))
 check("references warning always surfaced for SME verification",
       any("SME" in w for w in warnings))
+check("terminal long assembled from question + per-answer calls (5 items)",
+      len(unit["terminal"]["long"]) == 5
+      and unit["terminal"]["long"][0]["q"] == "Long Q1?"
+      and "essay" in unit["terminal"]["long"][0]["answer"])
 
 print("\n=== generate_unit: toc+ai mode ===")
 engine = StubEngine()

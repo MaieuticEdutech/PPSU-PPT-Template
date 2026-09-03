@@ -227,12 +227,21 @@ def terminal_short(meta, outline_titles, source=None):
         "'answer'."), source)
 
 
-def terminal_long(meta, outline_titles, source=None):
+def terminal_long_questions(meta, outline_titles, source=None):
     return _with_source((
         f"{_unit_context(meta)}\n"
         f"The unit's sections are: {outline_titles}.\n\n"
-        "Write exactly 5 long terminal questions (essay/derivation depth), "
-        "each with a thorough multi-paragraph model 'answer'."), source)
+        "Write exactly 5 long terminal QUESTIONS for this unit (essay/"
+        "derivation depth, spanning the whole unit). Questions only — no "
+        "answers."), source)
+
+
+def terminal_long_answer(meta, question, source=None):
+    return _with_source((
+        f"{_unit_context(meta)}\n\n"
+        f"Long terminal question: {question}\n\n"
+        "Write the model answer: a thorough, well-structured essay of 2-4 "
+        "paragraphs a strong postgraduate student would submit."), source)
 
 
 def references(meta, outline_titles, source=None):

@@ -135,7 +135,8 @@ class OllamaEngine:
 
     def ask(self, task_prompt: str, schema: dict | None = None, *,
             system: str | None = None,
-            temperature: float = DEFAULT_TEMPERATURE) -> dict:
+            temperature: float = DEFAULT_TEMPERATURE,
+            num_predict: int | None = None) -> dict:
         """One narrow task -> one parsed, schema-validated dict.
 
         Raises AIEngineError after the single allowed retry fails; the
@@ -146,7 +147,8 @@ class OllamaEngine:
             if attempt == 2:
                 prompt = task_prompt + RETRY_REMINDER.format(why=last_why)
             try:
-                content = self._chat(prompt, schema, system, temperature)
+                content = self._chat(prompt, schema, system, temperature,
+                                     num_predict)
             except AIEngineError as e:
                 # transport-level failure (timeout of a runaway generation,
                 # momentary server hiccup) gets the same single-retry budget
@@ -172,7 +174,8 @@ class OllamaEngine:
 
     # -- internals ----------------------------------------------------------
 
-    def _chat(self, prompt, schema, system, temperature) -> str:
+    def _chat(self, prompt, schema, system, temperature,
+              num_predict=None) -> str:
         messages = []
         if system:
             messages.append({"role": "system", "content": system})
@@ -188,7 +191,7 @@ class OllamaEngine:
             "options": {
                 "temperature": temperature,
                 "num_ctx": self.num_ctx,
-                "num_predict": self.num_predict,
+                "num_predict": num_predict or self.num_predict,
             },
         }
         reply = self._post("/api/chat", payload)
