@@ -136,6 +136,33 @@ SECTION_EXTRAS = {
     "required": ["think_and_apply", "figure_caption"],
 }
 
+FIGURE_SPEC = {
+    # a drawable diagram spec — rendered deterministically by
+    # figure_render.py; the model never draws, it only proposes structure.
+    # 'root' matters only for kind=hierarchy (the parent concept);
+    # 'value' only for kind=bar_chart (validated in code, not here — a
+    # oneOf-per-kind schema is too fragile for a 7B under constrained
+    # decoding).
+    "type": "object",
+    "properties": {
+        "kind": {"type": "string",
+                 "enum": ["flow", "cycle", "hierarchy", "bar_chart"]},
+        "root": {"type": "string"},
+        # 'value' is REQUIRED (not just for bar_chart): the first live run
+        # showed the 7B choosing bar_chart correctly but omitting values,
+        # losing the figure. Constrained decoding enforces required
+        # fields server-side; other kinds simply ignore the number.
+        "items": _arr({
+            "type": "object",
+            "properties": {"label": _STR,
+                           "detail": {"type": "string"},
+                           "value": {"type": "number"}},
+            "required": ["label", "value"],
+        }, 2, 8),
+    },
+    "required": ["kind", "items"],
+}
+
 # --- back matter -----------------------------------------------------------
 SUMMARY = {
     "type": "object",

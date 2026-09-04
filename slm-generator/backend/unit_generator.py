@@ -81,13 +81,17 @@ class _Caller:
         self.report = report
         self.progress = progress
 
-    def __call__(self, label, prompt, schema, temperature=0.3):
+    def __call__(self, label, prompt, schema, temperature=0.3,
+                 num_predict=None):
         self.report["calls"] += 1
         t0 = time.time()
+        # num_predict forwarded only when overridden, so simple engine
+        # stubs (tests) need not accept the parameter
+        extra = {"num_predict": num_predict} if num_predict else {}
         try:
             data = self.engine.ask(prompt, schema,
                                    system=prompts.SYSTEM_STYLE,
-                                   temperature=temperature)
+                                   temperature=temperature, **extra)
             self.progress(f"{label}: ok ({time.time()-t0:.1f}s)")
             return data
         except AIEngineError as e:
@@ -153,12 +157,15 @@ def _relevance_audit(unit, syllabus_topics, call):
 
 
 def generate_unit(meta, syllabus_topics=None, toc_text=None,
-                  source_path=None, engine=None,
-                  progress=_default_progress):
+                  source_path=None, source_chunks=None, source_label=None,
+                  engine=None, progress=_default_progress,
+                  figures_dir=None):
     """Returns (unit_dict, report_dict). Raises GenerationError only when
     generation cannot even start (no outline).
 
-    Mode precedence (CLAUDE.md): source_path -> "textbook";
+    Mode precedence (CLAUDE.md): source material (a file via source_path,
+    or pre-chunked content via source_chunks — the course engine passes
+    each planned unit its slice of the combined sources) -> "textbook";
     else toc_text -> "toc+ai"; else "ai"."""
     engine = engine or get_engine()
     meta = dict(meta)
@@ -166,12 +173,21 @@ def generate_unit(meta, syllabus_topics=None, toc_text=None,
     # ---- ingest the source, if any ---------------------------------------
     chunks, source_headings, condensed = [], None, None
     source_warnings = []
-    if source_path:
+    source_present = source_path is not None or source_chunks is not None
+    if source_present:
         meta["source_mode"] = "textbook"
-        text = ingest.extract_text(source_path)
-        chunks = ingest.chunk_by_headings(text)
+        if source_chunks is not None:
+            chunks = source_chunks
+            text = "\n".join(c["text"] for c in chunks)
+        else:
+            text = ingest.extract_text(source_path)
+            chunks = ingest.chunk_by_headings(text)
         real = [c for c in chunks if c["heading"] != "(preamble)"]
         if len(real) >= 3:
+            source_headings = [c["heading"] for c in real]
+        elif real and source_chunks is not None:
+            # a course-planned unit may legitimately hold only 1-2 topics;
+            # its headings still steer the outline
             source_headings = [c["heading"] for c in real]
         else:
             source_warnings.append(
@@ -194,8 +210,10 @@ def generate_unit(meta, syllabus_topics=None, toc_text=None,
               "model": engine.model,
               "calls": 0, "failures": [], "uk_spelling_fixes": 0,
               "review_note": review[meta["source_mode"]]}
-    if source_path:
-        report["source"] = {"file": str(source_path),
+    if source_present:
+        report["source"] = {"file": (str(source_path) if source_path
+                                      else (source_label
+                                            or "course sources")),
                             "chars": len(text), "chunks": len(chunks),
                             "unmatched_headings": []}
         report.setdefault("warnings_extra", []).extend(source_warnings)
@@ -215,7 +233,7 @@ def generate_unit(meta, syllabus_topics=None, toc_text=None,
     def source_for(sub):
         """The grounding text for one subsection: its mapped chunks, else
         the condensed whole-source digest. None outside textbook mode."""
-        if not source_path:
+        if not source_present:
             return None
         wanted = sub.get("source_headings") or []
         matched, unmatched = ingest.match_chunks(wanted, chunks)
@@ -329,6 +347,40 @@ def generate_unit(meta, syllabus_topics=None, toc_text=None,
                          "intro": sec.get("intro", ""),
                          "subsections": subsections})
 
+    # ---- figure rendering: placeholders become real diagrams --------------
+    # One extra call per figure: the model proposes a structured spec
+    # (schemas.FIGURE_SPEC), figure_render draws it deterministically.
+    # ANY failure (call, spec, rendering) keeps the DTP placeholder box —
+    # figures degrade, they never fail a unit.
+    if figures_dir is not None:
+        import figure_render
+        figures_dir = Path(figures_dir)
+        figures_dir.mkdir(parents=True, exist_ok=True)
+        fig_planned = fig_rendered = 0
+        for sec in sections:
+            for sub in sec["subsections"]:
+                for b in sub["blocks"]:
+                    if b.get("type") != "figure":
+                        continue
+                    fig_planned += 1
+                    spec = call(f"figure {fig_planned} diagram spec",
+                                prompts.figure_spec(meta, sec["title"],
+                                                    b["caption"],
+                                                    source=condensed),
+                                schemas.FIGURE_SPEC)
+                    if not spec:
+                        continue
+                    png = figures_dir / f"figure_{fig_planned:02d}.png"
+                    try:
+                        figure_render.render(spec, png)
+                        b["image"] = str(png)
+                        fig_rendered += 1
+                    except Exception as e:              # noqa: BLE001
+                        progress(f"figure {fig_planned} unrenderable "
+                                 f"({e}) — placeholder kept")
+        report["figures"] = {"planned": fig_planned,
+                             "rendered": fig_rendered}
+
     # ---- back matter (grounded on the condensed source in textbook mode) --
     summ = call("summary", prompts.summary(meta, titles, source=condensed),
                 schemas.SUMMARY)
@@ -363,10 +415,14 @@ def generate_unit(meta, syllabus_topics=None, toc_text=None,
                 schemas.REFERENCES, temperature=0.1)
 
     ref_list = (refs or {}).get("references", [])
-    if source_path:
+    if source_present:
         # spec: in textbook mode the source textbook comes first
+        src_kind = ("Source textbook" if source_path
+                    else "Source material")
+        src_name = (Path(source_path).name if source_path
+                    else (source_label or "uploaded course sources"))
         citation = meta.get("textbook_citation") or (
-            f"[Source textbook: {Path(source_path).name} — complete "
+            f"[{src_kind}: {src_name} — complete "
             f"citation to be added by the SME.]")
         ref_list = [citation] + [r for r in ref_list if r != citation]
 
@@ -406,7 +462,7 @@ def generate_unit(meta, syllabus_topics=None, toc_text=None,
         warnings.append(f'relevance ({f["scope"]}): "{f["item"]}" — '
                         f'{f["why"]}')
     warnings.extend(report.pop("warnings_extra", []))
-    if source_path and report["source"]["unmatched_headings"]:
+    if source_present and report["source"]["unmatched_headings"]:
         warnings.append(
             "some outline subsections could not be matched to source "
             "sections and fell back to the whole-source digest: "
@@ -460,9 +516,10 @@ def run_batch(batch_path: Path, out_dir: Path):
         print(f"\n===== batch {i}/{len(entries)}: {stem} "
               f'{meta.get("unit_title", "")} =====')
         try:
-            unit, report = generate_unit(meta, syllabus_topics=syllabus,
-                                         toc_text=toc_text,
-                                         source_path=source)
+            unit, report = generate_unit(
+                meta, syllabus_topics=syllabus, toc_text=toc_text,
+                source_path=source,
+                figures_dir=out_dir / f"{stem}_figures")
             ok = _finish_outputs(unit, report, out_dir / f"{stem}.docx",
                                  json_out=out_dir / f"{stem}.json")
             results.append((stem, "ok" if ok else "validation failed"))
@@ -509,8 +566,10 @@ def main():
     toc_text = args.toc.read_text(encoding="utf-8") if args.toc else None
 
     t0 = time.time()
-    unit, report = generate_unit(meta, syllabus_topics=syllabus,
-                                 toc_text=toc_text, source_path=args.source)
+    unit, report = generate_unit(
+        meta, syllabus_topics=syllabus, toc_text=toc_text,
+        source_path=args.source,
+        figures_dir=args.out.parent / f"{args.out.stem}_figures")
     report["seconds"] = round(time.time() - t0, 1)
     ok = _finish_outputs(unit, report, args.out, json_out=args.json_out,
                          report_path=args.report, brand=args.brand)

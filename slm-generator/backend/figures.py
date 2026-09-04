@@ -1,11 +1,13 @@
-"""figures.py — Phase 6: the DTP team's work list. The docx renders every
-figure as a labelled placeholder box; this extracts one flat list of every
-placeholder with its exact location and caption so the designers know what
-to draw and where to drop it in."""
+"""figures.py — Phase 6: the DTP team's figure work list. Figures are now
+auto-rendered as diagrams (figure_render.py) and embedded in the docx;
+any figure whose diagram could not be generated stays a grey placeholder
+box. This list gives the DTP team every figure with its location, caption
+and status — auto-rendered diagrams may still be replaced with better
+artwork if desired, placeholders MUST be drawn."""
 
 
 def figure_list(unit):
-    """[{section, subsection, caption}] in document order."""
+    """[{section, subsection, caption, rendered}] in document order."""
     out = []
     for sec in unit.get("sections", []):
         for sub in sec.get("subsections", []):
@@ -15,6 +17,7 @@ def figure_list(unit):
                         "section": f'{sec["number"]} {sec["title"]}',
                         "subsection": f'{sub["number"]} {sub["title"]}',
                         "caption": block.get("caption", ""),
+                        "rendered": bool(block.get("image")),
                     })
     return out
 
@@ -23,19 +26,21 @@ def figure_list_text(unit) -> str:
     """The list as a plain-text handoff file for the DTP team."""
     meta = unit.get("meta", {})
     lines = [
-        f"FIGURE PLACEHOLDERS — Unit {meta.get('unit_number')}: "
+        f"FIGURES — Unit {meta.get('unit_number')}: "
         f"{meta.get('unit_title', '')}",
         f"{meta.get('course_code', '')} {meta.get('course_name', '')}",
-        "Each figure below appears in the .docx as a grey placeholder box "
-        "at the stated location. Replace the box with the artwork; keep "
-        "the caption line beneath it.",
+        "Figures marked [auto-rendered] are embedded in the .docx as "
+        "generated diagrams (replace with better artwork if desired). "
+        "Figures marked [PLACEHOLDER] appear as grey boxes and MUST be "
+        "drawn; keep the caption line beneath the artwork.",
         "",
     ]
     figs = figure_list(unit)
     if not figs:
-        lines.append("(no figure placeholders in this unit)")
+        lines.append("(no figures in this unit)")
     for i, f in enumerate(figs, 1):
-        lines += [f"{i}. {f['caption']}",
+        status = "auto-rendered" if f["rendered"] else "PLACEHOLDER"
+        lines += [f"{i}. [{status}] {f['caption']}",
                   f"   Location: {f['section']}  ->  {f['subsection']}",
                   ""]
     return "\n".join(lines)

@@ -197,6 +197,26 @@ def section_extras(meta, section_title, subsection_titles, source=None):
         "prefix)."), source)
 
 
+def figure_spec(meta, section_title, caption, source=None):
+    return _with_source((
+        f"{_unit_context(meta)}\n"
+        f"Section: {section_title}\n"
+        f"The figure to draw is captioned: \"{caption}\"\n\n"
+        "Design this figure as a simple diagram. Choose 'kind':\n"
+        "- 'flow' for a sequential process (steps joined by arrows)\n"
+        "- 'cycle' for a repeating process (steps in a loop)\n"
+        "- 'hierarchy' for one parent concept branching into types/parts "
+        "(put the parent concept in 'root')\n"
+        "- 'bar_chart' ONLY for a genuinely quantitative comparison "
+        "(every item then needs a numeric 'value')\n"
+        "Give 3-6 items in teaching order. Each item: 'label' (at most 5 "
+        "words), optionally 'detail' (at most 8 words), and 'value' — for "
+        "bar_chart the real quantity being compared; for every other kind "
+        "just the item's position number (1, 2, 3…), it is not shown. The "
+        "diagram must depict exactly what the caption promises, using "
+        "this section's content."), source)
+
+
 def summary(meta, outline_titles, source=None):
     return _with_source((
         f"{_unit_context(meta)}\n"
@@ -268,6 +288,24 @@ def terminal_long_answer(meta, question, source=None):
         f"Long terminal question: {question}\n\n"
         "Write the model answer: a thorough, well-structured essay of 2-4 "
         "paragraphs a strong postgraduate student would submit."), source)
+
+
+def course_plan(meta, headings_numbered, target_units):
+    return (
+        f"Programme: {meta['programme']}\n"
+        f"Course: {meta['course_code']} {meta['course_name']}\n"
+        f"{LEVEL_GUIDANCE[meta.get('level', DEFAULT_LEVEL)]}\n\n"
+        f"The complete syllabus content for this course, extracted from "
+        f"the uploaded source documents, is the NUMBERED topic list below "
+        f"(in teaching order):\n{headings_numbered}\n\n"
+        f"Partition this course into exactly {target_units} units by "
+        f"choosing where each unit ENDS. For every unit return: 'title' (a "
+        f"clean academic unit title covering its topics — no numbering, no "
+        f"cross-references) and 'end_index' (the number of the LAST topic "
+        f"belonging to that unit). Units are contiguous and in order: unit "
+        f"1 runs from topic 0 to its end_index, unit 2 continues from the "
+        f"next topic, and the final unit MUST end at the last topic. "
+        f"Balance the units by content volume; never split a topic.")
 
 
 def relevance_check(meta, syllabus_topics, scope_label, digest):

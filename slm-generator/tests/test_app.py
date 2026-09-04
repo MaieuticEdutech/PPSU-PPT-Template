@@ -75,7 +75,7 @@ FORM = {"programme": "MSc", "course_code": "T", "course_name": "C",
 
 
 def fake_ok(meta, syllabus_topics=None, toc_text=None, source_path=None,
-            progress=None):
+            progress=None, figures_dir=None):
     progress("outline: ok")
     progress("prose: ok")
     unit = {**UNIT, "meta": {**UNIT["meta"], **meta}}

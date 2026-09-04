@@ -114,14 +114,32 @@
       The mode is chosen automatically: <b>chapter file uploaded</b> → content is rewritten from the source only ·
       <b>only a TOC pasted</b> → the TOC fixes the structure, the AI writes the content ·
       <b>neither</b> → the AI generates everything from the syllabus. All AI-generated content must be SME-reviewed before issue.
+      <br><b>Figures are drawn automatically</b> (flow / cycle / hierarchy / bar-chart diagrams, embedded in the document); any figure that cannot be drawn stays a placeholder box listed for the DTP team.
     </div>
     <button class="primary" id="go">Generate SLM unit</button>
+  </div>
+
+  <div class="card">
+    <h2>Full course <span style="font-weight:400;font-size:.8rem;color:var(--muted)">(re-partition uploaded units into a new number of units)</span></h2>
+    <label>Source unit documents <span style="font-weight:400">(.pdf / .docx / .txt — select ALL of them, e.g. the existing 5 units)</span></label>
+    <input type="file" id="course_sources" accept=".pdf,.docx,.txt,.md" multiple>
+    <div class="row">
+      <div><label>Generate this many units</label><input type="number" id="target_units" value="14" min="2" max="30"></div>
+      <div></div>
+    </div>
+    <div class="modes">
+      Every topic found in the uploaded documents is assigned to exactly one new unit — <b>full syllabus coverage is enforced in code</b>, nothing is skipped.
+      The AI only chooses where each unit begins/ends and its title; the original teaching order is preserved.
+      Uses the Programme / Course code / Course name and Target audience above (unit numbers &amp; titles come from the plan).
+      Each unit is generated from its own slice of the sources; the download is a ZIP of all units + a coverage report.
+    </div>
+    <button class="primary" id="goCourse">Generate full course</button>
   </div>
 
   <div class="card" id="progress">
     <h2><span class="spin"></span>Generating…</h2>
     <div><span id="callCount">0</span> AI calls completed &nbsp;·&nbsp; <span id="currentCall"></span></div>
-    <div class="hint">A full unit takes around 5 minutes on this machine's GPU.</div>
+    <div class="hint" id="progressHint">A full unit takes around 5 minutes on this machine's GPU.</div>
   </div>
 
   <div class="card" id="result">
@@ -216,6 +234,33 @@
     }
   });
 
+  $('goCourse').addEventListener('click', async () => {
+    const files = $('course_sources').files;
+    if (!files.length) { alert('Select the source unit documents first.'); return; }
+    const fd = new FormData();
+    for (const f of ['programme','course_code','course_name','toc_text'])
+      fd.append(f, $(f).value);
+    fd.append('target_units', $('target_units').value);
+    fd.append('brand', selectedBrand);
+    fd.append('level', selectedLevel);
+    for (const f of files) fd.append('sources', f);
+
+    $('goCourse').disabled = true; $('go').disabled = true;
+    $('result').style.display = 'none';
+    try {
+      const r = await fetch('api/generate_course', { method: 'POST', body: fd });
+      const data = await r.json();
+      if (!r.ok) throw new Error(data.detail || `HTTP ${r.status}`);
+      $('progressHint').textContent =
+        `Generating ${$('target_units').value} units — around 5 minutes each on this machine's GPU. Leave this page open.`;
+      $('progress').style.display = 'block';
+      poll(data.job_id);
+    } catch (e) {
+      alert(e.message);
+      $('goCourse').disabled = false; $('go').disabled = false;
+    }
+  });
+
   function poll(jobId) {
     const timer = setInterval(async () => {
       let p;
@@ -226,9 +271,58 @@
       if (p.state === 'running') return;
       clearInterval(timer);
       $('progress').style.display = 'none';
-      $('go').disabled = false;
-      showResult(jobId, p);
+      $('go').disabled = false; $('goCourse').disabled = false;
+      if (p.kind === 'course') showCourseResult(jobId, p);
+      else showResult(jobId, p);
     }, 1500);
+  }
+
+  function showCourseResult(jobId, p) {
+    $('result').style.display = 'block';
+    $('downloads').innerHTML = '';
+    $('warnings').innerHTML = '';
+    $('errorBox').style.display = 'none';
+    $('reviewNote').style.display = 'none';
+    const s = p.summary || {};
+    const units = s.units || [];
+    const ok = units.filter(u => u.status === 'ok').length;
+
+    if (p.state === 'failed') {
+      $('resultTitle').textContent = 'Course generation failed';
+      $('errorBox').style.display = 'block';
+      $('errorBox').textContent = p.error || 'unknown error';
+    } else {
+      $('resultTitle').textContent = `Course ready — ${ok} of ${units.length} units generated`;
+      for (const [href, text, cls] of [
+          [`api/download/${jobId}/zip`, 'Download course ZIP (all units)', 'docx'],
+          [`api/download/${jobId}/report`, 'Course report (plan + coverage)', 'aux']]) {
+        const a = document.createElement('a');
+        a.href = href; a.textContent = text; a.className = 'dl ' + cls;
+        $('downloads').appendChild(a);
+      }
+      if (p.error) {           /* partial failure — some units missing */
+        const d = document.createElement('div');
+        d.className = 'warn'; d.textContent = p.error;
+        $('warnings').appendChild(d);
+      }
+    }
+    if (s.coverage) {
+      $('reviewNote').style.display = 'block';
+      $('reviewNote').textContent =
+        `Coverage: ${s.coverage.topics_assigned} of ${s.coverage.topics_total} source topics assigned to units`
+        + (s.coverage.complete ? ' — complete, nothing skipped.' : ' — INCOMPLETE, check the course report!')
+        + (s.plan_repaired ? ' (The AI plan needed automatic repair; unit boundaries were adjusted in code.)' : '');
+    }
+    if (units.length) {
+      const d = document.createElement('div');
+      d.className = 'modes';
+      const esc = t => String(t).replace(/[&<>"]/g,
+        c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+      d.innerHTML = units.map(u =>
+        `<b>Unit ${u.unit_number}</b>: ${esc(u.title)} — ${u.status === 'ok' ? 'ok ✓' : 'FAILED (' + esc(u.error || 'see report') + ')'}`
+      ).join('<br>');
+      $('warnings').appendChild(d);
+    }
   }
 
   function showResult(jobId, p) {

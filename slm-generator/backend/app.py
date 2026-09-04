@@ -25,6 +25,7 @@ from pathlib import Path
 from fastapi import FastAPI, Form, HTTPException, UploadFile
 from fastapi.responses import FileResponse, HTMLResponse, JSONResponse
 
+import course_generator
 import docx2pdf
 import figures
 from docx_builder import build as build_docx
@@ -40,8 +41,10 @@ app = FastAPI(title="PPSU SLM Generator")
 JOBS = {}                      # job_id -> dict (in-memory, single process)
 _RUN_LOCK = threading.Lock()   # one generation at a time (one GPU)
 
-# tests inject a fast fake here; production uses the real generator
+# tests inject fast fakes here; production uses the real generators
 app.state.generate_fn = generate_unit
+app.state.generate_course_fn = course_generator.generate_course
+app.state.write_course_fn = course_generator.write_course_outputs
 
 
 def _job_dir(job_id: str) -> Path:
@@ -64,7 +67,8 @@ def _run_job(job_id, meta, syllabus, toc_text, source_path, brand="ppsu"):
     try:
         unit, report = app.state.generate_fn(
             meta, syllabus_topics=syllabus, toc_text=toc_text,
-            source_path=source_path, progress=progress)
+            source_path=source_path, progress=progress,
+            figures_dir=work / "figures")
         job["report"] = report
         (work / "unit.json").write_text(json.dumps(unit, indent=2),
                                         encoding="utf-8")
@@ -85,6 +89,50 @@ def _run_job(job_id, meta, syllabus, toc_text, source_path, brand="ppsu"):
             job["pdf"] = docx2pdf.convert(work / "unit.docx",
                                           work / "unit.pdf")
         job["state"] = "done"
+    except GenerationError as e:
+        job["state"] = "failed"
+        job["error"] = str(e)
+    except Exception as e:                              # noqa: BLE001
+        job["state"] = "failed"
+        job["error"] = f"unexpected error: {e.__class__.__name__}: {e}"
+    finally:
+        job["current"] = ""
+        _RUN_LOCK.release()
+
+
+def _run_course_job(job_id, meta_base, source_paths, target_units,
+                    toc_text, brand):
+    job = JOBS[job_id]
+    work = JOB_ROOT / job_id
+
+    def progress(msg):
+        job["calls_done"] += 1
+        job["current"] = msg
+
+    try:
+        results, course_report = app.state.generate_course_fn(
+            meta_base, source_paths, target_units=target_units,
+            toc_text=toc_text, progress=progress,
+            figures_root=work / "figures")
+        job["report"] = course_report
+        (work / "report.json").write_text(
+            json.dumps(course_report, indent=2), encoding="utf-8")
+        job["current"] = "rendering documents…"
+        app.state.write_course_fn(results, course_report, work / "out",
+                                  brand=brand, progress=progress)
+        failed = [u for u in course_report["units"]
+                  if u["status"] != "ok"]
+        if len(failed) == len(course_report["units"]):
+            job["state"] = "failed"
+            job["error"] = ("every unit failed — first error: "
+                            + str(failed[0]["error"]))
+        else:
+            job["state"] = "done"
+            if failed:
+                job["error"] = (f"{len(failed)} of "
+                                f"{len(course_report['units'])} units "
+                                f"failed (details in the course report); "
+                                f"the rest are in the ZIP")
     except GenerationError as e:
         job["state"] = "failed"
         job["error"] = str(e)
@@ -217,6 +265,78 @@ async def generate(programme: str = Form(""), course_code: str = Form(""),
         raise
 
 
+@app.post("/api/generate_course")
+async def generate_course(programme: str = Form(""),
+                          course_code: str = Form(""),
+                          course_name: str = Form(""),
+                          target_units: int = Form(14),
+                          toc_text: str = Form(""),
+                          brand: str = Form("ppsu"),
+                          level: str = Form("postgraduate"),
+                          sources: list[UploadFile] = None):
+    """Full-course mode: several source documents (e.g. an existing 5-unit
+    SLM set) re-partitioned into target_units units covering EVERY topic
+    the sources contain — coverage is enforced in code, not trusted from
+    the model."""
+    if brand not in ("ppsu", "reva"):
+        raise HTTPException(400, "brand must be 'ppsu' or 'reva'")
+    if level not in ("undergraduate", "postgraduate"):
+        raise HTTPException(400, "level must be 'undergraduate' or "
+                                 "'postgraduate'")
+    if not 2 <= target_units <= 30:
+        raise HTTPException(400, "target units must be between 2 and 30")
+    for name, val in (("programme", programme),
+                      ("course code", course_code),
+                      ("course name", course_name)):
+        if not val.strip():
+            raise HTTPException(400, f"missing {name}")
+    sources = [s for s in (sources or []) if s.filename]
+    if not sources:
+        raise HTTPException(400, "upload at least one source document")
+
+    if not _RUN_LOCK.acquire(blocking=False):
+        raise HTTPException(409, "another job is generating — one at a "
+                                 "time on this machine's GPU")
+    try:
+        job_id = uuid.uuid4().hex
+        work = JOB_ROOT / job_id
+        work.mkdir()
+
+        source_paths = []
+        for i, s in enumerate(sources):
+            suffix = Path(s.filename).suffix.lower()
+            if suffix not in (".pdf", ".docx", ".txt", ".md"):
+                raise HTTPException(400, f"source '{s.filename}' must be "
+                                          ".pdf, .docx or .txt")
+            # keep the original name (prefixed for uniqueness): it appears
+            # in the plan/provenance so the SME can trace each topic
+            p = work / f"{i:02d}_{Path(s.filename).name}"
+            p.write_bytes(await s.read())
+            source_paths.append(p)
+
+        meta_base = {"programme": programme.strip(),
+                     "course_code": course_code.strip(),
+                     "course_name": course_name.strip(),
+                     "level": level}
+        toc = toc_text.strip() or None
+
+        JOBS[job_id] = {"state": "running", "calls_done": 0,
+                        "current": "starting…", "error": None,
+                        "report": None, "pdf": False, "brand": brand,
+                        "meta": meta_base, "kind": "course"}
+        threading.Thread(target=_run_course_job,
+                         args=(job_id, meta_base, source_paths,
+                               target_units, toc, brand),
+                         daemon=True).start()
+        return {"job_id": job_id}
+    except HTTPException:
+        _RUN_LOCK.release()
+        raise
+    except Exception:
+        _RUN_LOCK.release()
+        raise
+
+
 @app.get("/api/progress/{job_id}")
 def progress(job_id: str):
     job = JOBS.get(job_id)
@@ -224,6 +344,19 @@ def progress(job_id: str):
         raise HTTPException(404)
     out = {k: job[k] for k in ("state", "calls_done", "current", "error",
                                "pdf")}
+    out["kind"] = job.get("kind", "unit")
+    if (job.get("kind") == "course" and job["state"] in ("done", "failed")
+            and job.get("report")):
+        r = job["report"]
+        out["summary"] = {
+            "sources": r.get("sources", []),
+            "target_units": r.get("target_units"),
+            "coverage": r.get("coverage"),
+            "plan_repaired": r.get("plan_repaired"),
+            "units": r.get("units", []),
+            "failures": len(r.get("failures", [])),
+        }
+        return out
     if job["state"] in ("done", "failed") and job.get("report"):
         r = job["report"]
         out["summary"] = {
@@ -274,6 +407,15 @@ def download_pdf(job_id: str):
 def download_figures(job_id: str):
     return _serve(job_id, "figures.txt", "figure_placeholders.txt",
                   "text/plain")
+
+
+@app.get("/api/download/{job_id}/zip")
+def download_zip(job_id: str):
+    path = _job_dir(job_id) / "out" / "course_units.zip"
+    if not path.is_file():
+        raise HTTPException(404, "course ZIP not available for this job")
+    return FileResponse(str(path), filename="course_units.zip",
+                        media_type="application/zip")
 
 
 @app.get("/api/download/{job_id}/report")

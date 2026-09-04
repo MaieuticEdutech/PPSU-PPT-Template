@@ -1,0 +1,19 @@
+Chapter 3: Symmetric Encryption
+
+Modern symmetric ciphers answer the failures of the classical designs: enormous keyspaces combined with transformations that destroy the statistical structure of the plaintext. This chapter introduces the two families of symmetric cipher and how they are used in practice.
+
+3.1 Block Ciphers and the Feistel Structure
+
+A block cipher encrypts fixed-size blocks of plaintext (typically 128 bits) under a secret key. The Feistel structure, used by DES, splits each block into halves and applies multiple rounds in which one half is transformed by a round function and combined with the other by exclusive-OR. Its elegance is that decryption uses the same structure with the round keys in reverse order, so the round function itself need not be invertible.
+
+3.2 The Advanced Encryption Standard
+
+AES, selected by NIST in 2001 from the Rijndael proposal, is not a Feistel cipher: every round transforms the whole 128-bit state through four layers — SubBytes (a nonlinear substitution), ShiftRows, MixColumns, and AddRoundKey. AES supports key sizes of 128, 192 and 256 bits, giving keyspaces of at least 2^128, far beyond exhaustive search. No practical cryptanalytic attack better than brute force is publicly known against full-round AES.
+
+3.3 Stream Ciphers
+
+A stream cipher generates a pseudorandom keystream from the key and combines it with the plaintext one bit or byte at a time, usually by exclusive-OR. RC4 was the most widely deployed example until statistical biases in its keystream led to practical attacks and its prohibition in TLS. The critical rule of stream ciphers is that a keystream must never be reused: two ciphertexts under the same keystream can be combined to cancel the key entirely.
+
+3.4 Modes of Operation
+
+A block cipher by itself encrypts only one block; modes of operation extend it to arbitrary-length messages. Electronic Codebook (ECB) encrypts each block independently and is insecure because identical plaintext blocks produce identical ciphertext blocks. Cipher Block Chaining (CBC) XORs each plaintext block with the previous ciphertext block, hiding repetition but requiring an unpredictable initialisation vector. Counter mode (CTR) turns the block cipher into a stream cipher by encrypting successive counter values, allowing parallel processing.

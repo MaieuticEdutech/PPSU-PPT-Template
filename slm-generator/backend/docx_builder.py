@@ -304,10 +304,25 @@ def _render_code(doc, text):
 
 
 def _render_figure(doc, block):
-    cell = add_box(doc, fill="F2F2F2")
-    add_paragraph(cell, "[ FIGURE PLACEHOLDER — DTP team to insert artwork ]",
-                  size=st.BODY_PT, italic=True, color=st.GREY_TEXT,
-                  align=WD_ALIGN_PARAGRAPH.CENTER)
+    # a generated diagram (block["image"], from figure_render) is embedded
+    # when present and readable; anything wrong with it falls back to the
+    # DTP placeholder box — same belt as _try_logo
+    embedded = False
+    image = block.get("image")
+    if image and Path(image).is_file():
+        try:
+            p = doc.add_paragraph()
+            p.alignment = WD_ALIGN_PARAGRAPH.CENTER
+            p.add_run().add_picture(str(image), width=Inches(5.5))
+            embedded = True
+        except Exception:                               # noqa: BLE001
+            pass
+    if not embedded:
+        cell = add_box(doc, fill="F2F2F2")
+        add_paragraph(cell,
+                      "[ FIGURE PLACEHOLDER — DTP team to insert artwork ]",
+                      size=st.BODY_PT, italic=True, color=st.GREY_TEXT,
+                      align=WD_ALIGN_PARAGRAPH.CENTER)
     if block.get("caption"):
         add_paragraph(doc, _brand_caption(block["caption"]),
                       size=st.CAPTION_PT, bold=True,
