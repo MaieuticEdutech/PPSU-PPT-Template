@@ -91,6 +91,8 @@ check("GET /api/status", r.status_code == 200
 
 r = client.post("/api/generate", data={**FORM, "course_name": "  "})
 check("missing field -> 400", r.status_code == 400)
+r = client.post("/api/generate", data={**FORM, "level": "phd"})
+check("invalid level -> 400", r.status_code == 400)
 
 app_module.app.state.generate_fn = fake_ok
 r = client.post("/api/generate", data=FORM)

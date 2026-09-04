@@ -4,6 +4,7 @@
   "course_name": "Information Security and Applications",
   "unit_number": 2,
   "unit_title": "Fundamentals of Cryptography",
+  "level": "postgraduate",
   "syllabus_topics": [
     "Classical ciphers: substitution and transposition",
     "Symmetric key cryptography; block and stream ciphers",

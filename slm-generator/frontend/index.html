@@ -90,6 +90,14 @@
       <div><label>Unit number</label><input type="number" id="unit_number" value="1" min="1" max="20"></div>
       <div><label>Unit title</label><input type="text" id="unit_title" placeholder="Foundations of Discrete Mathematics"></div>
     </div>
+    <label>Target audience</label>
+    <div style="display:flex; gap:.6rem">
+      <button type="button" class="levelbtn" id="level_ug" data-level="undergraduate"
+        style="flex:1; padding:.55rem; border-radius:8px; border:2px solid var(--navy); background:#fff; color:var(--navy); font:inherit; font-weight:700; cursor:pointer">Undergraduate</button>
+      <button type="button" class="levelbtn" id="level_pg" data-level="postgraduate"
+        style="flex:1; padding:.55rem; border-radius:8px; border:2px solid var(--navy); background:var(--navy); color:#fff; font:inherit; font-weight:700; cursor:pointer">Postgraduate</button>
+    </div>
+    <div class="hint">Undergraduate: first-principles explanations, simple examples, foundational objectives. Postgraduate: greater depth and rigour, critical discussion, harder worked examples.</div>
     <label>Syllabus topics <span style="font-weight:400">(one per line, optional)</span></label>
     <textarea id="syllabus_topics" placeholder="Classical ciphers: substitution and transposition&#10;Symmetric key cryptography"></textarea>
   </div>
@@ -128,6 +136,18 @@
   const $ = id => document.getElementById(id);
   let pdfAvailable = false;
   let selectedBrand = 'ppsu';
+  let selectedLevel = 'postgraduate';
+
+  for (const btn of document.querySelectorAll('.levelbtn')) {
+    btn.addEventListener('click', () => {
+      selectedLevel = btn.dataset.level;
+      for (const b of document.querySelectorAll('.levelbtn')) {
+        const on = b.dataset.level === selectedLevel;
+        b.style.background = on ? 'var(--navy)' : '#fff';
+        b.style.color = on ? '#fff' : 'var(--navy)';
+      }
+    });
+  }
 
   for (const btn of document.querySelectorAll('.brandbtn')) {
     btn.addEventListener('click', () => {
@@ -179,6 +199,7 @@
     for (const f of ['programme','course_code','course_name','unit_number','unit_title','syllabus_topics','toc_text','textbook_citation'])
       fd.append(f, $(f).value);
     fd.append('brand', selectedBrand);
+    fd.append('level', selectedLevel);
     if ($('source').files.length) fd.append('source', $('source').files[0]);
 
     $('go').disabled = true;

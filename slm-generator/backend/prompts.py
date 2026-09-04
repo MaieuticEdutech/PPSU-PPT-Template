@@ -10,11 +10,11 @@ carry over directly.
 
 # Adapted from global_rules.txt GENERAL RULES + QUALITY, SLM-flavoured.
 SYSTEM_STYLE = (
-    "You write academic self-learning material for P P Savani University "
-    "(PPSU). Rules:\n"
+    "You write academic self-learning material for a university. Rules:\n"
     "1. UK English ONLY (analyse, summarise, colour, programme). Never US "
     "spellings.\n"
-    "2. Formal but readable teaching prose for postgraduate learners.\n"
+    "2. Formal but readable teaching prose, pitched at the academic level "
+    "stated in each task.\n"
     "3. Never change academic meaning; never modify mathematical formulae "
     "or programming syntax.\n"
     "4. Every new idea gets a short realistic example from business or "
@@ -48,10 +48,31 @@ def _with_source(prompt, source):
             f"--- SOURCE MATERIAL ---\n{source}\n--- END SOURCE ---")
 
 
+# Academic-level steering, repeated in EVERY call's context (repetition
+# helps a small local model hold the register across 30 separate calls).
+LEVEL_GUIDANCE = {
+    "undergraduate": (
+        "Academic level: UNDERGRADUATE — first-degree students meeting "
+        "this subject for the first time. Assume no prior exposure beyond "
+        "school level. Define every new term from first principles, "
+        "explain step by step, prefer simple everyday and business "
+        "examples, avoid research-level jargon, and keep worked examples "
+        "to core techniques with every step shown."),
+    "postgraduate": (
+        "Academic level: POSTGRADUATE — students with a solid "
+        "undergraduate grounding in the discipline. Write with depth and "
+        "rigour: precise technical terminology, critical discussion of "
+        "trade-offs and limitations, connections to current practice, and "
+        "more challenging worked examples."),
+}
+DEFAULT_LEVEL = "postgraduate"
+
+
 def _unit_context(meta, syllabus_topics=None, toc_text=None):
     lines = [f"Programme: {meta['programme']}",
              f"Course: {meta['course_code']} {meta['course_name']}",
-             f"Unit {meta['unit_number']}: {meta['unit_title']}"]
+             f"Unit {meta['unit_number']}: {meta['unit_title']}",
+             LEVEL_GUIDANCE[meta.get("level", DEFAULT_LEVEL)]]
     if syllabus_topics:
         lines.append("Syllabus topics for this unit: "
                      + "; ".join(syllabus_topics))
@@ -108,7 +129,12 @@ def learning_objectives(meta, outline_titles):
         "Write 4-5 learning objectives. Each splits into 'verb' (ONE "
         f"measurable Bloom's verb from: {BLOOMS_VERBS}) and 'rest' (8-12 "
         "words, exactly one measurable outcome). NEVER use these verbs: "
-        f"{BANNED_VERBS}.")
+        f"{BANNED_VERBS}. "
+        + ("Favour foundational verbs (Define, Identify, Explain, "
+           "Describe, Apply) for undergraduate learners."
+           if meta.get("level", DEFAULT_LEVEL) == "undergraduate" else
+           "Favour higher-order verbs (Analyse, Evaluate, Compare, "
+           "Justify, Design) for postgraduate learners."))
 
 
 def prose(meta, section_title, subsection_title, source=None):

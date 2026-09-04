@@ -133,7 +133,9 @@ def generate_unit(meta, syllabus_topics=None, toc_text=None,
                         "examples and references before issue.",
               "ai": "Content is AI-generated — SMEs must review facts, "
                     "worked examples and references before issue."}
-    report = {"source_mode": meta["source_mode"], "model": engine.model,
+    meta.setdefault("level", prompts.DEFAULT_LEVEL)
+    report = {"source_mode": meta["source_mode"], "level": meta["level"],
+              "model": engine.model,
               "calls": 0, "failures": [], "uk_spelling_fixes": 0,
               "review_note": review[meta["source_mode"]]}
     if source_path:

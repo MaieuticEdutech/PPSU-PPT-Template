@@ -181,6 +181,32 @@ check("terminal long assembled from question + per-answer calls (5 items)",
       and unit["terminal"]["long"][0]["q"] == "Long Q1?"
       and "essay" in unit["terminal"]["long"][0]["answer"])
 
+print("\n=== academic level steering ===")
+engine = StubEngine()
+unit, report = generate_unit({**META, "level": "undergraduate"},
+                             engine=engine, progress=quiet)
+ug_outline = engine.prompts_by_schema[id(schemas.OUTLINE)][0]
+ug_objectives = engine.prompts_by_schema[id(schemas.LEARNING_OBJECTIVES)][0]
+ug_prose = engine.prompts_by_schema[id(schemas.PROSE)][0]
+check("undergraduate guidance rides on EVERY call's context",
+      all("UNDERGRADUATE" in p and "first principles" in p
+          for p in (ug_outline, ug_prose)))
+check("undergraduate objectives steered to foundational Bloom's verbs",
+      "foundational verbs" in ug_objectives)
+check("level recorded in unit meta and report",
+      unit["meta"]["level"] == "undergraduate"
+      and report["level"] == "undergraduate")
+
+engine = StubEngine()
+unit, report = generate_unit(META, engine=engine, progress=quiet)
+pg_prose = engine.prompts_by_schema[id(schemas.PROSE)][0]
+pg_objectives = engine.prompts_by_schema[id(schemas.LEARNING_OBJECTIVES)][0]
+check("default level is postgraduate (preserves prior behaviour)",
+      unit["meta"]["level"] == "postgraduate"
+      and "POSTGRADUATE" in pg_prose and "rigour" in pg_prose)
+check("postgraduate objectives steered to higher-order verbs",
+      "higher-order verbs" in pg_objectives)
+
 print("\n=== generate_unit: toc+ai mode ===")
 engine = StubEngine()
 unit, report = generate_unit(META, syllabus_topics=["topic a"],

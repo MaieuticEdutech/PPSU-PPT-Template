@@ -170,6 +170,21 @@ Notes on fields that moved since the original sketch:
 
 ## Current state
 
+**Academic-level selector (undergraduate | postgraduate) added,
+2026-09-03** (user request). A pure prompt-steering knob: `meta.level`
+(default postgraduate — preserves prior behaviour, whose system prompt
+was already PG-flavoured). `prompts.LEVEL_GUIDANCE` rides on EVERY call's
+`_unit_context` (deliberate repetition — it helps a 7B hold the register
+across ~30 separate calls): UG = first-principles definitions,
+step-by-step, everyday examples, no research jargon; PG = depth/rigour,
+trade-offs and limitations, harder worked examples. Learning-objectives
+prompt additionally steers Bloom's verbs (foundational for UG,
+higher-order for PG). Wired through: web form buttons (`level` field,
+validated), report + progress summary, CLI via meta.json's "level".
+Live-verified: the same "What is a protocol?" subsection generated at UG
+(email/SMTP example, from scratch) vs PG (OSI layers, interoperability)
+shows a clear register shift. 155 offline checks across seven suites.
+
 **Brand profiles (PPSU | REVA) added, 2026-09-03** (user request, with the
 official "REVA University Online – SLM Style Guide" PDF as the source).
 `backend/brands.py` holds both profiles; every REVA value traces to a line

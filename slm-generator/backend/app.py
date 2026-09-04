@@ -157,9 +157,13 @@ async def generate(programme: str = Form(""), course_code: str = Form(""),
                    toc_text: str = Form(""),
                    textbook_citation: str = Form(""),
                    brand: str = Form("ppsu"),
+                   level: str = Form("postgraduate"),
                    source: UploadFile | None = None):
     if brand not in ("ppsu", "reva"):
         raise HTTPException(400, "brand must be 'ppsu' or 'reva'")
+    if level not in ("undergraduate", "postgraduate"):
+        raise HTTPException(400, "level must be 'undergraduate' or "
+                                 "'postgraduate'")
     for name, val in (("programme", programme),
                       ("course code", course_code),
                       ("course name", course_name),
@@ -188,7 +192,8 @@ async def generate(programme: str = Form(""), course_code: str = Form(""),
                 "course_code": course_code.strip(),
                 "course_name": course_name.strip(),
                 "unit_number": unit_number,
-                "unit_title": unit_title.strip()}
+                "unit_title": unit_title.strip(),
+                "level": level}
         if textbook_citation.strip():
             meta["textbook_citation"] = textbook_citation.strip()
         syllabus = [t.strip() for t in syllabus_topics.splitlines()
@@ -223,6 +228,7 @@ def progress(job_id: str):
         r = job["report"]
         out["summary"] = {
             "source_mode": r.get("source_mode"),
+            "level": r.get("level"),
             "failures": len(r.get("failures", [])),
             "failed_calls": [f.get("call") for f in r.get("failures", [])],
             "uk_spelling_fixes": r.get("uk_spelling_fixes"),
