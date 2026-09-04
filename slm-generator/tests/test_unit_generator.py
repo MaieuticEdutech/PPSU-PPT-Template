@@ -85,6 +85,7 @@ CANNED = {
     id(schemas.LONG_ANSWER): {"answer": "A thorough model essay answer."},
     id(schemas.REFERENCES): {"references": [
         f"Author {i}. (2020). Book {i}. Publisher." for i in range(1, 7)]},
+    id(schemas.RELEVANCE): {"off_topic": []},
 }
 
 
@@ -180,6 +181,42 @@ check("terminal long assembled from question + per-answer calls (5 items)",
       len(unit["terminal"]["long"]) == 5
       and unit["terminal"]["long"][0]["q"] == "Long Q1?"
       and "essay" in unit["terminal"]["long"][0]["answer"])
+
+print("\n=== relevance audit ===")
+engine = StubEngine()
+unit, report = generate_unit(META, engine=engine, progress=quiet)
+audit_prompts = engine.prompts_by_schema[id(schemas.RELEVANCE)]
+check("audit runs per section + once for assessment material (4 calls)",
+      len(audit_prompts) == 4)
+check("audit digest carries the generated content and the course context",
+      any("A teaching paragraph" in p for p in audit_prompts)
+      and all("Test Course" in p for p in audit_prompts))
+check("assessment audit sees glossary terms and MCQs",
+      any("Glossary terms:" in p and "MCQ: Question 1?" in p
+          for p in audit_prompts))
+check("clean audit -> zero flags, no relevance warnings",
+      report["relevance"]["flags"] == 0
+      and not any(w.startswith("relevance") for w
+                  in report["validation"]["warnings"]))
+
+CANNED[id(schemas.RELEVANCE)] = {"off_topic": [
+    {"item": "Photosynthesis in plants", "why": "biology, not this course"}]}
+engine = StubEngine()
+unit, report = generate_unit(META, engine=engine, progress=quiet)
+check("flags recorded with scope and surfaced as warnings",
+      report["relevance"]["flags"] == 4        # stub flags every scope
+      and any('relevance (section 2.1): "Photosynthesis in plants"' in w
+              for w in report["validation"]["warnings"]))
+check("flags never block rendering (warnings, not errors)",
+      report["validation"]["errors"] == [])
+CANNED[id(schemas.RELEVANCE)] = {"off_topic": []}
+
+engine = StubEngine(fail_schemas=[schemas.RELEVANCE])
+unit, report = generate_unit(META, engine=engine, progress=quiet)
+check("audit failure never blocks generation",
+      report["validation"]["errors"] == []
+      and report["relevance"]["flags"] == 0
+      and any("relevance audit" in f["call"] for f in report["failures"]))
 
 print("\n=== academic level steering ===")
 engine = StubEngine()

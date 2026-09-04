@@ -170,6 +170,24 @@ Notes on fields that moved since the original sketch:
 
 ## Current state
 
+**AI relevance audit added, 2026-09-03** (user request: "verify all E-SLM
+content belongs to the mentioned course and topic"). After assembly (and
+the UK pass), `unit_generator._relevance_audit` re-reads what was
+generated: one temperature-0.1 audit call PER SECTION (digest of titles,
+prose openings, table captions, problem statements, aside texts, code
+snippets) plus one for the assessment material (glossary terms, case
+study, every MCQ and terminal question), each judged against the course/
+unit/syllabus context with an explicit "flag ONLY off-topic items, not
+basic/advanced ones" instruction (schemas.RELEVANCE). Flags land in
+report.relevance {flags, details[{scope,item,why}]} AND as named
+validation WARNINGS — deliberately NOT auto-deletion: a 7B judge has
+false positives, and silently removing valid teaching content would be
+worse than flagging; the SME gets the exact list. Audit failures never
+block generation (normal failure containment). Adds ~4 calls (~30-40s)
+per unit. Live-verified: a planted "Photosynthesis in Plants" subsection
+inside a Computer Networks digest was flagged with zero false positives
+on the on-topic items. 162 offline checks across seven suites.
+
 **Academic-level selector (undergraduate | postgraduate) added,
 2026-09-03** (user request). A pure prompt-steering knob: `meta.level`
 (default postgraduate — preserves prior behaviour, whose system prompt

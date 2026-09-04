@@ -96,6 +96,62 @@ class _Caller:
             return None
 
 
+def _relevance_audit(unit, syllabus_topics, call):
+    """Post-generation check that everything in the unit belongs to the
+    stated course/unit/topics: one temperature-0.1 audit call per section
+    plus one for the assessment material, each fed a digest of what was
+    actually written. Returns [{scope, item, why}]. An audit call failing
+    twice skips that scope (recorded via the normal failure log) — the
+    audit must never block generation itself."""
+    meta = unit["meta"]
+    flags = []
+
+    def run(scope, digest):
+        if not digest.strip():
+            return
+        out = call(f"relevance audit: {scope}",
+                   prompts.relevance_check(meta, syllabus_topics, scope,
+                                           digest),
+                   schemas.RELEVANCE, temperature=0.1)
+        for f in (out or {}).get("off_topic", []):
+            flags.append({"scope": scope, "item": f["item"][:120],
+                          "why": f["why"][:200]})
+
+    for sec in unit.get("sections", []):
+        lines = [f'Section {sec["number"]}: {sec["title"]}']
+        for sub in sec.get("subsections", []):
+            lines.append(f'  Subsection {sub["number"]}: {sub["title"]}')
+            for b in sub.get("blocks", []):
+                t = b.get("type")
+                if t == "prose":
+                    lines.append(f'    prose: {b.get("text", "")[:200]}')
+                elif t == "table":
+                    lines.append(f'    table: {b.get("caption", "")}')
+                elif t == "problem":
+                    lines.append(f'    problem: '
+                                 f'{b.get("statement", "")[:150]}')
+                elif t in ("did_you_know", "think_and_apply"):
+                    lines.append(f'    {t}: {b.get("text", "")[:150]}')
+                elif t == "code":
+                    lines.append(f'    code: {b.get("text", "")[:120]}')
+        run(f'section {sec["number"]}', "\n".join(lines))
+
+    assess = []
+    if unit.get("glossary"):
+        assess.append("Glossary terms: "
+                      + "; ".join(e["term"] for e in unit["glossary"]))
+    if unit.get("case_study", {}).get("title"):
+        assess.append(f'Case study: {unit["case_study"]["title"]} — '
+                      f'{(unit["case_study"].get("background") or [""])[0][:150]}')
+    for m in unit.get("self_assessment", {}).get("mcq", []):
+        assess.append(f'MCQ: {m["q"]}')
+    for t in (unit.get("terminal", {}).get("short", [])
+              + unit.get("terminal", {}).get("long", [])):
+        assess.append(f'Question: {t["q"]}')
+    run("assessment material", "\n".join(assess))
+    return flags
+
+
 def generate_unit(meta, syllabus_topics=None, toc_text=None,
                   source_path=None, engine=None,
                   progress=_default_progress):
@@ -334,7 +390,21 @@ def generate_unit(meta, syllabus_topics=None, toc_text=None,
     }
 
     report["uk_spelling_fixes"] = apply_to_unit(unit)
+    relevance_flags = _relevance_audit(unit, syllabus_topics, call)
+    report["relevance"] = {
+        "flags": len(relevance_flags),
+        "details": relevance_flags,
+        "note": ("AI relevance audit: every section and the assessment "
+                 "material were re-read against the stated course, unit "
+                 "and syllabus topics. Flags are surfaced as warnings for "
+                 "SME judgement — nothing is auto-deleted, because a "
+                 "false positive would silently remove valid teaching "
+                 "content."),
+    }
     errors, warnings = validate_unit(unit)
+    for f in relevance_flags:
+        warnings.append(f'relevance ({f["scope"]}): "{f["item"]}" — '
+                        f'{f["why"]}')
     warnings.extend(report.pop("warnings_extra", []))
     if source_path and report["source"]["unmatched_headings"]:
         warnings.append(

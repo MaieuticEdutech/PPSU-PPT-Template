@@ -141,6 +141,7 @@ CANNED_TB.update({
     id(schemas.LONG_ANSWER): {"answer": "A model essay."},
     id(schemas.REFERENCES): {"references": [
         f"Ref {i}." for i in range(6)]},
+    id(schemas.RELEVANCE): {"off_topic": []},
 })
 
 

@@ -270,6 +270,20 @@ def terminal_long_answer(meta, question, source=None):
         "paragraphs a strong postgraduate student would submit."), source)
 
 
+def relevance_check(meta, syllabus_topics, scope_label, digest):
+    return (
+        f"{_unit_context(meta, syllabus_topics)}\n\n"
+        f"You are AUDITING already-written self-learning material "
+        f"({scope_label}) for topic relevance. Below is a digest of its "
+        f"contents. List ONLY items that clearly do NOT belong to this "
+        f"course and unit (wrong subject, unrelated discipline, or content "
+        f"for a different unit's topics). For each, give the exact item "
+        f"text (shortened) and one-line 'why'. If everything belongs, "
+        f"return an empty list. Do NOT flag items merely for being basic "
+        f"or advanced — only for being off-topic.\n\n"
+        f"--- CONTENT DIGEST ---\n{digest}\n--- END DIGEST ---")
+
+
 def references(meta, outline_titles, source=None):
     return _with_source((
         f"{_unit_context(meta)}\n"

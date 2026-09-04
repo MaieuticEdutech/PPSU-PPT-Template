@@ -226,6 +226,24 @@ REFERENCES = {
     "required": ["references"],
 }
 
+# --- post-generation relevance audit ---------------------------------------
+# The model re-reads a digest of what was generated and lists ONLY items
+# that do not belong to the stated course/unit/topics. Empty list = clean.
+RELEVANCE = {
+    "type": "object",
+    "properties": {
+        "off_topic": {
+            "type": "array", "maxItems": 12,
+            "items": {
+                "type": "object",
+                "properties": {"item": _STR, "why": _STR},
+                "required": ["item", "why"],
+            },
+        },
+    },
+    "required": ["off_topic"],
+}
+
 # --- the assembled unit (validated before rendering) ------------------------
 _BLOCK = {
     "type": "object",
