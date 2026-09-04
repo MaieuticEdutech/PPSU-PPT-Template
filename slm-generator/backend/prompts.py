@@ -107,6 +107,9 @@ def outline(meta, syllabus_topics=None, toc_text=None,
         + ". Titles must be clean academic headings ONLY — never include "
         "numbering, cross-references, or notes like '(2.1.1 in the "
         "textbook TOC)' inside a title. "
+        "EVERY syllabus topic listed above MUST be covered by some "
+        "subsection — leaving even one syllabus topic out of the outline "
+        "is a failure. "
         "Each section gets a 1-2 sentence 'intro' opener. Also decide "
         "'example_style' for the unit's worked examples: 'code' if the "
         "subject is computational (programming, data science, databases), "
@@ -141,9 +144,16 @@ def prose(meta, section_title, subsection_title, source=None):
     return _with_source((
         f"{_unit_context(meta)}\n"
         f"Section: {section_title}\nSubsection: {subsection_title}\n\n"
-        "Write this subsection's teaching prose: 2-3 substantial "
-        "paragraphs. Define every new concept precisely, then ground it "
-        "with one short realistic example."), source)
+        "Write this subsection's teaching content in POINT FORM, not "
+        "story-style prose: 'lead_in' is ONE short paragraph (2-3 "
+        "sentences) introducing the idea; 'points' is 4-10 crisp bullet "
+        "points carrying the substance — each point one complete "
+        "sentence, defining a concept precisely or giving a short "
+        "concrete example. If this subsection teaches a software "
+        "procedure (spreadsheets/Excel, a tool, an application), the "
+        "points MUST be the complete numbered steps of that procedure — "
+        "every click, menu, formula and expected result, no step "
+        "skipped."), source)
 
 
 def table(meta, section_title, subsection_title, source=None):
@@ -197,24 +207,34 @@ def section_extras(meta, section_title, subsection_titles, source=None):
         "prefix)."), source)
 
 
-def figure_spec(meta, section_title, caption, source=None):
+def figure_spec(meta, section_title, subsection_title, source=None):
     return _with_source((
         f"{_unit_context(meta)}\n"
-        f"Section: {section_title}\n"
-        f"The figure to draw is captioned: \"{caption}\"\n\n"
-        "Design this figure as a simple diagram. Choose 'kind':\n"
+        f"Section: {section_title}\nSubsection: {subsection_title}\n\n"
+        "Design ONE illustrative figure for this subsection that makes "
+        "its concept easier for a student to grasp at a glance. Return:\n"
+        "'caption': the figure caption (text only, no 'Figure N:' "
+        "prefix);\n"
+        "'description': 2-3 sentences, placed under the figure, walking "
+        "the student through what the figure shows and how to read it;\n"
+        "'kind', choosing the best fit:\n"
         "- 'flow' for a sequential process (steps joined by arrows)\n"
         "- 'cycle' for a repeating process (steps in a loop)\n"
         "- 'hierarchy' for one parent concept branching into types/parts "
         "(put the parent concept in 'root')\n"
         "- 'bar_chart' ONLY for a genuinely quantitative comparison "
-        "(every item then needs a numeric 'value')\n"
-        "Give 3-6 items in teaching order. Each item: 'label' (at most 5 "
-        "words), optionally 'detail' (at most 8 words), and 'value' — for "
-        "bar_chart the real quantity being compared; for every other kind "
-        "just the item's position number (1, 2, 3…), it is not shown. The "
-        "diagram must depict exactly what the caption promises, using "
-        "this section's content."), source)
+        "(every item then needs its real numeric 'value')\n"
+        "- 'spreadsheet' for spreadsheet/Excel topics: a realistic "
+        "worksheet the student would see on screen — give 'columns' "
+        "(header labels) and 'rows' (example cell values, consistent "
+        "with the columns), plus 'formula' (e.g. '=SUM(B2:B6)') if the "
+        "topic involves one\n"
+        "'items': 3-6 entries in teaching order — 'label' (at most 5 "
+        "words), optionally 'detail' (at most 8 words), and 'value' (for "
+        "bar_chart the real quantity; otherwise the position number 1, "
+        "2, 3…, not shown). For 'spreadsheet', items are ignored — put "
+        "the worksheet content in 'columns'/'rows' and just echo the "
+        "column names as items."), source)
 
 
 def summary(meta, outline_titles, source=None):

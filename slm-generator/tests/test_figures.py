@@ -50,6 +50,13 @@ SPECS = {
         {"label": "Transposition", "detail": "reorder"}]},
     "bar_chart": {"kind": "bar_chart", "items": [
         {"label": "E", "value": 12.7}, {"label": "T", "value": 9.1}]},
+    "spreadsheet": {"kind": "spreadsheet",
+                    "items": [{"label": "a", "value": 1},
+                              {"label": "b", "value": 2}],
+                    "columns": ["Product", "Units", "Total"],
+                    "rows": [["Pens", "120", "=B2*10"],
+                             ["Books", "45", "=B3*10"]],
+                    "formula": "=SUM(C2:C3)"},
 }
 for name, spec in SPECS.items():
     p = figure_render.render(spec, tmp / f"{name}.png")
@@ -71,6 +78,11 @@ BAD = [
     ("bar chart with boolean value",
      {"kind": "bar_chart", "items": [{"label": "a", "value": True},
                                      {"label": "b", "value": 2}]}),
+    ("spreadsheet without columns/rows",
+     {"kind": "spreadsheet", "items": [{"label": "a"}, {"label": "b"}]}),
+    ("spreadsheet with one row",
+     {"kind": "spreadsheet", "items": [{"label": "a"}, {"label": "b"}],
+      "columns": ["A", "B"], "rows": [["1", "2"]]}),
 ]
 for name, spec in BAD:
     try:
@@ -91,7 +103,12 @@ UNIT = {
          "subsections": [
              {"number": "1.1.1", "title": "Sub",
               "blocks": [
+                  {"type": "prose", "text": "Lead-in."},
+                  {"type": "bullets", "items": ["Point alpha.",
+                                                "Point beta.",
+                                                "Point gamma."]},
                   {"type": "figure", "caption": "Figure 1: Rendered",
+                   "description": "This flowchart shows the process.",
                    "image": str(png)},
                   {"type": "figure", "caption": "Figure 2: Missing file",
                    "image": str(tmp / "nope.png")},
@@ -115,6 +132,11 @@ check("missing-file and no-image figures keep the placeholder box",
       doc_xml.count("FIGURE PLACEHOLDER") == 2)
 check("all three captions still render",
       all(f"Figure {i}:" in doc_xml for i in (1, 2, 3)))
+check("figure description renders under the figure",
+      "This flowchart shows the process." in doc_xml)
+check("bullets block renders every point with a bullet marker",
+      all(f"•  Point {w}." in doc_xml
+          for w in ("alpha", "beta", "gamma")))
 
 print("\n=== DTP figure list statuses ===")
 figs = figures.figure_list(UNIT)
@@ -148,7 +170,8 @@ CANNED = {
         {"verb": "Apply", "rest": "the core operations to given datasets"},
         {"verb": "Analyse", "rest": "relations between multiple entities"},
         {"verb": "Illustrate", "rest": "concepts using standard diagrams"}]},
-    id(schemas.PROSE): {"paragraphs": ["A teaching paragraph.", "More."]},
+    id(schemas.PROSE): {"lead_in": "A teaching paragraph.",
+                        "points": ["P1.", "P2.", "P3.", "P4."]},
     id(schemas.TABLE): {"caption_title": "Concepts",
                         "columns": ["Concept", "Meaning"],
                         "rows": [["A", "1"], ["B", "2"]]},
@@ -199,44 +222,64 @@ def quiet(_msg):
     pass
 
 
+N_SUBS = 9         # the canned outline: 3 sections x 3 subsections
+
 figdir = tmp / "unit_figs"
-engine = FigStubEngine({"kind": "flow", "items": [
-    {"label": "A"}, {"label": "B"}, {"label": "C"}]})
+engine = FigStubEngine({"kind": "flow",
+                        "caption": "The process at a glance",
+                        "description": "Read the boxes left to right.",
+                        "items": [{"label": "A", "value": 1},
+                                  {"label": "B", "value": 2},
+                                  {"label": "C", "value": 3}]})
 unit, report = generate_unit(META, engine=engine, progress=quiet,
                              figures_dir=figdir)
 fig_blocks = [b for sec in unit["sections"] for sub in sec["subsections"]
               for b in sub["blocks"] if b["type"] == "figure"]
-check("one spec call per figure placeholder",
-      engine.figure_calls == len(fig_blocks) and fig_blocks)
+check("EVERY subsection gets its own figure (one call each)",
+      engine.figure_calls == N_SUBS and len(fig_blocks) == N_SUBS)
+check("captions numbered in code from the model's caption text",
+      [b["caption"] for b in fig_blocks]
+      == [f"Figure {i}: The process at a glance"
+          for i in range(1, N_SUBS + 1)])
+check("every figure carries its student-facing description",
+      all(b.get("description") == "Read the boxes left to right."
+          for b in fig_blocks))
 check("every figure block got an image path that exists",
       all(b.get("image") and Path(b["image"]).is_file()
           for b in fig_blocks))
 check("PNGs land in the requested figures_dir",
       all(Path(b["image"]).parent == figdir for b in fig_blocks))
 check("report counts planned and rendered figures",
-      report["figures"] == {"planned": len(fig_blocks),
-                            "rendered": len(fig_blocks)})
+      report["figures"] == {"planned": N_SUBS, "rendered": N_SUBS})
 check("figures never break validation",
       report["validation"]["errors"] == [])
 
-engine = FigStubEngine({"kind": "bar_chart", "items": [
-    {"label": "a"}, {"label": "b"}]})     # unrenderable: no values
+engine = FigStubEngine({"kind": "spreadsheet",       # unrenderable:
+                        "caption": "A worksheet",    # no columns/rows
+                        "description": "d.",
+                        "items": [{"label": "a", "value": 1},
+                                  {"label": "b", "value": 2}]})
 unit, report = generate_unit(META, engine=engine, progress=quiet,
                              figures_dir=tmp / "unit_figs_bad")
 fig_blocks = [b for sec in unit["sections"] for sub in sec["subsections"]
               for b in sub["blocks"] if b["type"] == "figure"]
-check("unrenderable spec keeps the placeholder (no image key)",
-      fig_blocks and not any(b.get("image") for b in fig_blocks))
+check("unrenderable spec keeps caption+description but no image",
+      len(fig_blocks) == N_SUBS
+      and not any(b.get("image") for b in fig_blocks)
+      and all(b.get("description") for b in fig_blocks))
 check("report shows planned > rendered on failure",
-      report["figures"]["planned"] == len(fig_blocks)
+      report["figures"]["planned"] == N_SUBS
       and report["figures"]["rendered"] == 0)
 check("unit still validates without rendered figures",
       report["validation"]["errors"] == [])
 
 unit, report = generate_unit(META, engine=FigStubEngine({}),
                              progress=quiet)
-check("no figures_dir -> no figure calls, no report entry (old behaviour)",
-      "figures" not in report)
+fig_blocks = [b for sec in unit["sections"] for sub in sec["subsections"]
+              for b in sub["blocks"] if b["type"] == "figure"]
+check("no figures_dir -> legacy per-section placeholders, no report entry",
+      "figures" not in report and len(fig_blocks) == 3
+      and not any(b.get("image") for b in fig_blocks))
 
 print(f"\n{passed} passed, {failed} failed")
 sys.exit(1 if failed else 0)

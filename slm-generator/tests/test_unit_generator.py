@@ -53,8 +53,12 @@ CANNED = {
         {"verb": "Apply", "rest": "the core operations to given datasets"},
         {"verb": "Analyse", "rest": "relationships between multiple entities"},
         {"verb": "Illustrate", "rest": "concepts using standard diagrams"}]},
-    id(schemas.PROSE): {"paragraphs": ["A teaching paragraph about color "
-                                       "coding.", "Another paragraph."]},
+    id(schemas.PROSE): {"lead_in": "A teaching paragraph about color "
+                                   "coding.",
+                        "points": ["First point defines the concept.",
+                                   "Second point gives an example.",
+                                   "Third point notes a limitation.",
+                                   "Fourth point links it onward."]},
     id(schemas.TABLE): {"caption_title": "Concepts and Applications",
                         "columns": ["Concept", "Meaning"],
                         "rows": [["A", "1"], ["B", "2"], ["C", "3"]]},
@@ -156,6 +160,11 @@ check("first subsection: prose + numbered table + numbered figure",
           for b in first_sub["blocks"])
       and any(b["type"] == "figure" and b["caption"].startswith("Figure 1: ")
               for b in first_sub["blocks"]))
+check("content is points-first: prose lead-in immediately followed by "
+      "a bullets block",
+      first_sub["blocks"][0]["type"] == "prose"
+      and first_sub["blocks"][1]["type"] == "bullets"
+      and len(first_sub["blocks"][1]["items"]) == 4)
 second_sub = unit["sections"][0]["subsections"][1]
 check("second subsection: code example + explanation prose "
       "(example_style=code)",
@@ -181,6 +190,27 @@ check("terminal long assembled from question + per-answer calls (5 items)",
       len(unit["terminal"]["long"]) == 5
       and unit["terminal"]["long"][0]["q"] == "Long Q1?"
       and "essay" in unit["terminal"]["long"][0]["answer"])
+
+print("\n=== code-enforced syllabus coverage ===")
+engine = StubEngine()
+unit, report = generate_unit(
+    META, syllabus_topics=["Major topics overview",
+                           "Quantum entanglement basics"],
+    engine=engine, progress=quiet)
+all_sub_titles = [ss["title"] for s in unit["sections"]
+                  for ss in s["subsections"]]
+check("a syllabus topic missing from the outline is injected as its own "
+      "subsection",
+      "Quantum entanglement basics" in all_sub_titles)
+check("covered topics are NOT duplicated",
+      "Major topics overview" not in all_sub_titles)
+check("injection surfaces as a named warning",
+      any("syllabus coverage enforced in code" in w
+          and "Quantum entanglement" in w
+          for w in report["validation"]["warnings"]))
+check("injected subsection still gets generated content blocks",
+      all(ss["blocks"] for s in unit["sections"]
+          for ss in s["subsections"]))
 
 print("\n=== relevance audit ===")
 engine = StubEngine()

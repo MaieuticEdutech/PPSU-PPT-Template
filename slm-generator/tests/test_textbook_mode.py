@@ -117,7 +117,9 @@ CANNED_TB.update({
     id(schemas.LEARNING_OBJECTIVES): {"learning_objectives": [
         {"verb": "Define", "rest": "r1"}, {"verb": "Apply", "rest": "r2"},
         {"verb": "Analyse", "rest": "r3"}, {"verb": "Solve", "rest": "r4"}]},
-    id(schemas.PROSE): {"paragraphs": ["Teaching text.", "More text."]},
+    id(schemas.PROSE): {"lead_in": "Teaching text.",
+                        "points": ["Point one.", "Point two.",
+                                   "Point three.", "Point four."]},
     id(schemas.TABLE): {"caption_title": "T", "columns": ["A", "B"],
                         "rows": [["1", "2"], ["3", "4"], ["5", "6"]]},
     id(schemas.PROBLEM): {"statement": "S", "solution": "Sol ✓"},

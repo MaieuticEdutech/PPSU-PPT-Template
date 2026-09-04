@@ -303,6 +303,17 @@ def _render_code(doc, text):
     doc.add_paragraph().paragraph_format.space_after = Pt(4)
 
 
+def _render_bullets(doc, items):
+    """Point-form teaching content (house requirement: concepts in points,
+    not story prose). Manual bullets with a hanging indent — no reliance
+    on template list styles, which the from-scratch Document lacks."""
+    for i, item in enumerate(items):
+        last = i == len(items) - 1
+        p = body_para(doc, f"•  {item}", space_after=8 if last else 2)
+        p.paragraph_format.left_indent = Inches(0.4)
+        p.paragraph_format.first_line_indent = Inches(-0.18)
+
+
 def _render_figure(doc, block):
     # a generated diagram (block["image"], from figure_render) is embedded
     # when present and readable; anything wrong with it falls back to the
@@ -326,13 +337,20 @@ def _render_figure(doc, block):
     if block.get("caption"):
         add_paragraph(doc, _brand_caption(block["caption"]),
                       size=st.CAPTION_PT, bold=True,
-                      align=WD_ALIGN_PARAGRAPH.CENTER, space_after=8)
+                      align=WD_ALIGN_PARAGRAPH.CENTER,
+                      space_after=2 if block.get("description") else 8)
+    if block.get("description"):
+        # student-facing explanation directly under the figure (user
+        # requirement: every figure carries its description)
+        body_para(doc, block["description"])
 
 
 def _render_block(doc, block):
     t = block.get("type")
     if t == "prose":
         body_para(doc, block.get("text", ""))
+    elif t == "bullets":
+        _render_bullets(doc, block.get("items", []))
     elif t == "table":
         _render_table(doc, block)
     elif t == "did_you_know":

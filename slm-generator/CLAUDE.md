@@ -170,6 +170,46 @@ Notes on fields that moved since the original sketch:
 
 ## Current state
 
+**Textbook-style upgrade (points, per-subsection figures + descriptions,
+Excel screenshots, coverage guarantee), 2026-09-04** (user requirements:
+descriptions under figures; more images per topic; "concepts in points,
+not a story book"; complete Excel steps with worksheet screenshots; "no
+syllabus topic missed"). Five changes:
+- **Points-first content**: schemas.PROSE is now {lead_in, points 4-10}
+  → rendered as one short prose paragraph + a new `bullets` block type
+  (manual "•" bullets with hanging indent in docx_builder; added to the
+  FULL_UNIT block enum, the UK pass and the relevance digest walk it).
+- **A figure in EVERY subsection** (~9/unit, was 3): the per-section
+  extras figure is replaced (when figures_dir is set — all real entry
+  points) by one combined call per subsection returning caption +
+  description + diagram spec, grounded on that subsection's own source
+  chunk. The `description` (2-3 student-facing sentences) renders
+  directly under the image/caption. Figure numbering stays in code.
+  Legacy behaviour (extras placeholder per section) is preserved when
+  figures_dir is None (tests).
+- **New 'spreadsheet' figure kind**: a mock worksheet "screenshot"
+  (fx formula bar, column letters, row numbers, Excel-green header row,
+  gridlines, alternating shading, per-column adaptive widths) drawn from
+  model-supplied columns/rows/formula — for Excel/software topics, like
+  college textbook screenshots. Live-verified: for "Using SUM and
+  AVERAGE functions" the 7B chose spreadsheet and produced a coherent
+  sales sheet with correct =SUM(B2:E2)/=AVERAGE(B2:E2) formulas; prose
+  came back as complete numbered click-by-click steps (the prose prompt
+  now demands full procedures for software topics).
+- **Code-enforced syllabus coverage in ALL modes** (was course-mode
+  only): after the outline call, every syllabus topic is checked against
+  the outline by singular-ised significant-word overlap (≥50%); a missed
+  topic is APPENDED as its own subsection of the best-matching section
+  (so content IS generated for it) and reported as a named warning. The
+  outline prompt also now demands full coverage.
+- validate_unit/schemas tolerate the new fields; figures.txt statuses
+  unchanged.
+Tests: test_figures grew to 32 checks (spreadsheet render + rejections,
+description + bullets in docx XML, per-subsection figure pass, caption
+numbering, containment, legacy path), test_unit_generator to 47 (points
+blocks, coverage injection incl. no-duplicate + warning + generated
+blocks) — 239 offline checks across nine suites.
+
 **Auto-generated figures added, 2026-09-04** (user request: "I want every
 figure to be generated"). Figures are no longer only placeholders: for
 each figure block the model proposes a structured diagram spec

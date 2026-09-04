@@ -87,9 +87,16 @@ LEARNING_OBJECTIVES = {
 
 # --- per-subsection content ------------------------------------------------
 PROSE = {
+    # Points-first teaching content (user requirement 2026-09-04: "make
+    # the concepts in points, I don't need the E-SLM to look like a story
+    # book"): one short lead-in paragraph, then the substance as crisp
+    # bullet points. Rendered as prose + a bullets block.
     "type": "object",
-    "properties": {"paragraphs": _arr(_STR, 2, 3)},
-    "required": ["paragraphs"],
+    "properties": {
+        "lead_in": _STR,
+        "points": _arr(_STR, 4, 10),
+    },
+    "required": ["lead_in", "points"],
 }
 
 TABLE = {
@@ -137,16 +144,21 @@ SECTION_EXTRAS = {
 }
 
 FIGURE_SPEC = {
-    # a drawable diagram spec — rendered deterministically by
+    # a drawable figure: caption + a student-facing description (rendered
+    # under the image) + a diagram spec drawn deterministically by
     # figure_render.py; the model never draws, it only proposes structure.
     # 'root' matters only for kind=hierarchy (the parent concept);
-    # 'value' only for kind=bar_chart (validated in code, not here — a
-    # oneOf-per-kind schema is too fragile for a 7B under constrained
-    # decoding).
+    # 'columns'/'rows'/'formula' only for kind=spreadsheet (a mock
+    # worksheet "screenshot" for Excel/software topics) — per-kind
+    # requirements are validated in code, not here (a oneOf-per-kind
+    # schema is too fragile for a 7B under constrained decoding).
     "type": "object",
     "properties": {
         "kind": {"type": "string",
-                 "enum": ["flow", "cycle", "hierarchy", "bar_chart"]},
+                 "enum": ["flow", "cycle", "hierarchy", "bar_chart",
+                          "spreadsheet"]},
+        "caption": _STR,        # caption text only, no "Figure N:" prefix
+        "description": _STR,    # 2-3 sentences explaining the figure
         "root": {"type": "string"},
         # 'value' is REQUIRED (not just for bar_chart): the first live run
         # showed the 7B choosing bar_chart correctly but omitting values,
@@ -159,8 +171,11 @@ FIGURE_SPEC = {
                            "value": {"type": "number"}},
             "required": ["label", "value"],
         }, 2, 8),
+        "columns": _arr(_STR, 2, 8),
+        "rows": _arr(_arr({"type": "string"}, 1, 8), 2, 10),
+        "formula": {"type": "string"},
     },
-    "required": ["kind", "items"],
+    "required": ["kind", "caption", "description", "items"],
 }
 
 # --- back matter -----------------------------------------------------------
@@ -275,9 +290,10 @@ RELEVANCE = {
 _BLOCK = {
     "type": "object",
     "properties": {"type": {"type": "string",
-                            "enum": ["prose", "table", "did_you_know",
-                                     "code", "problem", "key_takeaway",
-                                     "think_and_apply", "figure"]}},
+                            "enum": ["prose", "bullets", "table",
+                                     "did_you_know", "code", "problem",
+                                     "key_takeaway", "think_and_apply",
+                                     "figure"]}},
     "required": ["type"],
 }
 

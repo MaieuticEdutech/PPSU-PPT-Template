@@ -10,11 +10,14 @@ rendered (e.g. a bar chart with non-numeric values) raises ValueError and
 the caller keeps the DTP placeholder box instead — figures degrade, they
 never break a unit.
 
-Four diagram kinds cover the shapes SLM figures actually take:
-  flow      — a sequential process (boxes joined by arrows)
-  cycle     — a repeating process (boxes around a circle)
-  hierarchy — one parent concept branching into children
-  bar_chart — a quantitative comparison (requires numeric values)
+Five kinds cover the shapes SLM figures actually take:
+  flow        — a sequential process (boxes joined by arrows)
+  cycle       — a repeating process (boxes around a circle)
+  hierarchy   — one parent concept branching into children
+  bar_chart   — a quantitative comparison (requires numeric values)
+  spreadsheet — a mock worksheet "screenshot" (column letters, row
+                numbers, formula bar) for Excel/software topics, like the
+                screenshots in college textbooks
 """
 import textwrap
 
@@ -25,7 +28,13 @@ from matplotlib.patches import FancyArrowPatch, FancyBboxPatch
 
 import styles as st
 
-KINDS = ("flow", "cycle", "hierarchy", "bar_chart")
+KINDS = ("flow", "cycle", "hierarchy", "bar_chart", "spreadsheet")
+
+# Excel's visual language, so the mock reads instantly as a worksheet
+_XL_GREEN = "#217346"
+_XL_HEADER_BG = "#F3F3F3"
+_XL_GRID = "#D0D0D0"
+_XL_SELECT = "#DDEBF7"
 
 _DPI = 150
 
@@ -161,6 +170,84 @@ def _render_bar_chart(spec, navy, orange):
     return fig
 
 
+def _render_spreadsheet(spec, navy, orange):
+    """A textbook-style mock of a worksheet: formula bar, column letters,
+    row numbers, a bold header row, gridlines, alternating row shading."""
+    columns = spec.get("columns") or []
+    rows = spec.get("rows") or []
+    if not (2 <= len(columns) <= 8):
+        raise ValueError("spreadsheet needs 2-8 'columns'")
+    if not (2 <= len(rows) <= 10):
+        raise ValueError("spreadsheet needs 2-10 'rows'")
+    ncols = len(columns)
+    # tolerate ragged model rows: trim/pad to the column count
+    rows = [([str(c) for c in r] + [""] * ncols)[:ncols] for r in rows]
+    formula = (spec.get("formula") or "").strip()
+
+    nrows = len(rows) + 1                       # + the header row
+    cell_h = 0.34
+    rownum_w = 0.42
+    # per-column width sized to the longest content, so formulas like
+    # =AVERAGE(B2:E2) fit instead of clipping
+    col_ws = []
+    for j in range(ncols):
+        longest = max([len(str(columns[j]))]
+                      + [len(r[j]) for r in rows])
+        col_ws.append(min(1.9, max(0.75, 0.18 + 0.082 * longest)))
+    col_x = [0.05 + rownum_w + sum(col_ws[:j]) for j in range(ncols)]
+    bar_h = 0.42 if formula else 0.0
+    width = rownum_w + sum(col_ws) + 0.2
+    height = bar_h + (nrows + 1) * cell_h + 0.25
+    fig, ax = plt.subplots(figsize=(width, height), dpi=_DPI)
+    ax.set_xlim(0, width)
+    ax.set_ylim(0, height)
+    ax.axis("off")
+    ax.invert_yaxis()                           # row 1 at the top
+
+    y0 = 0.05
+    if formula:
+        # the fx formula bar, with the formula's cell highlighted below
+        ax.add_patch(plt.Rectangle((0.05, y0), width - 0.25, 0.32,
+                                   facecolor="white",
+                                   edgecolor=_XL_GRID))
+        ax.text(0.18, y0 + 0.16, "fx", ha="left", va="center",
+                fontsize=9, style="italic", color=_XL_GREEN,
+                fontweight="bold")
+        ax.text(0.55, y0 + 0.16, formula, ha="left", va="center",
+                fontsize=9, family="monospace", color="#333333")
+        y0 += bar_h
+
+    def cell(x, y, w, h, text, *, face, color="#333333", bold=False,
+             mono=False):
+        ax.add_patch(plt.Rectangle((x, y), w, h, facecolor=face,
+                                   edgecolor=_XL_GRID, linewidth=0.8))
+        ax.text(x + w / 2, y + h / 2, str(text)[:24], ha="center",
+                va="center", fontsize=8.5,
+                family="monospace" if mono else None,
+                color=color, fontweight="bold" if bold else "normal")
+
+    # column-letter strip (A, B, C…) and corner
+    cell(0.05, y0, rownum_w, cell_h, "", face=_XL_HEADER_BG)
+    for j in range(ncols):
+        cell(col_x[j], y0, col_ws[j], cell_h,
+             chr(ord("A") + j), face=_XL_HEADER_BG, color="#666666")
+    # worksheet rows: row 1 is the bold green header row
+    for i in range(nrows):
+        y = y0 + (i + 1) * cell_h
+        cell(0.05, y, rownum_w, cell_h, i + 1, face=_XL_HEADER_BG,
+             color="#666666")
+        vals = columns if i == 0 else rows[i - 1]
+        for j, v in enumerate(vals):
+            if i == 0:
+                cell(col_x[j], y, col_ws[j], cell_h, v,
+                     face=_XL_GREEN, color="white", bold=True)
+            else:
+                face = _XL_SELECT if i % 2 == 0 else "white"
+                cell(col_x[j], y, col_ws[j], cell_h, v,
+                     face=face, mono=True)
+    return fig
+
+
 def render(spec, out_path):
     """Render one FIGURE_SPEC dict to a PNG at out_path. Raises ValueError
     for an unrenderable spec (caller falls back to the placeholder box)."""
@@ -168,16 +255,18 @@ def render(spec, out_path):
     items = spec.get("items") or []
     if kind not in KINDS:
         raise ValueError(f"unknown figure kind: {kind!r}")
-    if not 2 <= len(items) <= 8:
-        raise ValueError(f"figure needs 2-8 items, got {len(items)}")
-    for it in items:
-        if not str(it.get("label", "")).strip():
-            raise ValueError("figure item with an empty label")
+    if kind != "spreadsheet":       # spreadsheets use columns/rows instead
+        if not 2 <= len(items) <= 8:
+            raise ValueError(f"figure needs 2-8 items, got {len(items)}")
+        for it in items:
+            if not str(it.get("label", "")).strip():
+                raise ValueError("figure item with an empty label")
 
     navy, orange = st.NAVY, st.ORANGE
     fig = {"flow": _render_flow, "cycle": _render_cycle,
            "hierarchy": _render_hierarchy,
-           "bar_chart": _render_bar_chart}[kind](spec, navy, orange)
+           "bar_chart": _render_bar_chart,
+           "spreadsheet": _render_spreadsheet}[kind](spec, navy, orange)
     try:
         fig.savefig(str(out_path), bbox_inches="tight", facecolor="white")
     finally:

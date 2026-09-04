@@ -129,6 +129,9 @@ def _relevance_audit(unit, syllabus_topics, call):
                 t = b.get("type")
                 if t == "prose":
                     lines.append(f'    prose: {b.get("text", "")[:200]}')
+                elif t == "bullets":
+                    lines.append('    points: '
+                                 + "; ".join(b.get("items", []))[:250])
                 elif t == "table":
                     lines.append(f'    table: {b.get("caption", "")}')
                 elif t == "problem":
@@ -249,6 +252,48 @@ def generate_unit(meta, syllabus_topics=None, toc_text=None,
         sec["title"] = clean_title(sec["title"])
         for sub in sec["subsections"]:
             sub["title"] = clean_title(sub["title"])
+
+    # ---- code-enforced syllabus coverage ----------------------------------
+    # (user requirement: "I don't want any single topic/concept missed.")
+    # The outline prompt demands full coverage, but a 7B can still drop a
+    # topic — so it is checked HERE: any syllabus topic not represented in
+    # the outline (by significant-word overlap) is appended as its own
+    # subsection of the best-matching section, guaranteeing content is
+    # generated for it. Mirrors the course engine's principle: coverage
+    # is code, not trust.
+    if syllabus_topics:
+        def _tokens(s):
+            # singular-ised significant words, so "topics" matches "topic"
+            # (applied to BOTH sides, so consistency is what matters)
+            return {w[:-1] if len(w) > 4 and w.endswith("s") else w
+                    for w in re.findall(r"[a-z0-9]+", s.lower())
+                    if len(w) > 3}
+
+        sec_tokens = [
+            _tokens(sec["title"] + " "
+                    + " ".join(s["title"] for s in sec["subsections"]))
+            for sec in out["sections"]]
+        all_tokens = set().union(*sec_tokens) if sec_tokens else set()
+        injected = []
+        for topic in syllabus_topics:
+            t = _tokens(topic)
+            if not t or len(t & all_tokens) / len(t) >= 0.5:
+                continue
+            best = max(range(len(out["sections"])),
+                       key=lambda i: len(t & sec_tokens[i]))
+            out["sections"][best]["subsections"].append(
+                {"title": clean_title(topic)})
+            sec_tokens[best] |= t
+            all_tokens |= t
+            injected.append(topic)
+        if injected:
+            report.setdefault("warnings_extra", []).append(
+                "syllabus coverage enforced in code — these topics were "
+                "missing from the AI outline and were added as their own "
+                "subsections: " + "; ".join(injected))
+            progress(f"syllabus coverage: {len(injected)} missed "
+                     f"topic(s) injected into the outline")
+
     titles = "; ".join(s["title"] for s in out["sections"])
 
     # ---- front matter -----------------------------------------------------
@@ -259,6 +304,9 @@ def generate_unit(meta, syllabus_topics=None, toc_text=None,
                       schemas.LEARNING_OBJECTIVES)
 
     # ---- sections ---------------------------------------------------------
+    if figures_dir is not None:
+        figures_dir = Path(figures_dir)
+        figures_dir.mkdir(parents=True, exist_ok=True)
     sections = []
     fig_no = 0
     for si, sec in enumerate(out["sections"], start=1):
@@ -276,13 +324,15 @@ def generate_unit(meta, syllabus_topics=None, toc_text=None,
             blocks = []
             src = source_for(sub)
 
-            p = call(f"{label}: prose",
+            p = call(f"{label}: content",
                      prompts.prose(meta, sec["title"], sub["title"],
                                    source=src),
                      schemas.PROSE)
             if p:
-                blocks += [{"type": "prose", "text": t}
-                           for t in p["paragraphs"]]
+                # points-first (user requirement): one lead-in paragraph,
+                # then the substance as bullet points — not story prose
+                blocks.append({"type": "prose", "text": p["lead_in"]})
+                blocks.append({"type": "bullets", "items": p["points"]})
 
             # enrichment rotation: 1st subsection a table, 2nd a worked
             # example (code or problem per the outline's example_style),
@@ -328,9 +378,38 @@ def generate_unit(meta, syllabus_topics=None, toc_text=None,
                 if d:
                     blocks.append({"type": "did_you_know", "text": d["text"]})
 
-            # section extras land deterministically: figure on the first
-            # subsection, think-and-apply closing the last
-            if extras and ki == 0:
+            # figures: with a figures_dir, EVERY subsection gets its own
+            # drawn figure (user requirement: more images per topic, with
+            # a description under each) — caption+description+diagram in
+            # one call, rendered deterministically, placeholder on any
+            # failure. Without a figures_dir (legacy/tests), the old
+            # extras-based per-section placeholder is kept.
+            if figures_dir is not None:
+                fig_no += 1
+                fs = call(f"{label}: figure",
+                          prompts.figure_spec(meta, sec["title"],
+                                              sub["title"], source=src),
+                          schemas.FIGURE_SPEC)
+                if fs:
+                    fig_block = {"type": "figure",
+                                 "caption": f"Figure {fig_no}: "
+                                            f"{clean_title(fs['caption'])}",
+                                 "description": fs["description"]}
+                    report["fig_planned"] = report.get("fig_planned", 0) + 1
+                    png = Path(figures_dir) / f"figure_{fig_no:02d}.png"
+                    try:
+                        import figure_render
+                        figure_render.render(fs, png)
+                        fig_block["image"] = str(png)
+                        report["fig_rendered"] = (
+                            report.get("fig_rendered", 0) + 1)
+                    except Exception as e:              # noqa: BLE001
+                        progress(f"figure {fig_no} unrenderable ({e}) — "
+                                 f"placeholder kept")
+                    blocks.append(fig_block)
+                else:
+                    fig_no -= 1     # failed call: no figure, keep numbering
+            elif extras and ki == 0:
                 fig_no += 1
                 blocks.append({"type": "figure",
                                "caption": f"Figure {fig_no}: "
@@ -347,39 +426,9 @@ def generate_unit(meta, syllabus_topics=None, toc_text=None,
                          "intro": sec.get("intro", ""),
                          "subsections": subsections})
 
-    # ---- figure rendering: placeholders become real diagrams --------------
-    # One extra call per figure: the model proposes a structured spec
-    # (schemas.FIGURE_SPEC), figure_render draws it deterministically.
-    # ANY failure (call, spec, rendering) keeps the DTP placeholder box —
-    # figures degrade, they never fail a unit.
     if figures_dir is not None:
-        import figure_render
-        figures_dir = Path(figures_dir)
-        figures_dir.mkdir(parents=True, exist_ok=True)
-        fig_planned = fig_rendered = 0
-        for sec in sections:
-            for sub in sec["subsections"]:
-                for b in sub["blocks"]:
-                    if b.get("type") != "figure":
-                        continue
-                    fig_planned += 1
-                    spec = call(f"figure {fig_planned} diagram spec",
-                                prompts.figure_spec(meta, sec["title"],
-                                                    b["caption"],
-                                                    source=condensed),
-                                schemas.FIGURE_SPEC)
-                    if not spec:
-                        continue
-                    png = figures_dir / f"figure_{fig_planned:02d}.png"
-                    try:
-                        figure_render.render(spec, png)
-                        b["image"] = str(png)
-                        fig_rendered += 1
-                    except Exception as e:              # noqa: BLE001
-                        progress(f"figure {fig_planned} unrenderable "
-                                 f"({e}) — placeholder kept")
-        report["figures"] = {"planned": fig_planned,
-                             "rendered": fig_rendered}
+        report["figures"] = {"planned": report.pop("fig_planned", 0),
+                             "rendered": report.pop("fig_rendered", 0)}
 
     # ---- back matter (grounded on the condensed source in textbook mode) --
     summ = call("summary", prompts.summary(meta, titles, source=condensed),
